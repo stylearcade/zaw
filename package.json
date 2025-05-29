@@ -1,0 +1,21 @@
+{
+  "name": "zaw",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "build": "./scripts/build-all.sh",
+    "bench-ts": "vitest bench --run",
+    "test-ts": "vitest run --mode=test",
+    "test-zig": "./scripts/test-zig.sh",
+    "generate-tests": "tsx ./test-gen/generate.ts"
+  },
+  "author": "tristanhoy",
+  "license": "ISC",
+  "dependencies": {
+    "zaw": "file:implementations/host-typescript"
+  },
+  "devDependencies": {
+    "tsx": "4.19.4",
+    "vitest": "3.1.3"
+  }
+}
