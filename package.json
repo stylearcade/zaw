@@ -15,6 +15,7 @@
     "zaw": "file:implementations/host-typescript"
   },
   "devDependencies": {
+    "@types/node": "22.15.30",
     "tsx": "4.19.4",
     "vitest": "3.1.3"
   }

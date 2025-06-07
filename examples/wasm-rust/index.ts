@@ -1,6 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import init, { xor_array_i32, sum_array_f64, multiply_4x4_f32 } from './pkg/wasm_rust_bindgen'
+import init, { xor_array_i32, sum_array_f64, multiply_4x4_f32 } from './api_bindgen/pkg/wasm_api_bindgen'
 
 export type Module = {
   xorInt32Array: (values: Int32Array) => number
@@ -9,7 +9,7 @@ export type Module = {
 }
 
 export async function initRustBindgen(): Promise<Module> {
-  const buffer = fs.readFileSync(path.join(__dirname, './pkg/wasm_rust_bindgen_bg.wasm'))
+  const buffer = fs.readFileSync(path.join(__dirname, './api_bindgen/pkg/wasm_api_bindgen_bg.wasm'))
 
   await init({ module_or_path: buffer })
 
