@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { initRustBindgen } from '../index.ts'
-import { multiply4x4Float32 } from '../../utils'
+import { multiply4x4Float32 } from '../../utils/index.ts'
 
 describe('Typescript example host', async () => {
   const wasm = await initRustBindgen()

@@ -2,7 +2,7 @@ import os from 'os'
 import { bench, describe } from 'vitest'
 import { builds } from './builds'
 import { initExample } from '../host'
-import { initRustBindgen } from '../../wasm-rust-bindgen'
+import { initRustBindgen } from '../../wasm-rust'
 import { multiply4x4Float32 } from '../../utils'
 
 console.log(`--COPY OUTPUT FROM BELOW THIS LINE INTO benchmarks.md---\n\nRunning on ${os.cpus()[0].model}`)
@@ -27,7 +27,7 @@ describe('Typescript example host', async () => {
         zig.xorInt32Array(values)
       })
 
-      bench('wasm-bindgen', () => {
+      bench('rust-bindgen', () => {
         rustBindgen.xorInt32Array(values)
       })
     })
@@ -49,7 +49,7 @@ describe('Typescript example host', async () => {
         zig.sumFloat64Array(values)
       })
 
-      bench('wasm-bindgen', () => {
+      bench('rust-bindgen', () => {
         rustBindgen.sumFloat64Array(values)
       })
     })
@@ -67,7 +67,7 @@ describe('Typescript example host', async () => {
         }
       })
 
-      bench('wasm-bindgen', () => {
+      bench('rust-bindgen', () => {
         rustBindgen.multiply4x4Float32(left, right)
       })
     })

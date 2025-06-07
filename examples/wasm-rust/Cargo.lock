@@ -4,9 +4,9 @@ version = 4
 
 [[package]]
 name = "bumpalo"
-version = "3.17.0"
+version = "3.18.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1628fb46dfa0b37568d12e5edd512553eccf6a22a78e8bde00bb4aed84d5bdbf"
+checksum = "793db76d6187cd04dff33004d8e6c9cc4e05cd330500379d2394209271b4aeee"
 
 [[package]]
 name = "cfg-if"
@@ -59,6 +59,10 @@ name = "rustversion"
 version = "1.0.21"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8a0d197bd2c9dc6e53b84da9556a69ba4cdfab8619eb41a8bd1cc2027a0f6b1d"
+
+[[package]]
+name = "shared"
+version = "0.1.0"
 
 [[package]]
 name = "syn"
@@ -136,10 +140,11 @@ dependencies = [
 ]
 
 [[package]]
-name = "wasm-rust-bindgen"
+name = "wasm_api_bindgen"
 version = "0.1.0"
 dependencies = [
  "js-sys",
+ "shared",
  "wasm-bindgen",
  "web-sys",
 ]
