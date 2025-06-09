@@ -406,6 +406,12 @@ async function createInstance(wasmBuffer, options) {
     input.reset();
     return input;
   };
+  const bind = (func, handleInput, handleOutput) => (...args) => {
+    const input = getInput();
+    handleInput(input, args);
+    handleError(func);
+    return handleOutput(getOutput());
+  };
   return {
     exports,
     getMemory: () => memory.buffer,
@@ -414,7 +420,8 @@ async function createInstance(wasmBuffer, options) {
     getBytes,
     getInput,
     getOutput,
-    handleError
+    handleError,
+    bind
   };
 }
 

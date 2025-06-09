@@ -75,18 +75,20 @@ declare class Reader extends Channel {
     readUtf8Strings(count: number): string[];
 }
 
+type BindableExport = () => 0 | 1;
 type InstanceOptions = {
     inputChannelSize: number;
     outputChannelSize: number;
     initialMemoryPages?: number;
     log?: (message: string) => void;
 };
-type ExportBase = {
+type ExportBase = Record<string, () => number> & {
     getLogPtr: () => number;
     getErrorPtr: () => number;
     allocateInputChannel: (sizeInBytes: number) => number;
     allocateOutputChannel: (sizeInBytes: number) => number;
 };
+type BindingFactory = <Args extends unknown[], Result>(func: BindableExport, handleInput: (input: Writer, args: Args) => void, handleOutput: (output: Reader) => Result) => (...args: Args) => Result;
 type Instance<T extends Record<string, unknown>> = {
     getMemory: () => ArrayBuffer;
     getBytes: () => Uint8ClampedArray;
@@ -96,7 +98,8 @@ type Instance<T extends Record<string, unknown>> = {
     getOutput: () => Reader;
     handleError: (func: () => number) => void;
     getSize: () => number;
+    bind: BindingFactory;
 };
-declare function createInstance<T extends Record<string, unknown>>(wasmBuffer: Buffer, options: InstanceOptions): Promise<Instance<T>>;
+declare function createInstance<T extends Record<string, BindableExport>>(wasmBuffer: Buffer, options: InstanceOptions): Promise<Instance<T>>;
 
-export { type ExportBase, type Instance, type InstanceOptions, createInstance };
+export { type BindableExport, type BindingFactory, type ExportBase, type Instance, type InstanceOptions, createInstance };
