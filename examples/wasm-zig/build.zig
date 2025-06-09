@@ -20,7 +20,7 @@ pub fn build(b: *Builder) void {
         .version = .{ .major = 0, .minor = 0, .patch = 1 },
     });
 
-    exe.root_module.addImport("zaw", b.addModule("zaw", .{ .root_source_file = b.path("../../implementations/wasm-zig/zaw.zig") }));
+    exe.root_module.addImport("zaw", b.addModule("zaw", .{ .root_source_file = b.path("../../implementations/wasm-zig/src/zaw.zig") }));
 
     // <https://github.com/ziglang/zig/issues/8633>
     exe.global_base = 6560;
