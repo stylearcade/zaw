@@ -1,7 +1,7 @@
 #[cfg(target_arch = "wasm32")]
 use std::arch::wasm32::*;
 
-pub fn xor_array_i32(values: &Vec<i32>) -> i32 {
+pub fn xor_array_i32(values: &[i32]) -> i32 {
     let mut total = 0i32;
 
     unsafe {
@@ -61,7 +61,7 @@ pub fn xor_array_i32(values: &Vec<i32>) -> i32 {
     total
 }
 
-pub fn sum_array_f64(values: &Vec<f64>) -> f64 {
+pub fn sum_array_f64(values: &[f64]) -> f64 {
     let mut total = 0.0;
 
     unsafe {
@@ -138,9 +138,9 @@ fn multiply_4x4_f32_single(a: &[f32], b: &[f32], result: &mut [f32]) {
 }
 
 pub fn multiply_4x4_f32(
-    a_matrices: &Vec<f32>,
-    b_matrices: &Vec<f32>,
-    result_matrices: &mut Vec<f32>
+    a_matrices: &[f32],
+    b_matrices: &[f32],
+    result_matrices: &mut [f32]
 ) {
     let num_matrices = a_matrices.len() / 16;
 

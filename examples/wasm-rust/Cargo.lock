@@ -3,6 +3,14 @@
 version = 4
 
 [[package]]
+name = "api_zaw"
+version = "0.1.0"
+dependencies = [
+ "shared",
+ "zaw",
+]
+
+[[package]]
 name = "bumpalo"
 version = "3.18.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -158,3 +166,7 @@ dependencies = [
  "js-sys",
  "wasm-bindgen",
 ]
+
+[[package]]
+name = "zaw"
+version = "0.1.0"

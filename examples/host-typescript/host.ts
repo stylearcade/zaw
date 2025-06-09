@@ -3,28 +3,30 @@ import { createInstance } from 'zaw'
 type ExampleExports = {
   throwErrorWithStack: () => number
   usefulPanic: () => number
-  logMessage: () => number
+  echo: () => number
   xorInt32Array: () => number
   sumFloat64Array: () => number
+  multiply4x4Float32: () => number
 }
 
 export type ExampleAPI = {
   throwErrorWithStack: () => void
   usefulPanic: () => void
-  logMessage: () => string
+  echo: (msg: string) => string
   xorInt32Array: (values: Int32Array) => number
   sumFloat64Array: (values: Float64Array) => number
+  multiply4x4Float32: (left: Float32Array, right: Float32Array) => Float32Array
 }
 
 export async function initExample(wasmBuffer: Buffer): Promise<ExampleAPI> {
-  let _lastMessage
+  let lastEcho: string
 
   const instance = await createInstance<ExampleExports>(wasmBuffer, {
     inputChannelSize: 1_000_000,
-    outputChannelSize: 100,
+    outputChannelSize: 1_000_000,
     log: message => {
       // used to check log is correctly implemented
-      _lastMessage = message
+      lastEcho = message
       console.log(message)
     },
   })
@@ -36,10 +38,11 @@ export async function initExample(wasmBuffer: Buffer): Promise<ExampleAPI> {
     usefulPanic() {
       instance.handleError(() => instance.exports.usefulPanic())
     },
-    logMessage() {
-      instance.handleError(() => instance.exports.logMessage())
+    echo(msg: string) {
+      instance.getInput().writeUtf8String(msg)
+      instance.handleError(() => instance.exports.echo())
 
-      return _lastMessage
+      return lastEcho
     },
     xorInt32Array(values) {
       const input = instance.getInput()
@@ -60,6 +63,17 @@ export async function initExample(wasmBuffer: Buffer): Promise<ExampleAPI> {
       instance.handleError(() => instance.exports.sumFloat64Array())
 
       return output.readFloat64()
+    },
+    multiply4x4Float32(left, right) {
+      const input = instance.getInput()
+      const output = instance.getOutput()
+
+      input.copyFloat32Array(left)
+      input.copyFloat32Array(right)
+
+      instance.handleError(() => instance.exports.multiply4x4Float32())
+
+      return output.readFloat32Array()
     },
   }
 }

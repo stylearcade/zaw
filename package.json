@@ -5,8 +5,10 @@
   "scripts": {
     "build": "./scripts/build-all.sh",
     "bench-ts": "vitest bench --run",
+    "install": "./scripts/install.sh",
     "test-ts": "vitest run --mode=test",
     "test-zig": "./scripts/test-zig.sh",
+    "test-rust": "./scripts/test-rust.sh",
     "generate-tests": "tsx ./test-gen/generate.ts"
   },
   "author": "tristanhoy",

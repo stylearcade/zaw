@@ -10,8 +10,9 @@ const Stack = interop.Stack;
 const simd = zaw.simd;
 const Vec = simd.Vec;
 
+// Setup all required WASM interop exports
 comptime {
-    interop.setupExports();
+    zaw.setupInterop();
 }
 
 fn _throwErrorWithStack() !void {
@@ -37,8 +38,12 @@ export fn usefulPanic() i32 {
     return OK;
 }
 
-export fn logMessage() i32 {
-    interop.log(.{ .message = "hello" });
+export fn echo() i32 {
+    var input = interop.getInput();
+
+    const msg = input.readArray(u8);
+
+    interop.logf("{s} from zig", .{msg});
 
     return OK;
 }

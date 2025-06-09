@@ -165,6 +165,6 @@ function indent(code: string, spaces: number): string {
 }
 
 export const typescriptGenerator: TestGenerator = {
-  outputFile: 'implementations/host-typescript/conduit.test.ts',
+  outputFile: 'implementations/host-typescript/src/conduit.test.ts',
   generateTestFile,
 }

@@ -1,0 +1,13 @@
+[package]
+name = "api_zaw"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+path = "./lib.rs"
+
+[dependencies]
+zaw = { path = "../../../implementations/wasm-rust" }
+shared = { path = "../shared" }
+

@@ -327,7 +327,7 @@ test "Float64 array with alignment" {    var storage = [_]u64{0} ** 32;
     try expectEqualSlices(f64, &arr1, reader.readArray(f64));
 }
 
-test "Empty Uint8 tuple" {    var storage = [_]u64{0} ** 32;
+test "Empty Uint8 elements" {    var storage = [_]u64{0} ** 32;
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -340,7 +340,7 @@ test "Empty Uint8 tuple" {    var storage = [_]u64{0} ** 32;
     try expectEqualSlices(u8, &arr0, reader.readElements(u8, 0));
 }
 
-test "Uint8 tuple" {    var storage = [_]u64{0} ** 32;
+test "Uint8 elements" {    var storage = [_]u64{0} ** 32;
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -353,7 +353,7 @@ test "Uint8 tuple" {    var storage = [_]u64{0} ** 32;
     try expectEqualSlices(u8, &arr0, reader.readElements(u8, 5));
 }
 
-test "Uint32 tuple" {    var storage = [_]u64{0} ** 32;
+test "Uint32 elements" {    var storage = [_]u64{0} ** 32;
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -366,7 +366,7 @@ test "Uint32 tuple" {    var storage = [_]u64{0} ** 32;
     try expectEqualSlices(u32, &arr0, reader.readElements(u32, 2));
 }
 
-test "Uint32 tuple with alignment" {    var storage = [_]u64{0} ** 32;
+test "Uint32 elements with alignment" {    var storage = [_]u64{0} ** 32;
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -381,7 +381,7 @@ test "Uint32 tuple with alignment" {    var storage = [_]u64{0} ** 32;
     try expectEqualSlices(u32, &arr1, reader.readElements(u32, 2));
 }
 
-test "Int32 tuple" {    var storage = [_]u64{0} ** 32;
+test "Int32 elements" {    var storage = [_]u64{0} ** 32;
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -394,7 +394,7 @@ test "Int32 tuple" {    var storage = [_]u64{0} ** 32;
     try expectEqualSlices(i32, &arr0, reader.readElements(i32, 3));
 }
 
-test "Int32 tuple with alignment" {    var storage = [_]u64{0} ** 32;
+test "Int32 elements with alignment" {    var storage = [_]u64{0} ** 32;
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -409,7 +409,7 @@ test "Int32 tuple with alignment" {    var storage = [_]u64{0} ** 32;
     try expectEqualSlices(i32, &arr1, reader.readElements(i32, 3));
 }
 
-test "Empty Float32 tuple" {    var storage = [_]u64{0} ** 32;
+test "Empty Float32 elements" {    var storage = [_]u64{0} ** 32;
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -422,7 +422,7 @@ test "Empty Float32 tuple" {    var storage = [_]u64{0} ** 32;
     try expectEqualSlices(f32, &arr0, reader.readElements(f32, 0));
 }
 
-test "Float32 tuple" {    var storage = [_]u64{0} ** 32;
+test "Float32 elements" {    var storage = [_]u64{0} ** 32;
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -435,7 +435,7 @@ test "Float32 tuple" {    var storage = [_]u64{0} ** 32;
     try expectEqualSlices(f32, &arr0, reader.readElements(f32, 3));
 }
 
-test "Float32 tuple with alignment" {    var storage = [_]u64{0} ** 32;
+test "Float32 elements with alignment" {    var storage = [_]u64{0} ** 32;
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -450,7 +450,7 @@ test "Float32 tuple with alignment" {    var storage = [_]u64{0} ** 32;
     try expectEqualSlices(f32, &arr1, reader.readElements(f32, 2));
 }
 
-test "Float64 tuple" {    var storage = [_]u64{0} ** 32;
+test "Float64 elements" {    var storage = [_]u64{0} ** 32;
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -463,7 +463,7 @@ test "Float64 tuple" {    var storage = [_]u64{0} ** 32;
     try expectEqualSlices(f64, &arr0, reader.readElements(f64, 2));
 }
 
-test "Float64 tuple with alignment" {    var storage = [_]u64{0} ** 32;
+test "Float64 elements with alignment" {    var storage = [_]u64{0} ** 32;
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -491,7 +491,7 @@ test "Tuple of Uint32" {    var storage = [_]u64{0} ** 32;
     try expectEqualSlices(u32, &arr0, reader.readElements(u32, 3));
 }
 
-test "Complex mixed types with arrays and tuples" {    var storage = [_]u64{0} ** 32;
+test "Complex mixed types with arrays and elementss" {    var storage = [_]u64{0} ** 32;
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 

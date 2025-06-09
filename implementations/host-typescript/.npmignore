@@ -1,0 +1,21 @@
+# Source files
+*.ts
+!dist/**/*.d.ts
+
+# Config files  
+tsconfig.json
+tsup.config.ts
+vitest.config.ts
+
+# Development
+node_modules/
+.DS_Store
+*.log
+.npm
+
+# Tests
+*.test.ts
+**/*.test.ts
+
+# Other
+*.tsbuildinfo

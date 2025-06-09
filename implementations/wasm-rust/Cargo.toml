@@ -1,0 +1,19 @@
+[package]
+name = "zaw"
+version = "0.1.0"
+edition = "2021"
+description = "Zero-allocation WebAssembly communication protocol for Rust"
+license = "MIT"
+repository = "https://github.com/style-arcade/zaw"
+homepage = "https://github.com/style-arcade/zaw"
+documentation = "https://docs.rs/zaw"
+keywords = ["webassembly", "wasm", "zero-allocation", "performance", "interop"]
+categories = ["api-bindings", "wasm", "no-std"]
+readme = "README.md"
+authors = ["Style Arcade"]
+
+[lib]
+crate-type = ["rlib", "cdylib"]
+path = "lib.rs"
+
+[dependencies]

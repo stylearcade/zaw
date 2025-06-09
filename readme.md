@@ -2,19 +2,17 @@
 
 ## Zero Allocation WASM @ <a href="https://stylearcade.com" target="_blank">Style Arcade</a>
 
-The purpose of this project is to make it easier to achieve the original promise of WebAssembly:
+The purpose of `zaw` is to make it easier to achieve the original promise of WebAssembly:
 
-### **High-performance, low-overhead acceleration for targeted code without rewriting your entire application.**
+**High-performance, low-overhead acceleration for targeted code - without rewriting your entire application.**
 
-At this stage the project is effectively a giant gist, with a focus on protocols and sample implementations, but later, we'll publish usable packages into each ecosystem and also incorporate recipes and standardized cross-language implementations for various zero-allocation performance utilities.
-
-### The upshot
+### 🎯 The upshot
 
 With `zaw`, you'll be able to offload individual algorithms, rather than entire modules, and keep your WebAssembly code lean and simple - truly unlocking the original vision of the WebAssembly founding team.
 
-#### Proof
+### 🚀 Performance
 
-##### XOR Int32Array Bench
+**Up to 7x faster than pure JavaScript and 2.5x faster than wasm-bindgen for XOR Int32Array Bench**
 
 | Element Count | Winner | vs `zaw`    | vs `js`     | vs `wasm-bindgen` |
 | ------------- | ------ | ----------- | ----------- | ----------------- |
@@ -23,10 +21,6 @@ With `zaw`, you'll be able to offload individual algorithms, rather than entire 
 | 1,000         | `zaw`  | -           | 5.6x faster | 2.5x faster       |
 | 10,000        | `zaw`  | -           | 7.1x faster | 2.3x faster       |
 | 100,000       | `zaw`  | -           | 7.1x faster | 2.4x faster       |
-
-Check out our [benchmarks](docs/benchmarks.md) for more!
-
-[We make it easy, too.](docs/getting-started.md)
 
 ##### Why XOR Int32Array _isn't_ a ridiculous benchmark
 
