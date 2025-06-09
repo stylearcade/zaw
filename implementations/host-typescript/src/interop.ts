@@ -1,6 +1,8 @@
 import { Reader, Writer } from './conduit'
 import { DEFAULT_INITIAL_PAGES, MAX_ERROR_SIZE, MAX_LOG_SIZE, PAGE_SIZE } from './constants'
 
+export type BindableExport = () => 0 | 1
+
 export type InstanceOptions = {
   inputChannelSize: number
   outputChannelSize: number
@@ -8,12 +10,18 @@ export type InstanceOptions = {
   log?: (message: string) => void
 }
 
-export type ExportBase = {
+export type ExportBase = Record<string, () => number> & {
   getLogPtr: () => number
   getErrorPtr: () => number
   allocateInputChannel: (sizeInBytes: number) => number
   allocateOutputChannel: (sizeInBytes: number) => number
 }
+
+export type BindingFactory = <Args extends unknown[], Result>(
+  func: BindableExport,
+  handleInput: (input: Writer, args: Args) => void,
+  handleOutput: (output: Reader) => Result,
+) => (...args: Args) => Result
 
 export type Instance<T extends Record<string, unknown>> = {
   getMemory: () => ArrayBuffer
@@ -24,9 +32,10 @@ export type Instance<T extends Record<string, unknown>> = {
   getOutput: () => Reader
   handleError: (func: () => number) => void
   getSize: () => number
+  bind: BindingFactory
 }
 
-export async function createInstance<T extends Record<string, unknown>>(
+export async function createInstance<T extends Record<string, BindableExport>>(
   wasmBuffer: Buffer,
   options: InstanceOptions,
 ): Promise<Instance<T>> {
@@ -124,6 +133,18 @@ export async function createInstance<T extends Record<string, unknown>>(
     return input
   }
 
+  const bind: BindingFactory =
+    <T extends unknown[], R>(func: BindableExport, handleInput: (input: Writer, args: T) => void, handleOutput: (output: Reader) => R) =>
+    (...args: T): R => {
+      const input = getInput()
+
+      handleInput(input, args)
+
+      handleError(func)
+
+      return handleOutput(getOutput())
+    }
+
   return {
     exports,
     getMemory: () => memory.buffer,
@@ -133,5 +154,6 @@ export async function createInstance<T extends Record<string, unknown>>(
     getInput,
     getOutput,
     handleError,
+    bind,
   }
 }

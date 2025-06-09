@@ -46,34 +46,39 @@ This won't actually be fast; check out the [example implementations](https://git
 
 #### Host Implementation
 
-##### Javascript
+##### Typescript
 
 ```typescript
 import { createInstance } from 'zaw'
 
-export async function initWasmApi(wasmBuffer) {
-  const instance = await createInstance(wasmBuffer, {
+// Low-level WASM API
+type WasmExports = {
+  sumFloat64Array: () => 0 | 1 // 0 = OK, 1 = Error
+}
+
+// High-level API with bindings
+type WasmApi = {
+  sumFloat64Array: (values: Float64Array) => number
+}
+
+export async function initWasmApi(wasmBuffer): Promise<WasmApi> {
+  const instance = await createInstance<WasmExports>(wasmBuffer, {
     // Reserve 1kb for both input and output channels
     inputChannelSize: 1_000,
     outputChannelSize: 1_000,
   })
 
   return {
-    // Manual, explicit bindings (no hidden glue code)
-    sumFloat64Array(values) {
-      const input = instance.getInput() // Get shared input buffer
-      const output = instance.getOutput() // Get shared output buffer
+    sumFloat64Array: instance.bind(
+      // The exported function to bind to
+      instance.exports.sumFloat64Array,
 
-      // Copy values into WASM (zero allocation)
-      // There are also zero-copy methods available
-      input.copyFloat64Array(values)
+      // Input binding: copy values into WASM (zero allocation)
+      (input, [values]) => input.copyFloat64Array(values),
 
-      // Execute the method and handle any errors or panics
-      instance.handleError(() => instance.exports.sumFloat64Array())
-
-      // Read the sum from the output channel
-      return output.readFloat64()
-    },
+      // Output binding: read the sum from the output channel
+      output => output.readFloat64(),
+    ),
   }
 }
 
@@ -86,18 +91,19 @@ console.log('Sum:', sum) // 9.5
 
 #### WASM Implementation
 
-##### Rust
-
 ```rust
 use zaw::interop;
 use zaw::interop::error::{Error, OK};
+
+// Setup all required WASM interop exports
+zaw::setup_interop!();
 
 #[no_mangle]
 pub extern "C" fn sumFloat64Array() -> i32 {
     let input = interop::get_input();     // Get shared input buffer
     let output = interop::get_output();   // Get shared output buffer
 
-    let values = input.read_array_f64();  // Read array from JS (zero-copy!)
+    let values = input.read_array_f64();  // Read array from JS
 
     let mut total = 0.0;
     for value in values {
@@ -107,5 +113,19 @@ pub extern "C" fn sumFloat64Array() -> i32 {
     output.write_f64(total);  // Write result back to JS
 
     return OK;
+}
+```
+
+#### Error Handling
+
+```rust
+#[no_mangle]
+pub extern "C" myFunction() -> i32 {
+    fn inner() => Result<(), Error> {
+      // Your logic here
+    }
+
+    // Will serialize error and return to host (or just return OK)
+    interop::error::handle(inner)
 }
 ```
