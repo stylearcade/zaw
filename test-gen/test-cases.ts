@@ -344,7 +344,7 @@ export const testCases: TestCase[] = [
     ],
   },
   {
-    name: 'Empty Uint8 tuple',
+    name: 'Empty Uint8 elements',
     operations: [
       {
         type: 'copyElements',
@@ -355,7 +355,7 @@ export const testCases: TestCase[] = [
     expectation: [0, 0, 0, 0, 0, 0, 0, 0],
   },
   {
-    name: 'Uint8 tuple',
+    name: 'Uint8 elements',
     operations: [
       {
         type: 'copyElements',
@@ -366,7 +366,7 @@ export const testCases: TestCase[] = [
     expectation: [10, 20, 30, 40, 50, 0, 0, 0],
   },
   {
-    name: 'Uint32 tuple',
+    name: 'Uint32 elements',
     operations: [
       {
         type: 'copyElements',
@@ -377,7 +377,7 @@ export const testCases: TestCase[] = [
     expectation: [0x78, 0x56, 0x34, 0x12, 0x21, 0x43, 0x65, 0x87],
   },
   {
-    name: 'Uint32 tuple with alignment',
+    name: 'Uint32 elements with alignment',
     operations: [
       {
         type: 'write',
@@ -393,7 +393,7 @@ export const testCases: TestCase[] = [
     expectation: [42, 0, 0, 0, 0x44, 0x33, 0x22, 0x11, 0x88, 0x77, 0x66, 0x55],
   },
   {
-    name: 'Int32 tuple',
+    name: 'Int32 elements',
     operations: [
       {
         type: 'copyElements',
@@ -404,7 +404,7 @@ export const testCases: TestCase[] = [
     expectation: [0, 0, 0, 0x80, 0, 0, 0, 0, 0xff, 0xff, 0xff, 0x7f],
   },
   {
-    name: 'Int32 tuple with alignment',
+    name: 'Int32 elements with alignment',
     operations: [
       {
         type: 'write',
@@ -420,7 +420,7 @@ export const testCases: TestCase[] = [
     expectation: [255, 0, 0, 0, 0xff, 0xff, 0xff, 0xff, 0, 0, 0, 0, 1, 0, 0, 0],
   },
   {
-    name: 'Empty Float32 tuple',
+    name: 'Empty Float32 elements',
     operations: [
       {
         type: 'copyElements',
@@ -431,7 +431,7 @@ export const testCases: TestCase[] = [
     expectation: [0, 0, 0, 0, 0, 0, 0, 0],
   },
   {
-    name: 'Float32 tuple',
+    name: 'Float32 elements',
     operations: [
       {
         type: 'copyElements',
@@ -442,7 +442,7 @@ export const testCases: TestCase[] = [
     expectation: [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x3f, 0x00, 0x00, 0x80, 0xbf],
   },
   {
-    name: 'Float32 tuple with alignment',
+    name: 'Float32 elements with alignment',
     operations: [
       {
         type: 'write',
@@ -458,7 +458,7 @@ export const testCases: TestCase[] = [
     expectation: [42, 0, 0, 0, 0xd0, 0x0f, 0x49, 0x40, 0xb6, 0xf3, 0x2d, 0x40],
   },
   {
-    name: 'Float64 tuple',
+    name: 'Float64 elements',
     operations: [
       {
         type: 'copyElements',
@@ -469,7 +469,7 @@ export const testCases: TestCase[] = [
     expectation: [0, 0, 0, 0, 0, 0, 0, 0, 0x6e, 0x86, 0x1b, 0xf0, 0xf9, 0x21, 0x09, 0x40],
   },
   {
-    name: 'Float64 tuple with alignment',
+    name: 'Float64 elements with alignment',
     operations: [
       {
         type: 'write',
@@ -496,7 +496,7 @@ export const testCases: TestCase[] = [
     expectation: [10, 0, 0, 0, 20, 0, 0, 0, 30, 0, 0, 0],
   },
   {
-    name: 'Complex mixed types with arrays and tuples',
+    name: 'Complex mixed types with arrays and elementss',
     operations: [
       {
         type: 'write',

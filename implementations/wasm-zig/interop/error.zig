@@ -5,13 +5,13 @@ const Stack = @import("./stack.zig");
 var errStorage = [_]u8{0} ** 256;
 
 pub const OK: i32 = 0;
-pub const ERROR: i31 = 1;
+pub const ERROR: i32 = 1;
 
 pub fn getErrorPtr() i32 {
     return @intCast(@intFromPtr(&errStorage));
 }
 
-var cursor: usize = undefined;
+var cursor: usize = 0;
 
 fn _startWriting() void {
     cursor = 0; // first position holds length
@@ -24,7 +24,10 @@ fn _writeFormat(comptime fmt: []const u8, args: anytype) void {
     const data = std.fmt.bufPrint(errStorage[cursor..], fmt, args) catch unreachable;
 
     cursor += data.len;
-    errStorage[cursor] = 0;
+
+    if (cursor < errStorage.len) {
+        errStorage[cursor] = 0;
+    }
 }
 
 fn _writeMessage(msg: []const u8) void {

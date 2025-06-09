@@ -508,7 +508,7 @@ describe('Channel Protocol Tests', () => {
     expect(readArr1[1]).toEqual(-1);
   });
 
-  test('Empty Uint8 tuple', () => {  // Create a new buffer for testing
+  test('Empty Uint8 elements', () => {  // Create a new buffer for testing
     const buffer = new ArrayBuffer(1024);
     const writer = new Writer(buffer);
     const reader = new Reader(buffer);
@@ -527,7 +527,7 @@ describe('Channel Protocol Tests', () => {
     const readElems0 = reader.readUint8Elements(0);
   });
 
-  test('Uint8 tuple', () => {  // Create a new buffer for testing
+  test('Uint8 elements', () => {  // Create a new buffer for testing
     const buffer = new ArrayBuffer(1024);
     const writer = new Writer(buffer);
     const reader = new Reader(buffer);
@@ -551,7 +551,7 @@ describe('Channel Protocol Tests', () => {
     expect(readElems0[4]).toEqual(50);
   });
 
-  test('Uint32 tuple', () => {  // Create a new buffer for testing
+  test('Uint32 elements', () => {  // Create a new buffer for testing
     const buffer = new ArrayBuffer(1024);
     const writer = new Writer(buffer);
     const reader = new Reader(buffer);
@@ -572,7 +572,7 @@ describe('Channel Protocol Tests', () => {
     expect(readElems0[1]).toEqual(0x87654321);
   });
 
-  test('Uint32 tuple with alignment', () => {  // Create a new buffer for testing
+  test('Uint32 elements with alignment', () => {  // Create a new buffer for testing
     const buffer = new ArrayBuffer(1024);
     const writer = new Writer(buffer);
     const reader = new Reader(buffer);
@@ -595,7 +595,7 @@ describe('Channel Protocol Tests', () => {
     expect(readElems1[1]).toEqual(0x55667788);
   });
 
-  test('Int32 tuple', () => {  // Create a new buffer for testing
+  test('Int32 elements', () => {  // Create a new buffer for testing
     const buffer = new ArrayBuffer(1024);
     const writer = new Writer(buffer);
     const reader = new Reader(buffer);
@@ -617,7 +617,7 @@ describe('Channel Protocol Tests', () => {
     expect(readElems0[2]).toEqual(0x7fffffff);
   });
 
-  test('Int32 tuple with alignment', () => {  // Create a new buffer for testing
+  test('Int32 elements with alignment', () => {  // Create a new buffer for testing
     const buffer = new ArrayBuffer(1024);
     const writer = new Writer(buffer);
     const reader = new Reader(buffer);
@@ -641,7 +641,7 @@ describe('Channel Protocol Tests', () => {
     expect(readElems1[2]).toEqual(1);
   });
 
-  test('Empty Float32 tuple', () => {  // Create a new buffer for testing
+  test('Empty Float32 elements', () => {  // Create a new buffer for testing
     const buffer = new ArrayBuffer(1024);
     const writer = new Writer(buffer);
     const reader = new Reader(buffer);
@@ -660,7 +660,7 @@ describe('Channel Protocol Tests', () => {
     const readElems0 = reader.readFloat32Elements(0);
   });
 
-  test('Float32 tuple', () => {  // Create a new buffer for testing
+  test('Float32 elements', () => {  // Create a new buffer for testing
     const buffer = new ArrayBuffer(1024);
     const writer = new Writer(buffer);
     const reader = new Reader(buffer);
@@ -682,7 +682,7 @@ describe('Channel Protocol Tests', () => {
     expect(readElems0[2]).toEqual(-1);
   });
 
-  test('Float32 tuple with alignment', () => {  // Create a new buffer for testing
+  test('Float32 elements with alignment', () => {  // Create a new buffer for testing
     const buffer = new ArrayBuffer(1024);
     const writer = new Writer(buffer);
     const reader = new Reader(buffer);
@@ -705,7 +705,7 @@ describe('Channel Protocol Tests', () => {
     expect(readElems1[1]).toEqual(2.7179999351501465);
   });
 
-  test('Float64 tuple', () => {  // Create a new buffer for testing
+  test('Float64 elements', () => {  // Create a new buffer for testing
     const buffer = new ArrayBuffer(1024);
     const writer = new Writer(buffer);
     const reader = new Reader(buffer);
@@ -726,7 +726,7 @@ describe('Channel Protocol Tests', () => {
     expect(readElems0[1]).toEqual(3.14159);
   });
 
-  test('Float64 tuple with alignment', () => {  // Create a new buffer for testing
+  test('Float64 elements with alignment', () => {  // Create a new buffer for testing
     const buffer = new ArrayBuffer(1024);
     const writer = new Writer(buffer);
     const reader = new Reader(buffer);
@@ -771,7 +771,7 @@ describe('Channel Protocol Tests', () => {
     expect(readElems0[2]).toEqual(30);
   });
 
-  test('Complex mixed types with arrays and tuples', () => {  // Create a new buffer for testing
+  test('Complex mixed types with arrays and elementss', () => {  // Create a new buffer for testing
     const buffer = new ArrayBuffer(1024);
     const writer = new Writer(buffer);
     const reader = new Reader(buffer);

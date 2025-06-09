@@ -1,3 +1,43 @@
+# `zaw`
+
+## Zero Allocation WASM @ <a href="https://stylearcade.com" target="_blank">Style Arcade</a>
+
+The purpose of `zaw` is to make it easier to achieve the original promise of WebAssembly:
+
+**High-performance, low-overhead acceleration for targeted code - without rewriting your entire application.**
+
+### 🎯 The upshot
+
+With `zaw`, you'll be able to offload individual algorithms, rather than entire modules, and keep your WebAssembly code lean and simple - truly unlocking the original vision of the WebAssembly founding team.
+
+### 🚀 Performance
+
+**Up to 7x faster than pure JavaScript and 2.5x faster than wasm-bindgen for XOR Int32Array Bench**
+
+| Element Count | Winner | vs `zaw`    | vs `js`     | vs `wasm-bindgen` |
+| ------------- | ------ | ----------- | ----------- | ----------------- |
+| 10            | `js`   | 1.9x faster | -           | 4.2x faster       |
+| 100           | `zaw`  | -           | 1.4x faster | 2.2x faster       |
+| 1,000         | `zaw`  | -           | 5.6x faster | 2.5x faster       |
+| 10,000        | `zaw`  | -           | 7.1x faster | 2.3x faster       |
+| 100,000       | `zaw`  | -           | 7.1x faster | 2.4x faster       |
+
+### 📦 Installation
+
+Add to your `Cargo.toml`:
+
+```toml
+[dependencies]
+zaw = "0.1"
+```
+
+For WebAssembly targets, also add:
+
+```toml
+[lib]
+crate-type = ["cdylib"]
+```
+
 ### 🔥 Quick Start
 
 Here's how to sum an array of Float64s using `zaw`.
@@ -52,9 +92,6 @@ console.log('Sum:', sum) // 9.5
 use zaw::interop;
 use zaw::interop::error::{Error, OK};
 
-// Setup all required WASM interop exports
-zaw::setup_interop!();
-
 #[no_mangle]
 pub extern "C" fn sumFloat64Array() -> i32 {
     let input = interop::get_input();     // Get shared input buffer
@@ -70,32 +107,5 @@ pub extern "C" fn sumFloat64Array() -> i32 {
     output.write_f64(total);  // Write result back to JS
 
     return OK;
-}
-```
-
-##### Zig
-
-```zig
-const zaw = @import("zaw");
-
-const interop = zaw.interop;
-const OK = interop.OK;
-
-// Setup all required WASM interop exports
-comptime {
-    zaw.setupInterop();
-}
-
-export fn sumFloat64Array() i32 {
-    var input = interop.getInput()       // Get shared input buffer
-    var output = interop.getOutput()     // Get shared output buffer
-
-    const values = input.readArray(f64)  // Read array from JS (zero-copy!)
-
-    var total: f64 = 0
-    for (values) |x| total += x  // Simple sum (in reality, use SIMD)
-
-    output.write(f64, total)     // Write result back to JS
-    return OK
 }
 ```

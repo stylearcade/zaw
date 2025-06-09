@@ -30,12 +30,7 @@ export async function createInstance<T extends Record<string, unknown>>(
   wasmBuffer: Buffer,
   options: InstanceOptions,
 ): Promise<Instance<T>> {
-  const {
-    inputChannelSize,
-    outputChannelSize,
-    initialMemoryPages = DEFAULT_INITIAL_PAGES + Math.ceil((inputChannelSize + outputChannelSize) / PAGE_SIZE),
-    log = console.log.bind(console),
-  } = options
+  const { inputChannelSize, outputChannelSize, initialMemoryPages = DEFAULT_INITIAL_PAGES, log = console.log.bind(console) } = options
   const memory = new WebAssembly.Memory({ initial: initialMemoryPages })
 
   const imports = {
@@ -89,9 +84,6 @@ export async function createInstance<T extends Record<string, unknown>>(
     const length = data.indexOf(0)
 
     if (length > 0) {
-      // include unreachable stack trace
-      if (e?.message.includes('unreachable') === true) console.error(e)
-
       const message = Buffer.from(data.subarray(0, length)).toString('utf8')
 
       throw Error(message)

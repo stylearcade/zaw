@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { initRustBindgen } from '../index.ts'
+import { initRustBindgen } from '../api_bindgen'
 import { multiply4x4Float32 } from '../../utils/index.ts'
 
 describe('Typescript example host', async () => {
