@@ -1,6 +1,6 @@
 {
   "name": "zaw",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "scripts": {
     "build": "./scripts/build-all.sh",
@@ -13,12 +13,11 @@
   },
   "author": "tristanhoy",
   "license": "ISC",
-  "dependencies": {
-    "zaw": "file:implementations/host-typescript"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/node": "22.15.30",
     "tsx": "4.19.4",
+    "typescript": "^5.0.0",
     "vitest": "3.1.3"
   }
 }

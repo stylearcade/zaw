@@ -1,4 +1,4 @@
-import { createInstance } from 'zaw'
+import { createInstance } from '../../implementations/host-typescript/src/index'
 
 type ExampleExports = {
   throwErrorWithStack: () => 0 | 1
