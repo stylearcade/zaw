@@ -20,7 +20,7 @@ describe('Typescript example host', async () => {
         let total = 0
 
         for (let i = values.length; i-- > 0; ) {
-          total += values[i]
+          total ^= values[i]
         }
       })
 

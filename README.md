@@ -1,6 +1,6 @@
 # `zaw`
 
-## Zero Allocation WASM @ <a href="https://stylearcade.com" target="_blank">Style Arcade</a>
+## Zero-Allocation WASM @ <a href="https://stylearcade.com" target="_blank">Style Arcade</a>
 
 The purpose of `zaw` is to make it easier to achieve the original promise of WebAssembly:
 
@@ -10,17 +10,17 @@ The purpose of `zaw` is to make it easier to achieve the original promise of Web
 
 With `zaw`, you'll be able to offload individual algorithms, rather than entire modules, and keep your WebAssembly code lean and simple - truly unlocking the original vision of the WebAssembly founding team.
 
-### 🚀 Performance
+### ⚡ Performance
 
-**Up to 7x faster than pure JavaScript and 2.5x faster than wasm-bindgen for XOR Int32Array Bench**
+**Up to 10x faster than pure JavaScript and 2.5x faster than wasm-bindgen for XOR Int32Array Bench**
 
 | Element Count | Winner | vs `zaw`    | vs `js`     | vs `wasm-bindgen` |
 | ------------- | ------ | ----------- | ----------- | ----------------- |
-| 10            | `js`   | 1.9x faster | -           | 4.2x faster       |
-| 100           | `zaw`  | -           | 1.4x faster | 2.2x faster       |
-| 1,000         | `zaw`  | -           | 5.6x faster | 2.5x faster       |
-| 10,000        | `zaw`  | -           | 7.1x faster | 2.3x faster       |
-| 100,000       | `zaw`  | -           | 7.1x faster | 2.4x faster       |
+| 10            | `js`   | 2.0x faster | -           | 4.0x faster       |
+| 100           | `zaw`  | -           | 1.2x faster | 2.0x faster       |
+| 1,000         | `zaw`  | -           | 5.5x faster | 2.6x faster       |
+| 10,000        | `zaw`  | -           | 9.9x faster | 2.6x faster       |
+| 100,000       | `zaw`  | -           | 9.7x faster | 2.5x faster       |
 
 ##### Why XOR Int32Array _isn't_ a ridiculous benchmark
 
@@ -34,6 +34,10 @@ It seems counterintuitive, but this is the best possible test for a WebAssembly 
 
 And by targeting the _cheapest_ algorithm possible, we can see the performance of the interop itself.
 
+### 🛠️ Getting Started
+
+See our [getting started guide](docs/getting-started.md) for installation & code samples
+
 ## Repository Overview
 
 In this repository you will find:
@@ -44,16 +48,13 @@ In this repository you will find:
     - Logging
     - Error handling, useful panic messages, optional stack traces
     - Handling <a href="https://developer.mozilla.org/en-US/docs/WebAssembly/Reference/JavaScript_interface/Memory/grow#detachment_upon_growing" target="_blank">memory.grow() and detached buffers</a>
-- **Guides**
-  - Get started with [code samples](docs/getting-started.md)
-  - Learn how to [contribute](docs/contribute.md)
 - **Implementations**
   - Hosts
-    - [Typescript](src/host-ts/)
+    - [Typescript](implementations/host-typescript/)
     - Go _(coming later)_
   - WASM
-    - [Zig](src/wasm-zig/)
-    - Rust _(coming soon)_
+    - [Zig](implementations/wasm-zig/)
+    - [Rust](implementations/wasm-rust/)
 - [**Benchmarks**](docs/benchmarks.md)
   - XOR Int32Array
   - Sum Float64Array

@@ -24,18 +24,8 @@ With `zaw`, you'll be able to offload individual algorithms, rather than entire 
 
 ### 📦 Installation
 
-Add to your `Cargo.toml`:
-
-```toml
-[dependencies]
-zaw = "0.1"
-```
-
-For WebAssembly targets, also add:
-
-```toml
-[lib]
-crate-type = ["cdylib"]
+```bash
+cargo add zaw
 ```
 
 ### 🔥 Quick Start

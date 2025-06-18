@@ -16,7 +16,7 @@ jobs:
           mkdir zig-package
           cp -r implementations/wasm-zig/* zig-package/
           cd zig-package
-          tar -czf ../zaw-wasm-${{ github.ref_name }}.tar.gz .
+          tar --transform='s|^\./||' -czf ../zaw-wasm.tar.gz .
 
       - name: Upload to release
         uses: actions/upload-release-asset@v1
@@ -24,6 +24,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./zaw-wasm-${{ github.ref_name }}.tar.gz
-          asset_name: zaw-wasm-${{ github.ref_name }}.tar.gz
+          asset_path: ./zaw-wasm.tar.gz
+          asset_name: zaw-wasm.tar.gz
           asset_content_type: application/gzip
