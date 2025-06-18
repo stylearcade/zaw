@@ -1,3 +1,16 @@
+### 📦 Installation
+
+```bash
+# Typescript
+npm install zaw
+
+# Zig
+zig fetch https://github.com/stylearcade/zaw/releases/download/zig-v0.0.1/zaw-wasm.tar.gz
+
+# Rust
+cargo add zaw
+```
+
 ### 🔥 Quick Start
 
 Here's how to sum an array of Float64s using `zaw`.

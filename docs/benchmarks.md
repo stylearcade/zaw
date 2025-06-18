@@ -1,140 +1,172 @@
 # Benchmarks
 
 ```console
-  Running on 12th Gen Intel(R) Core(TM) i7-1255U
+  Running on AMD Ryzen 9 3900X 12-Core Processor
 
 
- ✓ examples/host-typescript/__tests__/example.bench.ts > Typescript example host > XOR Int32Array @ 10 elements 8359ms
+ ✓ examples/host-typescript/__tests__/example.bench.ts > Typescript example host > XOR Int32Array @ 10 elements 11869ms
      name                     hz     min     max    mean     p75     p99    p995    p999     rme  samples
-   · js            14,446,049.52  0.0001  0.2823  0.0001  0.0001  0.0001  0.0001  0.0002  ±0.36%  7223026   fastest
-   · zig            7,510,384.99  0.0001  0.5807  0.0001  0.0001  0.0003  0.0003  0.0004  ±0.60%  3755193
-   · wasm-bindgen   3,435,706.44  0.0002  1.8464  0.0003  0.0003  0.0005  0.0005  0.0014  ±0.88%  1717892   slowest
+   · js            11,511,227.77  0.0001  0.6338  0.0001  0.0001  0.0003  0.0005  0.0008  ±0.77%  5755614   fastest
+   · zig            5,644,240.19  0.0001  0.6407  0.0002  0.0002  0.0003  0.0004  0.0009  ±0.62%  2822121
+   · rust           5,630,117.80  0.0001  0.8158  0.0002  0.0002  0.0003  0.0004  0.0009  ±0.70%  2817354
+   · rust-bindgen   2,902,861.09  0.0003  0.6807  0.0003  0.0003  0.0006  0.0008  0.0018  ±0.56%  1451431   slowest
 
- ✓ examples/host-typescript/__tests__/example.bench.ts > Typescript example host > XOR Int32Array @ 100 elements 5711ms
+ ✓ examples/host-typescript/__tests__/example.bench.ts > Typescript example host > XOR Int32Array @ 100 elements 8957ms
      name                    hz     min     max    mean     p75     p99    p995    p999     rme  samples
-   · js            4,823,281.67  0.0002  0.7207  0.0002  0.0002  0.0004  0.0004  0.0004  ±0.64%  2411641
-   · zig           6,911,875.60  0.0001  2.2369  0.0001  0.0001  0.0003  0.0003  0.0004  ±1.19%  3455938   fastest
-   · wasm-bindgen  3,195,858.38  0.0002  1.7007  0.0003  0.0003  0.0007  0.0008  0.0015  ±0.93%  1597930   slowest
+   · js            4,218,820.87  0.0002  0.6489  0.0002  0.0002  0.0005  0.0006  0.0010  ±0.52%  2109411
+   · zig           5,207,776.47  0.0001  0.8167  0.0002  0.0002  0.0004  0.0005  0.0011  ±0.67%  2603890   fastest
+   · rust          5,160,011.72  0.0001  0.4687  0.0002  0.0002  0.0004  0.0005  0.0011  ±0.54%  2580006
+   · rust-bindgen  2,659,941.96  0.0003  0.2934  0.0004  0.0003  0.0008  0.0010  0.0024  ±0.48%  1329971   slowest
 
- ✓ examples/host-typescript/__tests__/example.bench.ts > Typescript example host > XOR Int32Array @ 1000 elements 3521ms
+ ✓ examples/host-typescript/__tests__/example.bench.ts > Typescript example host > XOR Int32Array @ 1000 elements 5786ms
      name                    hz     min     max    mean     p75     p99    p995    p999     rme  samples
-   · js              699,050.57  0.0013  1.0135  0.0014  0.0013  0.0029  0.0038  0.0154  ±0.63%   349526   slowest
-   · zig           3,910,073.52  0.0002  0.4652  0.0003  0.0002  0.0005  0.0006  0.0009  ±0.55%  1955037   fastest
-   · wasm-bindgen  1,565,958.66  0.0005  0.5376  0.0006  0.0006  0.0010  0.0010  0.0074  ±0.72%   782980
+   · js              648,340.71  0.0014  0.2311  0.0015  0.0015  0.0022  0.0024  0.0164  ±0.30%   324171   slowest
+   · zig           3,466,966.86  0.0002  0.5958  0.0003  0.0003  0.0005  0.0006  0.0013  ±0.58%  1733484
+   · rust          3,566,155.32  0.0002  0.2859  0.0003  0.0003  0.0004  0.0005  0.0011  ±0.42%  1783078   fastest
+   · rust-bindgen  1,380,373.36  0.0006  0.9653  0.0007  0.0006  0.0012  0.0015  0.0136  ±0.91%   690187
 
- ✓ examples/host-typescript/__tests__/example.bench.ts > Typescript example host > XOR Int32Array @ 10000 elements 2088ms
+ ✓ examples/host-typescript/__tests__/example.bench.ts > Typescript example host > XOR Int32Array @ 10000 elements 3122ms
      name                  hz     min     max    mean     p75     p99    p995    p999     rme  samples
-   · js             75,167.60  0.0126  0.2885  0.0133  0.0128  0.0277  0.0415  0.0912  ±0.42%    37584   slowest
-   · zig           535,496.75  0.0016  0.7881  0.0019  0.0018  0.0025  0.0036  0.0353  ±0.64%   267749   fastest
-   · wasm-bindgen  235,781.19  0.0037  0.6734  0.0042  0.0040  0.0068  0.0137  0.0545  ±0.66%   117891
+   · js             67,419.27  0.0134  1.6051  0.0148  0.0141  0.0280  0.0374  0.0893  ±0.74%    33710   slowest
+   · zig           665,731.52  0.0014  0.2076  0.0015  0.0014  0.0020  0.0022  0.0159  ±0.32%   332866   fastest
+   · rust          640,345.20  0.0014  0.5524  0.0016  0.0015  0.0022  0.0024  0.0177  ±0.54%   320173
+   · rust-bindgen  254,724.54  0.0036  0.3587  0.0039  0.0038  0.0056  0.0082  0.0319  ±0.41%   127363
 
- ✓ examples/host-typescript/__tests__/example.bench.ts > Typescript example host > XOR Int32Array @ 100000 elements 1852ms
+ ✓ examples/host-typescript/__tests__/example.bench.ts > Typescript example host > XOR Int32Array @ 100000 elements 2498ms
      name                 hz     min     max    mean     p75     p99    p995    p999     rme  samples
-   · js             7,467.65  0.1255  0.8896  0.1339  0.1298  0.2843  0.3817  0.4942  ±0.81%     3734   slowest
-   · zig           53,299.24  0.0168  0.5055  0.0188  0.0175  0.0479  0.0696  0.1586  ±0.62%    26650   fastest
-   · wasm-bindgen  22,553.27  0.0362  0.5318  0.0443  0.0410  0.1381  0.1885  0.3304  ±0.95%    11277
+   · js             6,705.40  0.1331  0.7031  0.1491  0.1488  0.2769  0.3389  0.5923  ±0.77%     3353   slowest
+   · zig           61,367.17  0.0135  0.6313  0.0163  0.0146  0.0494  0.0676  0.1527  ±0.79%    30684
+   · rust          64,797.94  0.0134  0.4324  0.0154  0.0144  0.0335  0.0513  0.1400  ±0.59%    32399   fastest
+   · rust-bindgen  26,069.86  0.0335  0.8571  0.0384  0.0359  0.0855  0.1155  0.2488  ±0.78%    13035
 
- ✓ examples/host-typescript/__tests__/example.bench.ts > Typescript example host > Sum Float64Array @ 10 elements 8614ms
+ ✓ examples/host-typescript/__tests__/example.bench.ts > Typescript example host > Sum Float64Array @ 10 elements 11624ms
      name                     hz     min     max    mean     p75     p99    p995    p999     rme  samples
-   · js            14,040,477.05  0.0001  0.6284  0.0001  0.0001  0.0001  0.0001  0.0002  ±0.58%  7020239   fastest
-   · zig            7,749,742.42  0.0001  0.6677  0.0001  0.0001  0.0003  0.0003  0.0004  ±0.58%  3874872
-   · wasm-bindgen   3,608,100.92  0.0002  0.3507  0.0003  0.0003  0.0004  0.0005  0.0011  ±0.62%  1804051   slowest
+   · js            10,969,756.33  0.0001  1.0560  0.0001  0.0001  0.0003  0.0004  0.0008  ±0.66%  5484879   fastest
+   · zig            5,624,696.36  0.0001  0.5347  0.0002  0.0002  0.0003  0.0004  0.0010  ±0.57%  2812366
+   · rust           5,587,951.88  0.0001  1.0990  0.0002  0.0002  0.0003  0.0004  0.0010  ±0.89%  2793976
+   · rust-bindgen   2,708,713.47  0.0003  0.3386  0.0004  0.0003  0.0008  0.0010  0.0023  ±0.52%  1354357   slowest
 
- ✓ examples/host-typescript/__tests__/example.bench.ts > Typescript example host > Sum Float64Array @ 100 elements 6005ms
+ ✓ examples/host-typescript/__tests__/example.bench.ts > Typescript example host > Sum Float64Array @ 100 elements 8709ms
      name                    hz     min     max    mean     p75     p99    p995    p999     rme  samples
-   · js            4,614,936.05  0.0002  0.4012  0.0002  0.0002  0.0004  0.0004  0.0006  ±0.55%  2307469
-   · zig           6,897,361.18  0.0001  0.3398  0.0001  0.0001  0.0003  0.0003  0.0004  ±0.51%  3448725   fastest
-   · wasm-bindgen  2,945,751.25  0.0003  0.3606  0.0003  0.0003  0.0006  0.0006  0.0014  ±0.59%  1472876   slowest
+   · js            4,290,923.33  0.0002  1.4783  0.0002  0.0002  0.0005  0.0007  0.0011  ±0.92%  2145462
+   · zig           4,853,764.35  0.0002  0.6633  0.0002  0.0002  0.0003  0.0004  0.0010  ±0.63%  2426883
+   · rust          4,912,025.13  0.0002  0.6371  0.0002  0.0002  0.0003  0.0004  0.0010  ±0.69%  2456013   fastest
+   · rust-bindgen  2,140,517.29  0.0004  0.4858  0.0005  0.0004  0.0010  0.0012  0.0035  ±0.78%  1070259   slowest
 
- ✓ examples/host-typescript/__tests__/example.bench.ts > Typescript example host > Sum Float64Array @ 1000 elements 3086ms
+ ✓ examples/host-typescript/__tests__/example.bench.ts > Typescript example host > Sum Float64Array @ 1000 elements 4832ms
      name                    hz     min     max    mean     p75     p99    p995    p999     rme  samples
-   · js              661,288.72  0.0013  0.4635  0.0015  0.0014  0.0029  0.0032  0.0246  ±0.52%   330645   slowest
-   · zig           2,943,709.74  0.0003  0.3538  0.0003  0.0003  0.0004  0.0007  0.0010  ±0.61%  1471896   fastest
-   · wasm-bindgen    983,916.00  0.0009  0.4561  0.0010  0.0010  0.0017  0.0022  0.0108  ±0.44%   491996
+   · js              600,961.60  0.0014  0.7919  0.0017  0.0016  0.0024  0.0026  0.0330  ±1.05%   300481   slowest
+   · zig           2,271,335.06  0.0003  0.5593  0.0004  0.0004  0.0007  0.0009  0.0023  ±0.83%  1135668
+   · rust          2,489,891.25  0.0003  0.3546  0.0004  0.0004  0.0006  0.0007  0.0016  ±0.51%  1244946   fastest
+   · rust-bindgen    822,514.71  0.0011  0.4270  0.0012  0.0011  0.0017  0.0020  0.0156  ±0.50%   411258
 
- ✓ examples/host-typescript/__tests__/example.bench.ts > Typescript example host > Sum Float64Array @ 10000 elements 1961ms
+ ✓ examples/host-typescript/__tests__/example.bench.ts > Typescript example host > Sum Float64Array @ 10000 elements 2813ms
      name                  hz     min     max    mean     p75     p99    p995    p999     rme  samples
-   · js             75,422.88  0.0126  1.3126  0.0133  0.0127  0.0254  0.0303  0.0799  ±0.64%    37712   slowest
-   · zig           273,184.94  0.0033  0.6442  0.0037  0.0034  0.0078  0.0132  0.0426  ±0.62%   136593   fastest
-   · wasm-bindgen  114,354.55  0.0080  0.5940  0.0087  0.0084  0.0180  0.0226  0.0678  ±0.47%    57178
+   · js             66,817.94  0.0135  0.5179  0.0150  0.0139  0.0307  0.0498  0.1075  ±0.54%    33409   slowest
+   · zig           354,863.48  0.0025  0.3819  0.0028  0.0027  0.0040  0.0056  0.0258  ±0.43%   177432   fastest
+   · rust          353,646.94  0.0025  0.4109  0.0028  0.0026  0.0040  0.0049  0.0276  ±0.44%   176824
+   · rust-bindgen  105,437.53  0.0086  0.5203  0.0095  0.0090  0.0227  0.0358  0.1063  ±0.64%    52719
 
- ✓ examples/host-typescript/__tests__/example.bench.ts > Typescript example host > Sum Float64Array @ 100000 elements 1826ms
+ ✓ examples/host-typescript/__tests__/example.bench.ts > Typescript example host > Sum Float64Array @ 100000 elements 2454ms
      name                 hz     min     max    mean     p75     p99    p995    p999     rme  samples
-   · js             7,502.81  0.1254  0.5530  0.1333  0.1319  0.2264  0.2840  0.4701  ±0.59%     3752   slowest
-   · zig           21,704.62  0.0408  2.3660  0.0461  0.0436  0.1031  0.1462  0.2800  ±1.20%    10853   fastest
-   · wasm-bindgen  10,271.86  0.0890  0.4556  0.0974  0.0941  0.1932  0.2131  0.3053  ±0.57%     5136
+   · js             6,889.66  0.1340  0.4850  0.1451  0.1460  0.2238  0.2438  0.3347  ±0.46%     3445   slowest
+   · zig           32,345.75  0.0269  0.4331  0.0309  0.0290  0.0664  0.0919  0.1957  ±0.57%    16173
+   · rust          33,827.99  0.0262  0.4335  0.0296  0.0280  0.0558  0.0755  0.1608  ±0.49%    16914   fastest
+   · rust-bindgen  10,524.54  0.0869  1.0149  0.0950  0.0916  0.1911  0.2616  0.4156  ±0.80%     5263
 
- ✓ examples/host-typescript/__tests__/example.bench.ts > Typescript example host > 4x4 Float32 Matrix Multiplication, batch size 1 2716ms
+ ✓ examples/host-typescript/__tests__/example.bench.ts > Typescript example host > 4x4 Float32 Matrix Multiplication, batch size 1 4354ms
      name                    hz     min     max    mean     p75     p99    p995    p999     rme  samples
-   · js            3,690,929.32  0.0002  1.7702  0.0003  0.0002  0.0005  0.0007  0.0019  ±1.00%  1845465   fastest
-   · wasm-bindgen  1,258,825.48  0.0006  2.0021  0.0008  0.0007  0.0012  0.0017  0.0159  ±2.56%   629413
+   · js            2,824,193.66  0.0002  7.3881  0.0004  0.0003  0.0012  0.0016  0.0032  ±3.35%  1412097
+   ↓ zig [skipped]
+   · rust          2,893,899.06  0.0003  0.3013  0.0003  0.0003  0.0008  0.0009  0.0019  ±0.44%  1446950   fastest
+   · rust-bindgen    958,847.97  0.0007  1.0247  0.0010  0.0009  0.0027  0.0033  0.0172  ±1.51%   479425   slowest
 
- ✓ examples/host-typescript/__tests__/example.bench.ts > Typescript example host > 4x4 Float32 Matrix Multiplication, batch size 10 1536ms
+ ✓ examples/host-typescript/__tests__/example.bench.ts > Typescript example host > 4x4 Float32 Matrix Multiplication, batch size 10 3051ms
+     name                    hz     min     max    mean     p75     p99    p995    p999     rme  samples
+   · js              333,725.76  0.0020  3.4339  0.0030  0.0027  0.0078  0.0127  0.0889  ±2.21%   166863
+   ↓ zig [skipped]
+   · rust          2,331,921.94  0.0004  1.4557  0.0004  0.0004  0.0009  0.0010  0.0022  ±0.87%  1165962   fastest
+   · rust-bindgen    309,452.59  0.0012  0.9393  0.0032  0.0034  0.0114  0.0241  0.0952  ±1.30%   154727   slowest
+
+ ✓ examples/host-typescript/__tests__/example.bench.ts > Typescript example host > 4x4 Float32 Matrix Multiplication, batch size 100 2241ms
      name                  hz     min     max    mean     p75     p99    p995    p999     rme  samples
-   · js            488,645.20  0.0015  0.9284  0.0020  0.0018  0.0032  0.0047  0.0520  ±1.33%   244323   fastest
-   · wasm-bindgen  487,149.14  0.0009  2.0632  0.0021  0.0020  0.0151  0.0173  0.0477  ±1.87%   243575
+   · js             27,794.90  0.0197  1.8288  0.0360  0.0327  0.2148  0.4487  0.9464  ±2.78%    13898   slowest
+   ↓ zig [skipped]
+   · rust          804,815.70  0.0010  0.8275  0.0012  0.0012  0.0019  0.0022  0.0180  ±0.63%   402408   fastest
+   · rust-bindgen  113,270.78  0.0031  9.9288  0.0088  0.0085  0.0344  0.0513  0.1961  ±7.79%    57604
 
- ✓ examples/host-typescript/__tests__/example.bench.ts > Typescript example host > 4x4 Float32 Matrix Multiplication, batch size 100 1311ms
+ ✓ examples/host-typescript/__tests__/example.bench.ts > Typescript example host > 4x4 Float32 Matrix Multiplication, batch size 1000 1874ms
      name                  hz     min     max    mean     p75     p99    p995    p999     rme  samples
-   · js             53,782.82  0.0138  1.2348  0.0186  0.0172  0.0533  0.1847  0.3807  ±1.65%    26892
-   · wasm-bindgen  233,039.65  0.0028  0.8947  0.0043  0.0034  0.0233  0.0295  0.0621  ±1.20%   116520   fastest
-
- ✓ examples/host-typescript/__tests__/example.bench.ts > Typescript example host > 4x4 Float32 Matrix Multiplication, batch size 1000 1218ms
-     name                 hz     min     max    mean     p75     p99    p995    p999     rme  samples
-   · js             5,655.93  0.1409  0.8849  0.1768  0.1670  0.5400  0.5623  0.6792  ±1.59%     2828
-   · wasm-bindgen  33,428.74  0.0224  1.0736  0.0299  0.0260  0.1036  0.1754  0.5569  ±1.52%    16715   fastest
+   · js              2,925.12  0.2045  1.8075  0.3419  0.3491  1.1553  1.2820  1.5434  ±2.88%     1463   slowest
+   ↓ zig [skipped]
+   · rust          103,041.13  0.0084  1.1079  0.0097  0.0088  0.0234  0.0342  0.1121  ±0.80%    51521   fastest
+   · rust-bindgen   14,988.37  0.0228  7.5492  0.0667  0.0713  0.2129  0.3765  5.2584  ±8.32%     7497
 
  BENCH  Summary
 
   js - examples/host-typescript/__tests__/example.bench.ts > Typescript example host > XOR Int32Array @ 10 elements
-    1.92x faster than zig
-    4.20x faster than wasm-bindgen
+    2.04x faster than zig
+    2.04x faster than rust
+    3.97x faster than rust-bindgen
 
   zig - examples/host-typescript/__tests__/example.bench.ts > Typescript example host > XOR Int32Array @ 100 elements
-    1.43x faster than js
-    2.16x faster than wasm-bindgen
+    1.01x faster than rust
+    1.23x faster than js
+    1.96x faster than rust-bindgen
 
-  zig - examples/host-typescript/__tests__/example.bench.ts > Typescript example host > XOR Int32Array @ 1000 elements
-    2.50x faster than wasm-bindgen
-    5.59x faster than js
+  rust - examples/host-typescript/__tests__/example.bench.ts > Typescript example host > XOR Int32Array @ 1000 elements
+    1.03x faster than zig
+    2.58x faster than rust-bindgen
+    5.50x faster than js
 
   zig - examples/host-typescript/__tests__/example.bench.ts > Typescript example host > XOR Int32Array @ 10000 elements
-    2.27x faster than wasm-bindgen
-    7.12x faster than js
+    1.04x faster than rust
+    2.61x faster than rust-bindgen
+    9.87x faster than js
 
-  zig - examples/host-typescript/__tests__/example.bench.ts > Typescript example host > XOR Int32Array @ 100000 elements
-    2.36x faster than wasm-bindgen
-    7.14x faster than js
+  rust - examples/host-typescript/__tests__/example.bench.ts > Typescript example host > XOR Int32Array @ 100000 elements
+    1.06x faster than zig
+    2.49x faster than rust-bindgen
+    9.66x faster than js
 
   js - examples/host-typescript/__tests__/example.bench.ts > Typescript example host > Sum Float64Array @ 10 elements
-    1.81x faster than zig
-    3.89x faster than wasm-bindgen
+    1.95x faster than zig
+    1.96x faster than rust
+    4.05x faster than rust-bindgen
 
-  zig - examples/host-typescript/__tests__/example.bench.ts > Typescript example host > Sum Float64Array @ 100 elements
-    1.49x faster than js
-    2.34x faster than wasm-bindgen
+  rust - examples/host-typescript/__tests__/example.bench.ts > Typescript example host > Sum Float64Array @ 100 elements
+    1.01x faster than zig
+    1.14x faster than js
+    2.29x faster than rust-bindgen
 
-  zig - examples/host-typescript/__tests__/example.bench.ts > Typescript example host > Sum Float64Array @ 1000 elements
-    2.99x faster than wasm-bindgen
-    4.45x faster than js
+  rust - examples/host-typescript/__tests__/example.bench.ts > Typescript example host > Sum Float64Array @ 1000 elements
+    1.10x faster than zig
+    3.03x faster than rust-bindgen
+    4.14x faster than js
 
   zig - examples/host-typescript/__tests__/example.bench.ts > Typescript example host > Sum Float64Array @ 10000 elements
-    2.39x faster than wasm-bindgen
-    3.62x faster than js
+    1.00x faster than rust
+    3.37x faster than rust-bindgen
+    5.31x faster than js
 
-  zig - examples/host-typescript/__tests__/example.bench.ts > Typescript example host > Sum Float64Array @ 100000 elements
-    2.11x faster than wasm-bindgen
-    2.89x faster than js
+  rust - examples/host-typescript/__tests__/example.bench.ts > Typescript example host > Sum Float64Array @ 100000 elements
+    1.05x faster than zig
+    3.21x faster than rust-bindgen
+    4.91x faster than js
 
-  js - examples/host-typescript/__tests__/example.bench.ts > Typescript example host > 4x4 Float32 Matrix Multiplication, batch size 1
-    2.93x faster than wasm-bindgen
+  rust - examples/host-typescript/__tests__/example.bench.ts > Typescript example host > 4x4 Float32 Matrix Multiplication, batch size 1
+    1.02x faster than js
+    3.02x faster than rust-bindgen
 
-  js - examples/host-typescript/__tests__/example.bench.ts > Typescript example host > 4x4 Float32 Matrix Multiplication, batch size 10
-    1.00x faster than wasm-bindgen
+  rust - examples/host-typescript/__tests__/example.bench.ts > Typescript example host > 4x4 Float32 Matrix Multiplication, batch size 10
+    6.99x faster than js
+    7.54x faster than rust-bindgen
 
-  wasm-bindgen - examples/host-typescript/__tests__/example.bench.ts > Typescript example host > 4x4 Float32 Matrix Multiplication, batch size 100
-    4.33x faster than js
+  rust - examples/host-typescript/__tests__/example.bench.ts > Typescript example host > 4x4 Float32 Matrix Multiplication, batch size 100
+    7.11x faster than rust-bindgen
+    28.96x faster than js
 
-  wasm-bindgen - examples/host-typescript/__tests__/example.bench.ts > Typescript example host > 4x4 Float32 Matrix Multiplication, batch size 1000
-    5.91x faster than js
+  rust - examples/host-typescript/__tests__/example.bench.ts > Typescript example host > 4x4 Float32 Matrix Multiplication, batch size 1000
+    6.87x faster than rust-bindgen
+    35.23x faster than js
 ```
