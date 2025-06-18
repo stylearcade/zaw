@@ -7,7 +7,12 @@ npm install zaw
 # Zig
 zig fetch https://github.com/stylearcade/zaw/releases/download/zig-v0.0.1/zaw-wasm.tar.gz
 
+## build.zig
+const zaw_module = b.dependency("zaw", .{}).module("zaw");
+output.root_module.addImport("zaw", zaw_module);
+
 # Rust
+
 cargo add zaw
 ```
 
