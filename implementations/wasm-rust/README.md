@@ -16,17 +16,23 @@ With `zaw`, you'll be able to offload individual algorithms, rather than entire 
 
 | Element Count | Winner | vs `zaw`    | vs `js`     | vs `wasm-bindgen` |
 | ------------- | ------ | ----------- | ----------- | ----------------- |
-| 10            | `js`   | 1.9x faster | -           | 4.2x faster       |
-| 100           | `zaw`  | -           | 1.4x faster | 2.2x faster       |
-| 1,000         | `zaw`  | -           | 5.6x faster | 2.5x faster       |
-| 10,000        | `zaw`  | -           | 7.1x faster | 2.3x faster       |
-| 100,000       | `zaw`  | -           | 7.1x faster | 2.4x faster       |
+| 10            | `js`   | 2.0x faster | -           | 4.0x faster       |
+| 100           | `zaw`  | -           | 1.2x faster | 2.0x faster       |
+| 1,000         | `zaw`  | -           | 5.5x faster | 2.6x faster       |
+| 10,000        | `zaw`  | -           | 9.9x faster | 2.6x faster       |
+| 100,000       | `zaw`  | -           | 9.7x faster | 2.5x faster       |
 
 ### 📦 Installation
 
 ```bash
+# Typescript
+npm install zaw
+
+# Rust
 cargo add zaw
 ```
+
+Or you can just fork [zaw-starter-rust](https://github.com/stylearcade/zaw-starter-rust).
 
 ### 🔥 Quick Start
 
