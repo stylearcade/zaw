@@ -36,7 +36,8 @@ And by targeting the _cheapest_ algorithm possible, we can see the performance o
 
 ### 🛠️ Getting Started
 
-See our [getting started guide](docs/getting-started.md) for installation & code samples
+- See our [getting started guide](docs/getting-started.md) for installation & code samples
+- Fork [zaw-starter-zig](https://github.com/stylearcade/zaw-starter-zig) or [zaw-starter-rust](https://github.com/stylearcade/zaw-starter-rust)
 
 ## Repository Overview
 

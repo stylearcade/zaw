@@ -7,9 +7,18 @@ npm install zaw
 # Zig
 zig fetch https://github.com/stylearcade/zaw/releases/download/zig-v0.0.1/zaw-wasm.tar.gz
 
+## build.zig
+exe.root_module.addImport("zaw", b.dependency("zaw", .{
+    .target = target,
+    .optimize = optimize,
+}).module("zaw"));
+
 # Rust
+
 cargo add zaw
 ```
+
+Or you can just fork [zaw-starter-zig](https://github.com/stylearcade/zaw-starter-zig) or [zaw-starter-rust](https://github.com/stylearcade/zaw-starter-rust).
 
 ### 🔥 Quick Start
 

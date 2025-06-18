@@ -1,8 +1,5 @@
 const std = @import("std");
 const Builder = std.Build;
-const builtin = @import("builtin");
-
-const number_of_pages = 2;
 
 pub fn build(b: *Builder) void {
     const target = b.resolveTargetQuery(.{
