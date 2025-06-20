@@ -1,7 +1,8 @@
 import { Reader, Writer } from './conduit'
-import { DEFAULT_INITIAL_PAGES, MAX_ERROR_SIZE, MAX_LOG_SIZE, PAGE_SIZE } from './constants'
+import { DEFAULT_INITIAL_PAGES, MAX_ERROR_SIZE, MAX_LOG_SIZE } from './constants'
 
-export type BindableExport = () => 0 | 1
+export type Result = 0 | 1
+export type BindableExport = () => Result
 
 export type InstanceOptions = {
   inputChannelSize: number
@@ -35,7 +36,7 @@ export type Instance<T extends Record<string, unknown>> = {
   bind: BindingFactory
 }
 
-export async function createInstance<T extends Record<string, BindableExport>>(
+export async function createInstance<T extends Record<string, unknown>>(
   wasmBuffer: Buffer,
   options: InstanceOptions,
 ): Promise<Instance<T>> {

@@ -1,12 +1,12 @@
-import { createInstance } from '../../implementations/host-typescript/src/index'
+import { createInstance, Result } from '../../implementations/host-typescript/src/index'
 
 type ExampleExports = {
-  throwErrorWithStack: () => 0 | 1
-  usefulPanic: () => 0 | 1
-  echo: () => 0 | 1
-  xorInt32Array: () => 0 | 1
-  sumFloat64Array: () => 0 | 1
-  multiply4x4Float32: () => 0 | 1
+  throwErrorWithStack: () => Result
+  usefulPanic: () => Result
+  echo: () => Result
+  xorInt32Array: () => Result
+  sumFloat64Array: () => Result
+  multiply4x4Float32: () => Result
 }
 
 export type ExampleAPI = {
