@@ -1,6 +1,6 @@
 {
   "name": "zaw",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Zero-allocation WebAssembly communication protocol",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -41,7 +41,7 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/stylearcade/zaw.git",
+    "url": "git+https://github.com/stylearcade/zaw.git",
     "directory": "implementations/host-typescript"
   },
   "homepage": "https://github.com/stylearcade/zaw#readme",
