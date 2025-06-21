@@ -1,8 +1,7 @@
 import { Reader, Writer } from './conduit'
 import { DEFAULT_INITIAL_PAGES, MAX_ERROR_SIZE, MAX_LOG_SIZE } from './constants'
-
-export type Result = 0 | 1
-export type BindableExport = () => Result
+import { generateBinding } from './binding'
+import { ZawReturn } from './types'
 
 export type InstanceOptions = {
   inputChannelSize: number
@@ -19,9 +18,9 @@ export type ExportBase = Record<string, () => number> & {
 }
 
 export type BindingFactory = <Args extends unknown[], Result>(
-  func: BindableExport,
-  handleInput: (input: Writer, args: Args) => void,
-  handleOutput: (output: Reader) => Result,
+  func: () => ZawReturn,
+  write: (input: Writer, ...args: Args) => void,
+  read: (output: Reader, ...args: Args) => Result,
 ) => (...args: Args) => Result
 
 export type Instance<T extends Record<string, unknown>> = {
@@ -134,17 +133,11 @@ export async function createInstance<T extends Record<string, unknown>>(
     return input
   }
 
-  const bind: BindingFactory =
-    <T extends unknown[], R>(func: BindableExport, handleInput: (input: Writer, args: T) => void, handleOutput: (output: Reader) => R) =>
-    (...args: T): R => {
-      const input = getInput()
-
-      handleInput(input, args)
-
-      handleError(func)
-
-      return handleOutput(getOutput())
-    }
+  const bind: BindingFactory = <T extends unknown[], R>(
+    func: () => ZawReturn,
+    write: (input: Writer, ...args: T) => void,
+    read: (output: Reader, ...args: T) => R,
+  ) => generateBinding(func, write, read, getInput, getOutput, handleError)
 
   return {
     exports,
