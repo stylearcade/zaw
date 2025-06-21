@@ -10,7 +10,7 @@ fn getStorage(comptime T: type, storage: []u64) []T {
 fn alignUp(offset: u32, comptime bytes: u8) u32 {
     const mask = bytes - 1;
 
-    return (offset + mask) & ~mask;
+    return (offset + mask) & ~@as(u32, mask);
 }
 
 /// Internal channel for managing typed storage arrays and offset tracking.
