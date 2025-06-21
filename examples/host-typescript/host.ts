@@ -1,12 +1,12 @@
-import { createInstance, Result } from '../../implementations/host-typescript/src/index'
+import { createInstance, ZawReturn } from '../../implementations/host-typescript/src/index'
 
 type ExampleExports = {
-  throwErrorWithStack: () => Result
-  usefulPanic: () => Result
-  echo: () => Result
-  xorInt32Array: () => Result
-  sumFloat64Array: () => Result
-  multiply4x4Float32: () => Result
+  throwErrorWithStack: () => ZawReturn
+  usefulPanic: () => ZawReturn
+  echo: () => ZawReturn
+  xorInt32Array: () => ZawReturn
+  sumFloat64Array: () => ZawReturn
+  multiply4x4Float32: () => ZawReturn
 }
 
 export type ExampleAPI = {
@@ -44,22 +44,22 @@ export async function initExample(wasmBuffer: Buffer): Promise<ExampleAPI> {
     ),
     echo: instance.bind(
       instance.exports.echo,
-      (input, [msg]) => input.writeUtf8String(msg),
-      () => lastLogMsg,
+      (input, msg) => input.writeUtf8String(msg),
+      output => lastLogMsg,
     ),
     xorInt32Array: instance.bind(
       instance.exports.xorInt32Array,
-      (input, [values]) => input.copyInt32Array(values),
+      (input, values) => input.copyInt32Array(values),
       output => output.readInt32(),
     ),
     sumFloat64Array: instance.bind(
       instance.exports.sumFloat64Array,
-      (input, [values]) => input.copyFloat64Array(values),
+      (input, values) => input.copyFloat64Array(values),
       output => output.readFloat64(),
     ),
     multiply4x4Float32: instance.bind(
       instance.exports.multiply4x4Float32,
-      (input, [left, right]) => {
+      (input, left, right) => {
         input.copyFloat32Array(left)
         input.copyFloat32Array(right)
       },

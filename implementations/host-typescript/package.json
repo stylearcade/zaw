@@ -1,6 +1,6 @@
 {
   "name": "zaw",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Zero-allocation WebAssembly communication protocol",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -16,7 +16,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup",
+    "build": "tsc && tsup",
     "dev": "tsup --watch",
     "test": "vitest",
     "prepublishOnly": "npm run build"
