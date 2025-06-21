@@ -88,7 +88,7 @@ function generateTestCase(testCase: TestCase): string {
     return `    ${lines.join('\n    ')}\n`
   }
 
-  let code = `test "${testCase.name}" {`
+  let code = `test "${testCase.name}" {\n`
 
   code += indent(['var storage = [_]u64{0} ** 32;', 'var writer = Writer.from(&storage);', 'var reader = Reader.from(&storage);'])
 
@@ -141,6 +141,6 @@ const Reader = conduit.Reader;
 }
 
 export const zigGenerator: TestGenerator = {
-  outputFile: 'implementations/wasm-zig/conduit/conduit.test.zig',
+  outputFile: 'implementations/wasm-zig/src/conduit/conduit.test.zig',
   generateTestFile,
 }
