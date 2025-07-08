@@ -13,7 +13,9 @@
   },
   "author": "tristanhoy",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "zaw": "^0.0.3"
+  },
   "devDependencies": {
     "@types/node": "22.15.30",
     "tsx": "4.19.4",

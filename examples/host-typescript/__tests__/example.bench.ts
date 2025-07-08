@@ -77,7 +77,7 @@ describe('Typescript example host', async () => {
       })
 
       // Not yet implemented
-      bench.skip('zig', () => {
+      bench('zig', () => {
         zig.multiply4x4Float32(left, right)
       })
 
