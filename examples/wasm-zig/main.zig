@@ -156,21 +156,28 @@ fn multiply_4x4_f32_single(a: []const f32, b: []const f32, result: []f32) void {
     result[15] = a[12] * b[3] + a[13] * b[7] + a[14] * b[11] + a[15] * b[15];
 }
 
-pub fn multiply4x4Float32(
-    a_matrices: []const f32,
-    b_matrices: []const f32,
-    result_matrices: []f32,
-) void {
-    const num_matrices = a_matrices.len() / 16;
+pub fn multiply4x4Float32() i32 {
+    var input = interop.getInput();
+    var output = interop.getOutput();
+
+    const values = input.readArrays(f32);
+    const a_matrices = values[0];
+    const b_matrices = values[1];
+    const num_matrices = a_matrices.len / 16;
+
+    var result_matrices = []f32;
 
     for (0..num_matrices) |i| {
         const start_idx = i * 16;
         const end_idx = start_idx + 16;
 
-        const a_matrix = &a_matrices[start_idx..end_idx];
-        const b_matrix = &b_matrices[start_idx..end_idx];
-        const r_matrix = &result_matrices[start_idx..end_idx];
+        const a_matrix = a_matrices[start_idx..end_idx];
+        const b_matrix = b_matrices[start_idx..end_idx];
+        const r_matrix = result_matrices[start_idx..end_idx];
 
         multiply_4x4_f32_single(a_matrix, b_matrix, r_matrix);
     }
+
+    output.write([]f32, result_matrices);
+    return OK;
 }

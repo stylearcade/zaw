@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { builds } from './builds'
 import { initExample } from '../host'
+import { multiply4x4Float32 } from '../../utils/index.ts'
 
 describe('Typescript example host', async () => {
   const zig = await initExample(builds.zig)
@@ -41,6 +42,33 @@ describe('Typescript example host', async () => {
             const result = impl.sumFloat64Array(values)
 
             expect(result).to.be.closeTo(expectation, 1e-9)
+          })
+        })
+      }
+    })
+  }
+
+  for (const size of [1, 10, 100, 1000]) {
+    describe(`Multiply 4x4 Float32 Matrices @ ${size} matrices`, () => {
+      const left = new Float32Array(size * 16).map(() => Math.random())
+      const right = new Float32Array(size * 16).map(() => Math.random())
+      const width = 16 * size
+
+      const expectation = new Float32Array(width)
+
+      for (let i = 0; i < width; i += 16) {
+        expectation.set(multiply4x4Float32(left.slice(i, i + 16), right.slice(i, i + 16)), i)
+      }
+
+      for (const [name, impl] of Object.entries(implementations)) {
+        describe(name, () => {
+          it('should match expected output', () => {
+            const result = impl.multiply4x4Float32(left, right)
+
+            expect(result.length).to.equal(expectation.length)
+            for (let i = 0; i < result.length; i++) {
+              expect(result[i]).to.be.closeTo(expectation[i], 1e-5)
+            }
           })
         })
       }

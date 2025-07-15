@@ -76,7 +76,6 @@ describe('Typescript example host', async () => {
         }
       })
 
-      // Not yet implemented
       bench('zig', () => {
         zig.multiply4x4Float32(left, right)
       })
