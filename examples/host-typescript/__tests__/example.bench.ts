@@ -12,57 +12,57 @@ describe('Typescript example host', async () => {
   const rust = await initExample(builds.rust)
   const rustBindgen = await initRustBindgen()
 
-  // for (const size of [10, 100, 1_000, 10_000, 100_000]) {
-  //   describe(`XOR Int32Array @ ${size} elements`, () => {
-  //     const values = new Int32Array(size).map(() => (Math.random() * 0x100000000) | 0)
+  for (const size of [10, 100, 1_000, 10_000, 100_000]) {
+    describe(`XOR Int32Array @ ${size} elements`, () => {
+      const values = new Int32Array(size).map(() => (Math.random() * 0x100000000) | 0)
 
-  //     bench('js', () => {
-  //       let total = 0
+      bench('js', () => {
+        let total = 0
 
-  //       for (let i = values.length; i-- > 0; ) {
-  //         total ^= values[i]
-  //       }
-  //     })
+        for (let i = values.length; i-- > 0; ) {
+          total ^= values[i]
+        }
+      })
 
-  //     bench('zig', () => {
-  //       zig.xorInt32Array(values)
-  //     })
+      bench('zig', () => {
+        zig.xorInt32Array(values)
+      })
 
-  //     bench('rust', () => {
-  //       rust.xorInt32Array(values)
-  //     })
+      bench('rust', () => {
+        rust.xorInt32Array(values)
+      })
 
-  //     bench('rust-bindgen', () => {
-  //       rustBindgen.xorInt32Array(values)
-  //     })
-  //   })
-  // }
+      bench('rust-bindgen', () => {
+        rustBindgen.xorInt32Array(values)
+      })
+    })
+  }
 
-  // for (const size of [10, 100, 1_000, 10_000, 100_000]) {
-  //   describe(`Sum Float64Array @ ${size} elements`, () => {
-  //     const values = new Float64Array(size).map(() => Math.random())
+  for (const size of [10, 100, 1_000, 10_000, 100_000]) {
+    describe(`Sum Float64Array @ ${size} elements`, () => {
+      const values = new Float64Array(size).map(() => Math.random())
 
-  //     bench('js', () => {
-  //       let total = 0
+      bench('js', () => {
+        let total = 0
 
-  //       for (let i = values.length; i-- > 0; ) {
-  //         total += values[i]
-  //       }
-  //     })
+        for (let i = values.length; i-- > 0; ) {
+          total += values[i]
+        }
+      })
 
-  //     bench('zig', () => {
-  //       zig.sumFloat64Array(values)
-  //     })
+      bench('zig', () => {
+        zig.sumFloat64Array(values)
+      })
 
-  //     bench('rust', () => {
-  //       rust.sumFloat64Array(values)
-  //     })
+      bench('rust', () => {
+        rust.sumFloat64Array(values)
+      })
 
-  //     bench('rust-bindgen', () => {
-  //       rustBindgen.sumFloat64Array(values)
-  //     })
-  //   })
-  // }
+      bench('rust-bindgen', () => {
+        rustBindgen.sumFloat64Array(values)
+      })
+    })
+  }
 
   for (const batchSize of [1, 10, 100, 1000]) {
     describe(`4x4 Float32 Matrix Multiplication, batch size ${batchSize}`, () => {
