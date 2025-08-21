@@ -56,7 +56,7 @@ export async function initWasmApi(wasmBuffer): Promise<WasmApi> {
       instance.exports.sumFloat64Array,
 
       // Input binding: copy values into WASM (zero allocation)
-      (input, [values]) => input.copyFloat64Array(values),
+      (input, values) => input.copyFloat64Array(values),
 
       // Output binding: read the sum from the output channel
       output => output.readFloat64(),
