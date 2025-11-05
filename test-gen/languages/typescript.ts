@@ -38,8 +38,8 @@ function generateWriteOperation(op: Operation, index: number): string[] {
     case 'write':
       return [`writer.write${dataType}(${formatValue(op.value, dataType)});`]
 
-    case 'allocate':
-      return [`const ptr${index} = writer.allocate${dataType}();`, `ptr${index}(${formatValue(op.value, dataType)});`]
+    case 'init':
+      return [`const ptr${index} = writer.init${dataType}();`, `ptr${index}(${formatValue(op.value, dataType)});`]
 
     case 'copyArray':
       return [`writer.copy${dataType}Array([${op.value.map(v => formatValue(v, dataType)).join(', ')}]);`]
@@ -47,15 +47,15 @@ function generateWriteOperation(op: Operation, index: number): string[] {
     case 'copyElements':
       return [`writer.copy${dataType}Elements([${op.value.map(v => formatValue(v, dataType)).join(', ')}]);`]
 
-    case 'allocateArray':
+    case 'initArray':
       return [
-        `const arr${index} = writer.allocate${dataType}Array(${op.value.length});`,
+        `const arr${index} = writer.init${dataType}Array(${op.value.length});`,
         ...op.value.map((v, i) => `arr${index}[${i}] = ${formatValue(v, dataType)};`),
       ]
 
-    case 'allocateElements':
+    case 'initElements':
       return [
-        `const arr${index} = writer.allocate${dataType}Elements(${op.value.length});`,
+        `const arr${index} = writer.init${dataType}Elements(${op.value.length});`,
         ...op.value.map((v, i) => `arr${index}[${i}] = ${formatValue(v, dataType)};`),
       ]
   }
@@ -67,11 +67,11 @@ function generateReadOperation(op: Operation, index: number): string[] {
 
   switch (op.type) {
     case 'write':
-    case 'allocate':
+    case 'init':
       return [`expect(reader.read${dataType}()).toEqual(${formatValue(op.value, dataType)});`]
 
     case 'copyArray':
-    case 'allocateArray':
+    case 'initArray':
       return [
         `const readArr${index} = reader.read${dataType}Array();`,
         `expect(readArr${index}.length).toEqual(${op.value.length});`,
@@ -79,7 +79,7 @@ function generateReadOperation(op: Operation, index: number): string[] {
       ]
 
     case 'copyElements':
-    case 'allocateElements':
+    case 'initElements':
       return [
         `const readElems${index} = reader.read${dataType}Elements(${op.value.length});`,
         ...op.value.map((v, i) => `expect(readElems${index}[${i}]).toEqual(${formatValue(v, dataType)});`),

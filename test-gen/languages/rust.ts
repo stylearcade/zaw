@@ -46,8 +46,8 @@ function generateWriteOperation(op: Operation, index: number): string[] {
     case 'write':
       return [`writer.write_${dataType}(${formatValue(op.value, dataType)});`]
 
-    case 'allocate':
-      return [`let ptr${index} = writer.allocate_${dataType}();`, `unsafe { *ptr${index} = ${formatValue(op.value, dataType)}; }`]
+    case 'init':
+      return [`let ptr${index} = writer.init_${dataType}();`, `unsafe { *ptr${index} = ${formatValue(op.value, dataType)}; }`]
 
     case 'copyArray':
       return [`writer.copy_array_${dataType}(&[${op.value.map(v => formatValue(v, dataType)).join(', ')}]);`]
@@ -55,21 +55,21 @@ function generateWriteOperation(op: Operation, index: number): string[] {
     case 'copyElements':
       return [`writer.copy_elements_${dataType}(&[${op.value.map(v => formatValue(v, dataType)).join(', ')}]);`]
 
-    case 'allocateArray':
+    case 'initArray':
       if (op.value.length === 0) {
-        return [`let _arr${index} = writer.allocate_array_${dataType}(0);`]
+        return [`let _arr${index} = writer.init_array_${dataType}(0);`]
       }
       return [
-        `let arr${index} = writer.allocate_array_${dataType}(${op.value.length});`,
+        `let arr${index} = writer.init_array_${dataType}(${op.value.length});`,
         ...op.value.map((v, i) => `arr${index}[${i}] = ${formatValue(v, dataType)};`),
       ]
 
-    case 'allocateElements':
+    case 'initElements':
       if (op.value.length === 0) {
-        return [`let _arr${index} = writer.allocate_elements_${dataType}(0);`]
+        return [`let _arr${index} = writer.init_elements_${dataType}(0);`]
       }
       return [
-        `let arr${index} = writer.allocate_elements_${dataType}(${op.value.length});`,
+        `let arr${index} = writer.init_elements_${dataType}(${op.value.length});`,
         ...op.value.map((v, i) => `arr${index}[${i}] = ${formatValue(v, dataType)};`),
       ]
   }
@@ -80,16 +80,13 @@ function generateReadOperation(op: Operation, index: number): string[] {
 
   switch (op.type) {
     case 'write':
-    case 'allocate':
+    case 'init':
       return [`assert_eq!(${formatValue(op.value, dataType)}, reader.read_${dataType}());`]
 
     case 'copyArray':
-    case 'allocateArray':
+    case 'initArray':
       if (op.value.length === 0) {
-        return [
-          `let _read_arr${index} = reader.read_array_${dataType}();`,
-          `assert_eq!(0, _read_arr${index}.len());`,
-        ]
+        return [`let _read_arr${index} = reader.read_array_${dataType}();`, `assert_eq!(0, _read_arr${index}.len());`]
       }
       return [
         `let read_arr${index} = reader.read_array_${dataType}();`,
@@ -98,12 +95,9 @@ function generateReadOperation(op: Operation, index: number): string[] {
       ]
 
     case 'copyElements':
-    case 'allocateElements':
+    case 'initElements':
       if (op.value.length === 0) {
-        return [
-          `let _read_elems${index} = reader.read_elements_${dataType}(0);`,
-          `assert_eq!(0, _read_elems${index}.len());`,
-        ]
+        return [`let _read_elems${index} = reader.read_elements_${dataType}(0);`, `assert_eq!(0, _read_elems${index}.len());`]
       }
       return [
         `let read_elems${index} = reader.read_elements_${dataType}(${op.value.length});`,

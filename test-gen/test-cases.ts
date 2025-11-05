@@ -842,10 +842,10 @@ export const testCases: TestCase[] = [
   },
 
   {
-    name: 'Simple Uint8 allocate',
+    name: 'Simple Uint8 init',
     operations: [
       {
-        type: 'allocate',
+        type: 'init',
         dataType: 'Uint8',
         value: 42,
       },
@@ -853,20 +853,20 @@ export const testCases: TestCase[] = [
     expectation: [42, 0, 0, 0, 0, 0, 0, 0],
   },
   {
-    name: 'Multiple Uint8 allocates',
+    name: 'Multiple Uint8 inits',
     operations: [
       {
-        type: 'allocate',
+        type: 'init',
         dataType: 'Uint8',
         value: 10,
       },
       {
-        type: 'allocate',
+        type: 'init',
         dataType: 'Uint8',
         value: 20,
       },
       {
-        type: 'allocate',
+        type: 'init',
         dataType: 'Uint8',
         value: 30,
       },
@@ -874,10 +874,10 @@ export const testCases: TestCase[] = [
     expectation: [10, 20, 30, 0, 0, 0, 0, 0],
   },
   {
-    name: 'Uint32 allocate',
+    name: 'Uint32 init',
     operations: [
       {
-        type: 'allocate',
+        type: 'init',
         dataType: 'Uint32',
         value: 0x12345678,
       },
@@ -885,7 +885,7 @@ export const testCases: TestCase[] = [
     expectation: [0x78, 0x56, 0x34, 0x12, 0, 0, 0, 0],
   },
   {
-    name: 'Uint32 allocate with alignment',
+    name: 'Uint32 init with alignment',
     operations: [
       {
         type: 'write',
@@ -893,7 +893,7 @@ export const testCases: TestCase[] = [
         value: 10,
       },
       {
-        type: 'allocate',
+        type: 'init',
         dataType: 'Uint32',
         value: 0x12345678,
       },
@@ -901,10 +901,10 @@ export const testCases: TestCase[] = [
     expectation: [10, 0, 0, 0, 0x78, 0x56, 0x34, 0x12],
   },
   {
-    name: 'Int32 allocate',
+    name: 'Int32 init',
     operations: [
       {
-        type: 'allocate',
+        type: 'init',
         dataType: 'Int32',
         value: -2147483648,
       },
@@ -912,10 +912,10 @@ export const testCases: TestCase[] = [
     expectation: [0, 0, 0, 0x80, 0, 0, 0, 0],
   },
   {
-    name: 'Float32 allocate',
+    name: 'Float32 init',
     operations: [
       {
-        type: 'allocate',
+        type: 'init',
         dataType: 'Float32',
         value: 3.14159,
       },
@@ -923,7 +923,7 @@ export const testCases: TestCase[] = [
     expectation: [0xd0, 0x0f, 0x49, 0x40, 0, 0, 0, 0],
   },
   {
-    name: 'Float32 allocate with alignment',
+    name: 'Float32 init with alignment',
     operations: [
       {
         type: 'write',
@@ -931,7 +931,7 @@ export const testCases: TestCase[] = [
         value: 5,
       },
       {
-        type: 'allocate',
+        type: 'init',
         dataType: 'Float32',
         value: 3.14159,
       },
@@ -939,10 +939,10 @@ export const testCases: TestCase[] = [
     expectation: [5, 0, 0, 0, 0xd0, 0x0f, 0x49, 0x40],
   },
   {
-    name: 'Float64 allocate',
+    name: 'Float64 init',
     operations: [
       {
-        type: 'allocate',
+        type: 'init',
         dataType: 'Float64',
         value: 3.14159,
       },
@@ -950,7 +950,7 @@ export const testCases: TestCase[] = [
     expectation: [0x6e, 0x86, 0x1b, 0xf0, 0xf9, 0x21, 0x09, 0x40, 0, 0, 0, 0, 0, 0, 0, 0],
   },
   {
-    name: 'Float64 allocate with alignment',
+    name: 'Float64 init with alignment',
     operations: [
       {
         type: 'write',
@@ -958,7 +958,7 @@ export const testCases: TestCase[] = [
         value: 5,
       },
       {
-        type: 'allocate',
+        type: 'init',
         dataType: 'Float64',
         value: 3.14159,
       },
@@ -966,30 +966,30 @@ export const testCases: TestCase[] = [
     expectation: [5, 0, 0, 0, 0, 0, 0, 0, 0x6e, 0x86, 0x1b, 0xf0, 0xf9, 0x21, 0x09, 0x40],
   },
   {
-    name: 'Mixed primitive allocates',
+    name: 'Mixed primitive inits',
     operations: [
       {
-        type: 'allocate',
+        type: 'init',
         dataType: 'Uint8',
         value: 255,
       },
       {
-        type: 'allocate',
+        type: 'init',
         dataType: 'Uint32',
         value: 0xfedcba98,
       },
       {
-        type: 'allocate',
+        type: 'init',
         dataType: 'Int32',
         value: -1,
       },
       {
-        type: 'allocate',
+        type: 'init',
         dataType: 'Float32',
         value: 2.718,
       },
       {
-        type: 'allocate',
+        type: 'init',
         dataType: 'Float64',
         value: -2.718,
       },
@@ -1000,10 +1000,10 @@ export const testCases: TestCase[] = [
     ],
   },
   {
-    name: 'Empty Uint8 allocateArray',
+    name: 'Empty Uint8 initArray',
     operations: [
       {
-        type: 'allocateArray',
+        type: 'initArray',
         dataType: 'Uint8',
         value: [],
       },
@@ -1011,10 +1011,10 @@ export const testCases: TestCase[] = [
     expectation: [0, 0, 0, 0, 0, 0, 0, 0],
   },
   {
-    name: 'Uint8 allocateArray',
+    name: 'Uint8 initArray',
     operations: [
       {
-        type: 'allocateArray',
+        type: 'initArray',
         dataType: 'Uint8',
         value: [1, 2, 3, 4, 5],
       },
@@ -1022,10 +1022,10 @@ export const testCases: TestCase[] = [
     expectation: [5, 0, 0, 0, 1, 2, 3, 4, 5, 0, 0, 0],
   },
   {
-    name: 'Uint32 allocateArray',
+    name: 'Uint32 initArray',
     operations: [
       {
-        type: 'allocateArray',
+        type: 'initArray',
         dataType: 'Uint32',
         value: [0x12345678, 0x87654321],
       },
@@ -1033,7 +1033,7 @@ export const testCases: TestCase[] = [
     expectation: [2, 0, 0, 0, 0x78, 0x56, 0x34, 0x12, 0x21, 0x43, 0x65, 0x87],
   },
   {
-    name: 'Uint32 allocateArray with alignment',
+    name: 'Uint32 initArray with alignment',
     operations: [
       {
         type: 'write',
@@ -1041,7 +1041,7 @@ export const testCases: TestCase[] = [
         value: 42,
       },
       {
-        type: 'allocateArray',
+        type: 'initArray',
         dataType: 'Uint32',
         value: [0x11223344, 0x55667788],
       },
@@ -1049,10 +1049,10 @@ export const testCases: TestCase[] = [
     expectation: [42, 0, 0, 0, 2, 0, 0, 0, 0x44, 0x33, 0x22, 0x11, 0x88, 0x77, 0x66, 0x55],
   },
   {
-    name: 'Int32 allocateArray',
+    name: 'Int32 initArray',
     operations: [
       {
-        type: 'allocateArray',
+        type: 'initArray',
         dataType: 'Int32',
         value: [-2147483648, 0, 2147483647],
       },
@@ -1060,10 +1060,10 @@ export const testCases: TestCase[] = [
     expectation: [3, 0, 0, 0, 0, 0, 0, 0x80, 0, 0, 0, 0, 0xff, 0xff, 0xff, 0x7f],
   },
   {
-    name: 'Float32 allocateArray',
+    name: 'Float32 initArray',
     operations: [
       {
-        type: 'allocateArray',
+        type: 'initArray',
         dataType: 'Float32',
         value: [0.0, 3.14159, -2.718],
       },
@@ -1071,10 +1071,10 @@ export const testCases: TestCase[] = [
     expectation: [0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xd0, 0x0f, 0x49, 0x40, 0xb6, 0xf3, 0x2d, 0xc0],
   },
   {
-    name: 'Float64 allocateArray',
+    name: 'Float64 initArray',
     operations: [
       {
-        type: 'allocateArray',
+        type: 'initArray',
         dataType: 'Float64',
         value: [0.0, 3.14159, -2.718],
       },
@@ -1085,10 +1085,10 @@ export const testCases: TestCase[] = [
     ],
   },
   {
-    name: 'Empty Uint8 allocateElements',
+    name: 'Empty Uint8 initElements',
     operations: [
       {
-        type: 'allocateElements',
+        type: 'initElements',
         dataType: 'Uint8',
         value: [],
       },
@@ -1096,10 +1096,10 @@ export const testCases: TestCase[] = [
     expectation: [0, 0, 0, 0, 0, 0, 0, 0],
   },
   {
-    name: 'Uint8 allocateElements',
+    name: 'Uint8 initElements',
     operations: [
       {
-        type: 'allocateElements',
+        type: 'initElements',
         dataType: 'Uint8',
         value: [10, 20, 30, 40, 50],
       },
@@ -1107,10 +1107,10 @@ export const testCases: TestCase[] = [
     expectation: [10, 20, 30, 40, 50, 0, 0, 0],
   },
   {
-    name: 'Uint32 allocateElements',
+    name: 'Uint32 initElements',
     operations: [
       {
-        type: 'allocateElements',
+        type: 'initElements',
         dataType: 'Uint32',
         value: [0x12345678, 0x87654321],
       },
@@ -1118,7 +1118,7 @@ export const testCases: TestCase[] = [
     expectation: [0x78, 0x56, 0x34, 0x12, 0x21, 0x43, 0x65, 0x87],
   },
   {
-    name: 'Uint32 allocateElements with alignment',
+    name: 'Uint32 initElements with alignment',
     operations: [
       {
         type: 'write',
@@ -1126,7 +1126,7 @@ export const testCases: TestCase[] = [
         value: 42,
       },
       {
-        type: 'allocateElements',
+        type: 'initElements',
         dataType: 'Uint32',
         value: [0x11223344, 0x55667788],
       },
@@ -1134,10 +1134,10 @@ export const testCases: TestCase[] = [
     expectation: [42, 0, 0, 0, 0x44, 0x33, 0x22, 0x11, 0x88, 0x77, 0x66, 0x55],
   },
   {
-    name: 'Int32 allocateElements',
+    name: 'Int32 initElements',
     operations: [
       {
-        type: 'allocateElements',
+        type: 'initElements',
         dataType: 'Int32',
         value: [-2147483648, 0, 2147483647],
       },
@@ -1145,10 +1145,10 @@ export const testCases: TestCase[] = [
     expectation: [0, 0, 0, 0x80, 0, 0, 0, 0, 0xff, 0xff, 0xff, 0x7f],
   },
   {
-    name: 'Float32 allocateElements',
+    name: 'Float32 initElements',
     operations: [
       {
-        type: 'allocateElements',
+        type: 'initElements',
         dataType: 'Float32',
         value: [0.0, 3.14159],
       },
@@ -1156,10 +1156,10 @@ export const testCases: TestCase[] = [
     expectation: [0x00, 0x00, 0x00, 0x00, 0xd0, 0x0f, 0x49, 0x40],
   },
   {
-    name: 'Float64 allocateElements',
+    name: 'Float64 initElements',
     operations: [
       {
-        type: 'allocateElements',
+        type: 'initElements',
         dataType: 'Float64',
         value: [0.0, 3.14159],
       },
@@ -1167,10 +1167,10 @@ export const testCases: TestCase[] = [
     expectation: [0, 0, 0, 0, 0, 0, 0, 0, 0x6e, 0x86, 0x1b, 0xf0, 0xf9, 0x21, 0x09, 0x40],
   },
   {
-    name: 'Mixed allocate with other operations',
+    name: 'Mixed init with other operations',
     operations: [
       {
-        type: 'allocate',
+        type: 'init',
         dataType: 'Uint8',
         value: 99,
       },
@@ -1180,12 +1180,12 @@ export const testCases: TestCase[] = [
         value: 42,
       },
       {
-        type: 'allocate',
+        type: 'init',
         dataType: 'Float32',
         value: 1.5,
       },
       {
-        type: 'allocateArray',
+        type: 'initArray',
         dataType: 'Float64',
         value: [1.1, 2.2],
       },
@@ -1196,30 +1196,30 @@ export const testCases: TestCase[] = [
     ],
   },
   {
-    name: 'All allocation methods combined',
+    name: 'All init methods combined',
     operations: [
       {
-        type: 'allocate',
+        type: 'init',
         dataType: 'Uint8',
         value: 42,
       },
       {
-        type: 'allocate',
+        type: 'init',
         dataType: 'Uint32',
         value: 0x12345678,
       },
       {
-        type: 'allocate',
+        type: 'init',
         dataType: 'Float32',
         value: 1.23,
       },
       {
-        type: 'allocateArray',
+        type: 'initArray',
         dataType: 'Int32',
         value: [-100, 0, 100],
       },
       {
-        type: 'allocateElements',
+        type: 'initElements',
         dataType: 'Float64',
         value: [1.234, 5.678],
       },

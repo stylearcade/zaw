@@ -169,7 +169,7 @@ export fn multiply4x4Float32() i32 {
     const b_matrices = input.readArray(f32);
     const num_matrices = a_matrices.len / 16;
 
-    var result_matrices = output.allocateArray(f32, a_matrices.len);
+    var result_matrices = output.initArray(f32, a_matrices.len);
 
     for (0..num_matrices) |i| {
         const start_idx = i * 16;

@@ -64,7 +64,7 @@ pub extern "C" fn multiply4x4Float32() -> i32 {
 
     let a_matrices = input.read_array_f32();
     let b_matrices = input.read_array_f32();
-    let mut result_matrices = output.allocate_array_f32(a_matrices.len() as u32);
+    let mut result_matrices = output.init_array_f32(a_matrices.len() as u32);
 
     shared::multiply_4x4_f32(&a_matrices, &b_matrices, &mut result_matrices);
 
