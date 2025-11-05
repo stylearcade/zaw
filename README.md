@@ -1,16 +1,19 @@
 # `zaw`
 
+[![Zig 0.15](https://img.shields.io/github/actions/workflow/status/stylearcade/zaw/ci-build-zig-0_15.yml?label=Zig%200.15&logo=zig)](https://github.com/stylearcade/zaw/actions/workflows/ci-build-zig-0_15.yml)
+[![Zig master](https://img.shields.io/github/actions/workflow/status/stylearcade/zaw/ci-build-zig-master.yml?label=Zig%20master&logo=zig)](https://github.com/stylearcade/zaw/actions/workflows/ci-build-zig-master.yml)
+
 ## Zero-Allocation WASM @ <a href="https://stylearcade.com" target="_blank">Style Arcade</a>
 
 The purpose of `zaw` is to make it easier to achieve the original promise of WebAssembly:
 
 **High-performance, low-overhead acceleration for targeted code - without rewriting your entire application.**
 
-### 🎯 The upshot
+## The upshot
 
 With `zaw`, you'll be able to offload individual algorithms, rather than entire modules, and keep your WebAssembly code lean and simple - truly unlocking the original vision of the WebAssembly founding team.
 
-### ⚡ Performance
+### Performance
 
 **Up to 10x faster than pure JavaScript and 2.5x faster than wasm-bindgen for XOR Int32Array Bench**
 
@@ -22,7 +25,7 @@ With `zaw`, you'll be able to offload individual algorithms, rather than entire 
 | 10,000        | `zaw`  | -           | 9.9x faster | 2.6x faster       |
 | 100,000       | `zaw`  | -           | 9.7x faster | 2.5x faster       |
 
-##### Why XOR Int32Array _isn't_ a ridiculous benchmark
+**Why XOR Int32Array _isn't_ a ridiculous benchmark**
 
 It seems counterintuitive, but this is the best possible test for a WebAssembly protocol:
 
@@ -34,7 +37,7 @@ It seems counterintuitive, but this is the best possible test for a WebAssembly 
 
 And by targeting the _cheapest_ algorithm possible, we can see the performance of the interop itself.
 
-### 🛠️ Getting Started
+## Getting Started
 
 - See our [getting started guide](docs/getting-started.md) for installation & code samples
 - Fork [zaw-starter-zig](https://github.com/stylearcade/zaw-starter-zig) or [zaw-starter-rust](https://github.com/stylearcade/zaw-starter-rust)
