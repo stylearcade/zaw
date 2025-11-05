@@ -17,3 +17,4 @@ jobs:
         with:
           version: master
       - run: ./scripts/build-zig.sh
+      - run: ./scripts/test-zig.sh

@@ -17,3 +17,4 @@ jobs:
         with:
           version: 0.15.1
       - run: ./scripts/build-zig.sh
+      - run: ./scripts/test-zig.sh

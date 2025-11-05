@@ -2,6 +2,7 @@
 
 [![Zig 0.15](https://img.shields.io/github/actions/workflow/status/stylearcade/zaw/ci-build-zig-0_15.yml?label=Zig%200.15&logo=zig)](https://github.com/stylearcade/zaw/actions/workflows/ci-build-zig-0_15.yml)
 [![Zig master](https://img.shields.io/github/actions/workflow/status/stylearcade/zaw/ci-build-zig-master.yml?label=Zig%20master&logo=zig)](https://github.com/stylearcade/zaw/actions/workflows/ci-build-zig-master.yml)
+[![Rust](https://img.shields.io/github/actions/workflow/status/stylearcade/zaw/ci-build-rust.yml?label=Rust&logo=rust)](https://github.com/stylearcade/zaw/actions/workflows/ci-build-rust.yml)
 
 ## Zero-Allocation WASM @ <a href="https://stylearcade.com" target="_blank">Style Arcade</a>
 
