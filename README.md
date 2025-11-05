@@ -1,5 +1,8 @@
 # `zaw`
 
+[![Zig 0.15](https://github.com/<OWNER>/<REPO>/actions/workflows/build-zig-0_15.yml/badge.svg)](https://github.com/<OWNER>/<REPO>/actions/workflows/build-zig-0_15.yml)
+[![Zig master](https://github.com/<OWNER>/<REPO>/actions/workflows/build-zig-master.yml/badge.svg)](https://github.com/<OWNER>/<REPO>/actions/workflows/build-zig-master.yml)
+
 ## Zero-Allocation WASM @ <a href="https://stylearcade.com" target="_blank">Style Arcade</a>
 
 The purpose of `zaw` is to make it easier to achieve the original promise of WebAssembly:
