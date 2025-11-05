@@ -2,7 +2,6 @@
     .name = .wasm_zig_example,
     .version = "0.0.1",
     .fingerprint = 0xd2241bda131682f2,
-    .minimum_zig_version = "0.14.0",
-    .maximum_zig_version = "0.14.0",
+    .minimum_zig_version = "0.15.0",
     .paths = .{ "build.zig", "build.zig.zon", "main.zig" },
 }

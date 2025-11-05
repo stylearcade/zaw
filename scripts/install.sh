@@ -16,7 +16,7 @@ if ! command -v wasm-pack &> /dev/null; then
     curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 fi
 
-# Install Zig 0.14
+# Install Zig 0.15
 if command -v zig &> /dev/null; then
     zig_output=$(zig version 2>&1 || true)
 
@@ -24,10 +24,10 @@ if command -v zig &> /dev/null; then
         echo "Found anyzig"
     else
         zig_version=$(echo "$zig_output" | cut -d. -f1-2)
-        if [ "$zig_version" == "0.14" ]; then
-            echo "Found zig 0.14"
+        if [ "$zig_version" == "0.15" ]; then
+            echo "Found zig 0.15"
         else
-            echo "❌ Detected zig version $zig_version (required: 0.14)"
+            echo "❌ Detected zig version $zig_version (required: 0.15)"
             echo "Please uninstall your current zig version before proceeding."
             echo "Once uninstalled, re-run this script and it will install anyzig in its place."
             exit 1
@@ -40,7 +40,7 @@ else
         sudo brew tap anyzig/tap
         sudo brew install anyzig
     else
-        curl -L https://github.com/marler8997/anyzig/releases/latest/download/anyzig-x86_64-linux.tar.gz \
+        sudo curl -L https://github.com/marler8997/anyzig/releases/latest/download/anyzig-x86_64-linux.tar.gz \
             | sudo tar xz -C /usr/local/bin
     fi
 fi

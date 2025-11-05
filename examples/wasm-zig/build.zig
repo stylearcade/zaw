@@ -11,9 +11,11 @@ pub fn build(b: *Builder) void {
 
     const exe = b.addExecutable(.{
         .name = "main",
-        .root_source_file = b.path("./main.zig"),
-        .target = target,
-        .optimize = optimize,
+        .root_module = b.createModule(.{
+            .root_source_file = b.path("./main.zig"),
+            .target = target,
+            .optimize = optimize,
+        }),
         .version = .{ .major = 0, .minor = 0, .patch = 1 },
     });
 
