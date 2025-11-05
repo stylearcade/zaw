@@ -103,14 +103,14 @@ _\*Internal methods - not strictily required as a part of the API, included here
 
 ### 6.2 Writer
 
-| Operation                     | Semantics                                                                                                 |
-| ----------------------------- | --------------------------------------------------------------------------------------------------------- |
-| `write(type, value)`          | `alignTo(type)`;<br>encode value at `offset`;<br>`advance(type, 1)`.                                      |
-| `allocate(type)`              | `alignTo(type)`;<br>return mutable pointer or setter for `offset`;<br>`advance(type, 1)`.                 |
-| `allocateElements(type, len)` | `alignTo(type)`;<br>return mutable slice of `len` elements starting at `offset`;<br>`advance(type, len)`. |
-| `allocateArray(type, len)`    | `write(Uint32, len)`;<br>return `allocateElements(type, len)`.                                            |
-| `copyElements(type, arr)`     | `alignTo(type)`;<br>encode raw elements into storage starting at `offset`;<br>`advance(type, len)`.       |
-| `copyArray(type, arr)`        | `write(Uint32, len)`;<br>`copyElements(type, arr)`.                                                       |
+| Operation                 | Semantics                                                                                                 |
+| ------------------------- | --------------------------------------------------------------------------------------------------------- |
+| `write(type, value)`      | `alignTo(type)`;<br>encode value at `offset`;<br>`advance(type, 1)`.                                      |
+| `init(type)`              | `alignTo(type)`;<br>return mutable pointer or setter for `offset`;<br>`advance(type, 1)`.                 |
+| `initElements(type, len)` | `alignTo(type)`;<br>return mutable slice of `len` elements starting at `offset`;<br>`advance(type, len)`. |
+| `initArray(type, len)`    | `write(Uint32, len)`;<br>return `initElements(type, len)`.                                                |
+| `copyElements(type, arr)` | `alignTo(type)`;<br>encode raw elements into storage starting at `offset`;<br>`advance(type, len)`.       |
+| `copyArray(type, arr)`    | `write(Uint32, len)`;<br>`copyElements(type, arr)`.                                                       |
 
 ### 6.3 Reader
 

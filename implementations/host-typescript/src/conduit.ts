@@ -89,7 +89,7 @@ export class Writer extends Channel {
     this.advance64(1)
   }
 
-  allocateUint8(): (value: number) => void {
+  initUint8(): (value: number) => void {
     const offset = this.offset8()
 
     this.advance8(1)
@@ -99,7 +99,7 @@ export class Writer extends Channel {
     }
   }
 
-  allocateUint32(): (value: number) => void {
+  initUint32(): (value: number) => void {
     const offset = this.offset32()
 
     this.advance32(1)
@@ -109,7 +109,7 @@ export class Writer extends Channel {
     }
   }
 
-  allocateInt32(): (value: number) => void {
+  initInt32(): (value: number) => void {
     const offset = this.offset32()
 
     this.advance32(1)
@@ -119,7 +119,7 @@ export class Writer extends Channel {
     }
   }
 
-  allocateFloat32(): (value: number) => void {
+  initFloat32(): (value: number) => void {
     const offset = this.offset32()
 
     this.advance32(1)
@@ -129,7 +129,7 @@ export class Writer extends Channel {
     }
   }
 
-  allocateFloat64(): (value: number) => void {
+  initFloat64(): (value: number) => void {
     const offset = this.offset64()
 
     this.advance64(1)
@@ -139,7 +139,7 @@ export class Writer extends Channel {
     }
   }
 
-  allocateUint8Elements(length: number): Uint8Array {
+  initUint8Elements(length: number): Uint8Array {
     const start = this.offset8()
 
     this.advance8(length)
@@ -147,12 +147,12 @@ export class Writer extends Channel {
     return this.storageUint8.subarray(start, start + length)
   }
 
-  allocateUint8Array(length: number): Uint8Array {
+  initUint8Array(length: number): Uint8Array {
     this.writeUint32(length)
-    return this.allocateUint8Elements(length)
+    return this.initUint8Elements(length)
   }
 
-  allocateUint32Elements(length: number): Uint32Array {
+  initUint32Elements(length: number): Uint32Array {
     const start = this.offset32()
 
     this.advance32(length)
@@ -160,12 +160,12 @@ export class Writer extends Channel {
     return this.storageUint32.subarray(start, start + length)
   }
 
-  allocateUint32Array(length: number): Uint32Array {
+  initUint32Array(length: number): Uint32Array {
     this.writeUint32(length)
-    return this.allocateUint32Elements(length)
+    return this.initUint32Elements(length)
   }
 
-  allocateInt32Elements(length: number): Int32Array {
+  initInt32Elements(length: number): Int32Array {
     const start = this.offset32()
 
     this.advance32(length)
@@ -173,12 +173,12 @@ export class Writer extends Channel {
     return this.storageInt32.subarray(start, start + length)
   }
 
-  allocateInt32Array(length: number): Int32Array {
+  initInt32Array(length: number): Int32Array {
     this.writeUint32(length)
-    return this.allocateInt32Elements(length)
+    return this.initInt32Elements(length)
   }
 
-  allocateFloat32Elements(length: number): Float32Array {
+  initFloat32Elements(length: number): Float32Array {
     const start = this.offset32()
 
     this.advance32(length)
@@ -186,12 +186,12 @@ export class Writer extends Channel {
     return this.storageFloat32.subarray(start, start + length)
   }
 
-  allocateFloat32Array(length: number): Float32Array {
+  initFloat32Array(length: number): Float32Array {
     this.writeUint32(length)
-    return this.allocateFloat32Elements(length)
+    return this.initFloat32Elements(length)
   }
 
-  allocateFloat64Elements(length: number): Float64Array {
+  initFloat64Elements(length: number): Float64Array {
     const start = this.offset64()
 
     this.advance64(length)
@@ -199,9 +199,9 @@ export class Writer extends Channel {
     return this.storageFloat64.subarray(start, start + length)
   }
 
-  allocateFloat64Array(length: number): Float64Array {
+  initFloat64Array(length: number): Float64Array {
     this.writeUint32(length)
-    return this.allocateFloat64Elements(length)
+    return this.initFloat64Elements(length)
   }
 
   copyUint8Elements(arr: Uint8Array | number[]): void {
@@ -255,7 +255,7 @@ export class Writer extends Channel {
   }
 
   writeAsciiString(value: string): void {
-    const data = this.allocateUint8Array(value.length)
+    const data = this.initUint8Array(value.length)
 
     for (let i = value.length; i-- > 0; ) {
       data[i] = value.charCodeAt(i)

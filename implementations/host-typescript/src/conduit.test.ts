@@ -1046,13 +1046,13 @@ describe('Channel Protocol Tests', () => {
     expect(reader.readFloat64()).toEqual(5e-324);
   });
 
-  test('Simple Uint8 allocate', () => {  // Create a new buffer for testing
+  test('Simple Uint8 init', () => {  // Create a new buffer for testing
     const buffer = new ArrayBuffer(1024);
     const writer = new Writer(buffer);
     const reader = new Reader(buffer);
     writer.reset();
   
-    const ptr0 = writer.allocateUint8();
+    const ptr0 = writer.initUint8();
     ptr0(42);
   
     // Verify buffer contents
@@ -1066,17 +1066,17 @@ describe('Channel Protocol Tests', () => {
     expect(reader.readUint8()).toEqual(42);
   });
 
-  test('Multiple Uint8 allocates', () => {  // Create a new buffer for testing
+  test('Multiple Uint8 inits', () => {  // Create a new buffer for testing
     const buffer = new ArrayBuffer(1024);
     const writer = new Writer(buffer);
     const reader = new Reader(buffer);
     writer.reset();
   
-    const ptr0 = writer.allocateUint8();
+    const ptr0 = writer.initUint8();
     ptr0(10);
-    const ptr1 = writer.allocateUint8();
+    const ptr1 = writer.initUint8();
     ptr1(20);
-    const ptr2 = writer.allocateUint8();
+    const ptr2 = writer.initUint8();
     ptr2(30);
   
     // Verify buffer contents
@@ -1092,13 +1092,13 @@ describe('Channel Protocol Tests', () => {
     expect(reader.readUint8()).toEqual(30);
   });
 
-  test('Uint32 allocate', () => {  // Create a new buffer for testing
+  test('Uint32 init', () => {  // Create a new buffer for testing
     const buffer = new ArrayBuffer(1024);
     const writer = new Writer(buffer);
     const reader = new Reader(buffer);
     writer.reset();
   
-    const ptr0 = writer.allocateUint32();
+    const ptr0 = writer.initUint32();
     ptr0(0x12345678);
   
     // Verify buffer contents
@@ -1112,14 +1112,14 @@ describe('Channel Protocol Tests', () => {
     expect(reader.readUint32()).toEqual(0x12345678);
   });
 
-  test('Uint32 allocate with alignment', () => {  // Create a new buffer for testing
+  test('Uint32 init with alignment', () => {  // Create a new buffer for testing
     const buffer = new ArrayBuffer(1024);
     const writer = new Writer(buffer);
     const reader = new Reader(buffer);
     writer.reset();
   
     writer.writeUint8(10);
-    const ptr1 = writer.allocateUint32();
+    const ptr1 = writer.initUint32();
     ptr1(0x12345678);
   
     // Verify buffer contents
@@ -1134,13 +1134,13 @@ describe('Channel Protocol Tests', () => {
     expect(reader.readUint32()).toEqual(0x12345678);
   });
 
-  test('Int32 allocate', () => {  // Create a new buffer for testing
+  test('Int32 init', () => {  // Create a new buffer for testing
     const buffer = new ArrayBuffer(1024);
     const writer = new Writer(buffer);
     const reader = new Reader(buffer);
     writer.reset();
   
-    const ptr0 = writer.allocateInt32();
+    const ptr0 = writer.initInt32();
     ptr0(-2147483648);
   
     // Verify buffer contents
@@ -1154,13 +1154,13 @@ describe('Channel Protocol Tests', () => {
     expect(reader.readInt32()).toEqual(-2147483648);
   });
 
-  test('Float32 allocate', () => {  // Create a new buffer for testing
+  test('Float32 init', () => {  // Create a new buffer for testing
     const buffer = new ArrayBuffer(1024);
     const writer = new Writer(buffer);
     const reader = new Reader(buffer);
     writer.reset();
   
-    const ptr0 = writer.allocateFloat32();
+    const ptr0 = writer.initFloat32();
     ptr0(3.141590118408203);
   
     // Verify buffer contents
@@ -1174,14 +1174,14 @@ describe('Channel Protocol Tests', () => {
     expect(reader.readFloat32()).toEqual(3.141590118408203);
   });
 
-  test('Float32 allocate with alignment', () => {  // Create a new buffer for testing
+  test('Float32 init with alignment', () => {  // Create a new buffer for testing
     const buffer = new ArrayBuffer(1024);
     const writer = new Writer(buffer);
     const reader = new Reader(buffer);
     writer.reset();
   
     writer.writeUint8(5);
-    const ptr1 = writer.allocateFloat32();
+    const ptr1 = writer.initFloat32();
     ptr1(3.141590118408203);
   
     // Verify buffer contents
@@ -1196,13 +1196,13 @@ describe('Channel Protocol Tests', () => {
     expect(reader.readFloat32()).toEqual(3.141590118408203);
   });
 
-  test('Float64 allocate', () => {  // Create a new buffer for testing
+  test('Float64 init', () => {  // Create a new buffer for testing
     const buffer = new ArrayBuffer(1024);
     const writer = new Writer(buffer);
     const reader = new Reader(buffer);
     writer.reset();
   
-    const ptr0 = writer.allocateFloat64();
+    const ptr0 = writer.initFloat64();
     ptr0(3.14159);
   
     // Verify buffer contents
@@ -1216,14 +1216,14 @@ describe('Channel Protocol Tests', () => {
     expect(reader.readFloat64()).toEqual(3.14159);
   });
 
-  test('Float64 allocate with alignment', () => {  // Create a new buffer for testing
+  test('Float64 init with alignment', () => {  // Create a new buffer for testing
     const buffer = new ArrayBuffer(1024);
     const writer = new Writer(buffer);
     const reader = new Reader(buffer);
     writer.reset();
   
     writer.writeUint8(5);
-    const ptr1 = writer.allocateFloat64();
+    const ptr1 = writer.initFloat64();
     ptr1(3.14159);
   
     // Verify buffer contents
@@ -1238,21 +1238,21 @@ describe('Channel Protocol Tests', () => {
     expect(reader.readFloat64()).toEqual(3.14159);
   });
 
-  test('Mixed primitive allocates', () => {  // Create a new buffer for testing
+  test('Mixed primitive inits', () => {  // Create a new buffer for testing
     const buffer = new ArrayBuffer(1024);
     const writer = new Writer(buffer);
     const reader = new Reader(buffer);
     writer.reset();
   
-    const ptr0 = writer.allocateUint8();
+    const ptr0 = writer.initUint8();
     ptr0(255);
-    const ptr1 = writer.allocateUint32();
+    const ptr1 = writer.initUint32();
     ptr1(0xfedcba98);
-    const ptr2 = writer.allocateInt32();
+    const ptr2 = writer.initInt32();
     ptr2(-1);
-    const ptr3 = writer.allocateFloat32();
+    const ptr3 = writer.initFloat32();
     ptr3(2.7179999351501465);
-    const ptr4 = writer.allocateFloat64();
+    const ptr4 = writer.initFloat64();
     ptr4(-2.718);
   
     // Verify buffer contents
@@ -1270,13 +1270,13 @@ describe('Channel Protocol Tests', () => {
     expect(reader.readFloat64()).toEqual(-2.718);
   });
 
-  test('Empty Uint8 allocateArray', () => {  // Create a new buffer for testing
+  test('Empty Uint8 initArray', () => {  // Create a new buffer for testing
     const buffer = new ArrayBuffer(1024);
     const writer = new Writer(buffer);
     const reader = new Reader(buffer);
     writer.reset();
   
-    const arr0 = writer.allocateUint8Array(0);
+    const arr0 = writer.initUint8Array(0);
   
     // Verify buffer contents
     const expected = new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]);
@@ -1290,13 +1290,13 @@ describe('Channel Protocol Tests', () => {
     expect(readArr0.length).toEqual(0);
   });
 
-  test('Uint8 allocateArray', () => {  // Create a new buffer for testing
+  test('Uint8 initArray', () => {  // Create a new buffer for testing
     const buffer = new ArrayBuffer(1024);
     const writer = new Writer(buffer);
     const reader = new Reader(buffer);
     writer.reset();
   
-    const arr0 = writer.allocateUint8Array(5);
+    const arr0 = writer.initUint8Array(5);
     arr0[0] = 1;
     arr0[1] = 2;
     arr0[2] = 3;
@@ -1320,13 +1320,13 @@ describe('Channel Protocol Tests', () => {
     expect(readArr0[4]).toEqual(5);
   });
 
-  test('Uint32 allocateArray', () => {  // Create a new buffer for testing
+  test('Uint32 initArray', () => {  // Create a new buffer for testing
     const buffer = new ArrayBuffer(1024);
     const writer = new Writer(buffer);
     const reader = new Reader(buffer);
     writer.reset();
   
-    const arr0 = writer.allocateUint32Array(2);
+    const arr0 = writer.initUint32Array(2);
     arr0[0] = 0x12345678;
     arr0[1] = 0x87654321;
   
@@ -1344,14 +1344,14 @@ describe('Channel Protocol Tests', () => {
     expect(readArr0[1]).toEqual(0x87654321);
   });
 
-  test('Uint32 allocateArray with alignment', () => {  // Create a new buffer for testing
+  test('Uint32 initArray with alignment', () => {  // Create a new buffer for testing
     const buffer = new ArrayBuffer(1024);
     const writer = new Writer(buffer);
     const reader = new Reader(buffer);
     writer.reset();
   
     writer.writeUint8(42);
-    const arr1 = writer.allocateUint32Array(2);
+    const arr1 = writer.initUint32Array(2);
     arr1[0] = 0x11223344;
     arr1[1] = 0x55667788;
   
@@ -1370,13 +1370,13 @@ describe('Channel Protocol Tests', () => {
     expect(readArr1[1]).toEqual(0x55667788);
   });
 
-  test('Int32 allocateArray', () => {  // Create a new buffer for testing
+  test('Int32 initArray', () => {  // Create a new buffer for testing
     const buffer = new ArrayBuffer(1024);
     const writer = new Writer(buffer);
     const reader = new Reader(buffer);
     writer.reset();
   
-    const arr0 = writer.allocateInt32Array(3);
+    const arr0 = writer.initInt32Array(3);
     arr0[0] = -2147483648;
     arr0[1] = 0;
     arr0[2] = 0x7fffffff;
@@ -1396,13 +1396,13 @@ describe('Channel Protocol Tests', () => {
     expect(readArr0[2]).toEqual(0x7fffffff);
   });
 
-  test('Float32 allocateArray', () => {  // Create a new buffer for testing
+  test('Float32 initArray', () => {  // Create a new buffer for testing
     const buffer = new ArrayBuffer(1024);
     const writer = new Writer(buffer);
     const reader = new Reader(buffer);
     writer.reset();
   
-    const arr0 = writer.allocateFloat32Array(3);
+    const arr0 = writer.initFloat32Array(3);
     arr0[0] = 0;
     arr0[1] = 3.141590118408203;
     arr0[2] = -2.7179999351501465;
@@ -1422,13 +1422,13 @@ describe('Channel Protocol Tests', () => {
     expect(readArr0[2]).toEqual(-2.7179999351501465);
   });
 
-  test('Float64 allocateArray', () => {  // Create a new buffer for testing
+  test('Float64 initArray', () => {  // Create a new buffer for testing
     const buffer = new ArrayBuffer(1024);
     const writer = new Writer(buffer);
     const reader = new Reader(buffer);
     writer.reset();
   
-    const arr0 = writer.allocateFloat64Array(3);
+    const arr0 = writer.initFloat64Array(3);
     arr0[0] = 0;
     arr0[1] = 3.14159;
     arr0[2] = -2.718;
@@ -1448,13 +1448,13 @@ describe('Channel Protocol Tests', () => {
     expect(readArr0[2]).toEqual(-2.718);
   });
 
-  test('Empty Uint8 allocateElements', () => {  // Create a new buffer for testing
+  test('Empty Uint8 initElements', () => {  // Create a new buffer for testing
     const buffer = new ArrayBuffer(1024);
     const writer = new Writer(buffer);
     const reader = new Reader(buffer);
     writer.reset();
   
-    const arr0 = writer.allocateUint8Elements(0);
+    const arr0 = writer.initUint8Elements(0);
   
     // Verify buffer contents
     const expected = new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]);
@@ -1467,13 +1467,13 @@ describe('Channel Protocol Tests', () => {
     const readElems0 = reader.readUint8Elements(0);
   });
 
-  test('Uint8 allocateElements', () => {  // Create a new buffer for testing
+  test('Uint8 initElements', () => {  // Create a new buffer for testing
     const buffer = new ArrayBuffer(1024);
     const writer = new Writer(buffer);
     const reader = new Reader(buffer);
     writer.reset();
   
-    const arr0 = writer.allocateUint8Elements(5);
+    const arr0 = writer.initUint8Elements(5);
     arr0[0] = 10;
     arr0[1] = 20;
     arr0[2] = 30;
@@ -1496,13 +1496,13 @@ describe('Channel Protocol Tests', () => {
     expect(readElems0[4]).toEqual(50);
   });
 
-  test('Uint32 allocateElements', () => {  // Create a new buffer for testing
+  test('Uint32 initElements', () => {  // Create a new buffer for testing
     const buffer = new ArrayBuffer(1024);
     const writer = new Writer(buffer);
     const reader = new Reader(buffer);
     writer.reset();
   
-    const arr0 = writer.allocateUint32Elements(2);
+    const arr0 = writer.initUint32Elements(2);
     arr0[0] = 0x12345678;
     arr0[1] = 0x87654321;
   
@@ -1519,14 +1519,14 @@ describe('Channel Protocol Tests', () => {
     expect(readElems0[1]).toEqual(0x87654321);
   });
 
-  test('Uint32 allocateElements with alignment', () => {  // Create a new buffer for testing
+  test('Uint32 initElements with alignment', () => {  // Create a new buffer for testing
     const buffer = new ArrayBuffer(1024);
     const writer = new Writer(buffer);
     const reader = new Reader(buffer);
     writer.reset();
   
     writer.writeUint8(42);
-    const arr1 = writer.allocateUint32Elements(2);
+    const arr1 = writer.initUint32Elements(2);
     arr1[0] = 0x11223344;
     arr1[1] = 0x55667788;
   
@@ -1544,13 +1544,13 @@ describe('Channel Protocol Tests', () => {
     expect(readElems1[1]).toEqual(0x55667788);
   });
 
-  test('Int32 allocateElements', () => {  // Create a new buffer for testing
+  test('Int32 initElements', () => {  // Create a new buffer for testing
     const buffer = new ArrayBuffer(1024);
     const writer = new Writer(buffer);
     const reader = new Reader(buffer);
     writer.reset();
   
-    const arr0 = writer.allocateInt32Elements(3);
+    const arr0 = writer.initInt32Elements(3);
     arr0[0] = -2147483648;
     arr0[1] = 0;
     arr0[2] = 0x7fffffff;
@@ -1569,13 +1569,13 @@ describe('Channel Protocol Tests', () => {
     expect(readElems0[2]).toEqual(0x7fffffff);
   });
 
-  test('Float32 allocateElements', () => {  // Create a new buffer for testing
+  test('Float32 initElements', () => {  // Create a new buffer for testing
     const buffer = new ArrayBuffer(1024);
     const writer = new Writer(buffer);
     const reader = new Reader(buffer);
     writer.reset();
   
-    const arr0 = writer.allocateFloat32Elements(2);
+    const arr0 = writer.initFloat32Elements(2);
     arr0[0] = 0;
     arr0[1] = 3.141590118408203;
   
@@ -1592,13 +1592,13 @@ describe('Channel Protocol Tests', () => {
     expect(readElems0[1]).toEqual(3.141590118408203);
   });
 
-  test('Float64 allocateElements', () => {  // Create a new buffer for testing
+  test('Float64 initElements', () => {  // Create a new buffer for testing
     const buffer = new ArrayBuffer(1024);
     const writer = new Writer(buffer);
     const reader = new Reader(buffer);
     writer.reset();
   
-    const arr0 = writer.allocateFloat64Elements(2);
+    const arr0 = writer.initFloat64Elements(2);
     arr0[0] = 0;
     arr0[1] = 3.14159;
   
@@ -1615,18 +1615,18 @@ describe('Channel Protocol Tests', () => {
     expect(readElems0[1]).toEqual(3.14159);
   });
 
-  test('Mixed allocate with other operations', () => {  // Create a new buffer for testing
+  test('Mixed init with other operations', () => {  // Create a new buffer for testing
     const buffer = new ArrayBuffer(1024);
     const writer = new Writer(buffer);
     const reader = new Reader(buffer);
     writer.reset();
   
-    const ptr0 = writer.allocateUint8();
+    const ptr0 = writer.initUint8();
     ptr0(99);
     writer.writeUint32(42);
-    const ptr2 = writer.allocateFloat32();
+    const ptr2 = writer.initFloat32();
     ptr2(1.5);
-    const arr3 = writer.allocateFloat64Array(2);
+    const arr3 = writer.initFloat64Array(2);
     arr3[0] = 1.1;
     arr3[1] = 2.2;
   
@@ -1647,23 +1647,23 @@ describe('Channel Protocol Tests', () => {
     expect(readArr3[1]).toEqual(2.2);
   });
 
-  test('All allocation methods combined', () => {  // Create a new buffer for testing
+  test('All init methods combined', () => {  // Create a new buffer for testing
     const buffer = new ArrayBuffer(1024);
     const writer = new Writer(buffer);
     const reader = new Reader(buffer);
     writer.reset();
   
-    const ptr0 = writer.allocateUint8();
+    const ptr0 = writer.initUint8();
     ptr0(42);
-    const ptr1 = writer.allocateUint32();
+    const ptr1 = writer.initUint32();
     ptr1(0x12345678);
-    const ptr2 = writer.allocateFloat32();
+    const ptr2 = writer.initFloat32();
     ptr2(1.2300000190734863);
-    const arr3 = writer.allocateInt32Array(3);
+    const arr3 = writer.initInt32Array(3);
     arr3[0] = -100;
     arr3[1] = 0;
     arr3[2] = 100;
-    const arr4 = writer.allocateFloat64Elements(2);
+    const arr4 = writer.initFloat64Elements(2);
     arr4[0] = 1.234;
     arr4[1] = 5.678;
   

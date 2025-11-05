@@ -1008,11 +1008,11 @@ mod tests {
     }
 
     #[test]
-    fn simple_uint8_allocate() {
+    fn simple_uint8_init() {
         let mut storage = [0u64; 32];
         {
             let mut writer = Writer::from(&mut storage);
-            let ptr0 = writer.allocate_u8();
+            let ptr0 = writer.init_u8();
             unsafe { *ptr0 = 42; }
         }
 
@@ -1027,15 +1027,15 @@ mod tests {
     }
 
     #[test]
-    fn multiple_uint8_allocates() {
+    fn multiple_uint8_inits() {
         let mut storage = [0u64; 32];
         {
             let mut writer = Writer::from(&mut storage);
-            let ptr0 = writer.allocate_u8();
+            let ptr0 = writer.init_u8();
             unsafe { *ptr0 = 10; }
-            let ptr1 = writer.allocate_u8();
+            let ptr1 = writer.init_u8();
             unsafe { *ptr1 = 20; }
-            let ptr2 = writer.allocate_u8();
+            let ptr2 = writer.init_u8();
             unsafe { *ptr2 = 30; }
         }
 
@@ -1052,11 +1052,11 @@ mod tests {
     }
 
     #[test]
-    fn uint32_allocate() {
+    fn uint32_init() {
         let mut storage = [0u64; 32];
         {
             let mut writer = Writer::from(&mut storage);
-            let ptr0 = writer.allocate_u32();
+            let ptr0 = writer.init_u32();
             unsafe { *ptr0 = 0x12345678; }
         }
 
@@ -1071,12 +1071,12 @@ mod tests {
     }
 
     #[test]
-    fn uint32_allocate_with_alignment() {
+    fn uint32_init_with_alignment() {
         let mut storage = [0u64; 32];
         {
             let mut writer = Writer::from(&mut storage);
             writer.write_u8(10);
-            let ptr1 = writer.allocate_u32();
+            let ptr1 = writer.init_u32();
             unsafe { *ptr1 = 0x12345678; }
         }
 
@@ -1092,11 +1092,11 @@ mod tests {
     }
 
     #[test]
-    fn int32_allocate() {
+    fn int32_init() {
         let mut storage = [0u64; 32];
         {
             let mut writer = Writer::from(&mut storage);
-            let ptr0 = writer.allocate_i32();
+            let ptr0 = writer.init_i32();
             unsafe { *ptr0 = i32::MIN; }
         }
 
@@ -1111,11 +1111,11 @@ mod tests {
     }
 
     #[test]
-    fn float32_allocate() {
+    fn float32_init() {
         let mut storage = [0u64; 32];
         {
             let mut writer = Writer::from(&mut storage);
-            let ptr0 = writer.allocate_f32();
+            let ptr0 = writer.init_f32();
             unsafe { *ptr0 = 3.14159; }
         }
 
@@ -1130,12 +1130,12 @@ mod tests {
     }
 
     #[test]
-    fn float32_allocate_with_alignment() {
+    fn float32_init_with_alignment() {
         let mut storage = [0u64; 32];
         {
             let mut writer = Writer::from(&mut storage);
             writer.write_u8(5);
-            let ptr1 = writer.allocate_f32();
+            let ptr1 = writer.init_f32();
             unsafe { *ptr1 = 3.14159; }
         }
 
@@ -1151,11 +1151,11 @@ mod tests {
     }
 
     #[test]
-    fn float64_allocate() {
+    fn float64_init() {
         let mut storage = [0u64; 32];
         {
             let mut writer = Writer::from(&mut storage);
-            let ptr0 = writer.allocate_f64();
+            let ptr0 = writer.init_f64();
             unsafe { *ptr0 = 3.14159; }
         }
 
@@ -1170,12 +1170,12 @@ mod tests {
     }
 
     #[test]
-    fn float64_allocate_with_alignment() {
+    fn float64_init_with_alignment() {
         let mut storage = [0u64; 32];
         {
             let mut writer = Writer::from(&mut storage);
             writer.write_u8(5);
-            let ptr1 = writer.allocate_f64();
+            let ptr1 = writer.init_f64();
             unsafe { *ptr1 = 3.14159; }
         }
 
@@ -1191,19 +1191,19 @@ mod tests {
     }
 
     #[test]
-    fn mixed_primitive_allocates() {
+    fn mixed_primitive_inits() {
         let mut storage = [0u64; 32];
         {
             let mut writer = Writer::from(&mut storage);
-            let ptr0 = writer.allocate_u8();
+            let ptr0 = writer.init_u8();
             unsafe { *ptr0 = 255; }
-            let ptr1 = writer.allocate_u32();
+            let ptr1 = writer.init_u32();
             unsafe { *ptr1 = 0xfedcba98; }
-            let ptr2 = writer.allocate_i32();
+            let ptr2 = writer.init_i32();
             unsafe { *ptr2 = -1; }
-            let ptr3 = writer.allocate_f32();
+            let ptr3 = writer.init_f32();
             unsafe { *ptr3 = 2.718; }
-            let ptr4 = writer.allocate_f64();
+            let ptr4 = writer.init_f64();
             unsafe { *ptr4 = -2.718; }
         }
 
@@ -1222,11 +1222,11 @@ mod tests {
     }
 
     #[test]
-    fn empty_uint8_allocatearray() {
+    fn empty_uint8_initarray() {
         let mut storage = [0u64; 32];
         {
             let mut writer = Writer::from(&mut storage);
-            let _arr0 = writer.allocate_array_u8(0);
+            let _arr0 = writer.init_array_u8(0);
         }
 
         let expected = [0, 0, 0, 0, 0, 0, 0, 0u8];
@@ -1241,11 +1241,11 @@ mod tests {
     }
 
     #[test]
-    fn uint8_allocatearray() {
+    fn uint8_initarray() {
         let mut storage = [0u64; 32];
         {
             let mut writer = Writer::from(&mut storage);
-            let arr0 = writer.allocate_array_u8(5);
+            let arr0 = writer.init_array_u8(5);
             arr0[0] = 1;
             arr0[1] = 2;
             arr0[2] = 3;
@@ -1270,11 +1270,11 @@ mod tests {
     }
 
     #[test]
-    fn uint32_allocatearray() {
+    fn uint32_initarray() {
         let mut storage = [0u64; 32];
         {
             let mut writer = Writer::from(&mut storage);
-            let arr0 = writer.allocate_array_u32(2);
+            let arr0 = writer.init_array_u32(2);
             arr0[0] = 0x12345678;
             arr0[1] = 0x87654321;
         }
@@ -1293,12 +1293,12 @@ mod tests {
     }
 
     #[test]
-    fn uint32_allocatearray_with_alignment() {
+    fn uint32_initarray_with_alignment() {
         let mut storage = [0u64; 32];
         {
             let mut writer = Writer::from(&mut storage);
             writer.write_u8(42);
-            let arr1 = writer.allocate_array_u32(2);
+            let arr1 = writer.init_array_u32(2);
             arr1[0] = 0x11223344;
             arr1[1] = 0x55667788;
         }
@@ -1318,11 +1318,11 @@ mod tests {
     }
 
     #[test]
-    fn int32_allocatearray() {
+    fn int32_initarray() {
         let mut storage = [0u64; 32];
         {
             let mut writer = Writer::from(&mut storage);
-            let arr0 = writer.allocate_array_i32(3);
+            let arr0 = writer.init_array_i32(3);
             arr0[0] = i32::MIN;
             arr0[1] = 0;
             arr0[2] = 2147483647;
@@ -1343,11 +1343,11 @@ mod tests {
     }
 
     #[test]
-    fn float32_allocatearray() {
+    fn float32_initarray() {
         let mut storage = [0u64; 32];
         {
             let mut writer = Writer::from(&mut storage);
-            let arr0 = writer.allocate_array_f32(3);
+            let arr0 = writer.init_array_f32(3);
             arr0[0] = 0.0;
             arr0[1] = 3.14159;
             arr0[2] = -2.718;
@@ -1368,11 +1368,11 @@ mod tests {
     }
 
     #[test]
-    fn float64_allocatearray() {
+    fn float64_initarray() {
         let mut storage = [0u64; 32];
         {
             let mut writer = Writer::from(&mut storage);
-            let arr0 = writer.allocate_array_f64(3);
+            let arr0 = writer.init_array_f64(3);
             arr0[0] = 0.0;
             arr0[1] = 3.14159;
             arr0[2] = -2.718;
@@ -1393,11 +1393,11 @@ mod tests {
     }
 
     #[test]
-    fn empty_uint8_allocateelements() {
+    fn empty_uint8_initelements() {
         let mut storage = [0u64; 32];
         {
             let mut writer = Writer::from(&mut storage);
-            let _arr0 = writer.allocate_elements_u8(0);
+            let _arr0 = writer.init_elements_u8(0);
         }
 
         let expected = [0, 0, 0, 0, 0, 0, 0, 0u8];
@@ -1412,11 +1412,11 @@ mod tests {
     }
 
     #[test]
-    fn uint8_allocateelements() {
+    fn uint8_initelements() {
         let mut storage = [0u64; 32];
         {
             let mut writer = Writer::from(&mut storage);
-            let arr0 = writer.allocate_elements_u8(5);
+            let arr0 = writer.init_elements_u8(5);
             arr0[0] = 10;
             arr0[1] = 20;
             arr0[2] = 30;
@@ -1440,11 +1440,11 @@ mod tests {
     }
 
     #[test]
-    fn uint32_allocateelements() {
+    fn uint32_initelements() {
         let mut storage = [0u64; 32];
         {
             let mut writer = Writer::from(&mut storage);
-            let arr0 = writer.allocate_elements_u32(2);
+            let arr0 = writer.init_elements_u32(2);
             arr0[0] = 0x12345678;
             arr0[1] = 0x87654321;
         }
@@ -1462,12 +1462,12 @@ mod tests {
     }
 
     #[test]
-    fn uint32_allocateelements_with_alignment() {
+    fn uint32_initelements_with_alignment() {
         let mut storage = [0u64; 32];
         {
             let mut writer = Writer::from(&mut storage);
             writer.write_u8(42);
-            let arr1 = writer.allocate_elements_u32(2);
+            let arr1 = writer.init_elements_u32(2);
             arr1[0] = 0x11223344;
             arr1[1] = 0x55667788;
         }
@@ -1486,11 +1486,11 @@ mod tests {
     }
 
     #[test]
-    fn int32_allocateelements() {
+    fn int32_initelements() {
         let mut storage = [0u64; 32];
         {
             let mut writer = Writer::from(&mut storage);
-            let arr0 = writer.allocate_elements_i32(3);
+            let arr0 = writer.init_elements_i32(3);
             arr0[0] = i32::MIN;
             arr0[1] = 0;
             arr0[2] = 2147483647;
@@ -1510,11 +1510,11 @@ mod tests {
     }
 
     #[test]
-    fn float32_allocateelements() {
+    fn float32_initelements() {
         let mut storage = [0u64; 32];
         {
             let mut writer = Writer::from(&mut storage);
-            let arr0 = writer.allocate_elements_f32(2);
+            let arr0 = writer.init_elements_f32(2);
             arr0[0] = 0.0;
             arr0[1] = 3.14159;
         }
@@ -1532,11 +1532,11 @@ mod tests {
     }
 
     #[test]
-    fn float64_allocateelements() {
+    fn float64_initelements() {
         let mut storage = [0u64; 32];
         {
             let mut writer = Writer::from(&mut storage);
-            let arr0 = writer.allocate_elements_f64(2);
+            let arr0 = writer.init_elements_f64(2);
             arr0[0] = 0.0;
             arr0[1] = 3.14159;
         }
@@ -1554,16 +1554,16 @@ mod tests {
     }
 
     #[test]
-    fn mixed_allocate_with_other_operations() {
+    fn mixed_init_with_other_operations() {
         let mut storage = [0u64; 32];
         {
             let mut writer = Writer::from(&mut storage);
-            let ptr0 = writer.allocate_u8();
+            let ptr0 = writer.init_u8();
             unsafe { *ptr0 = 99; }
             writer.write_u32(42);
-            let ptr2 = writer.allocate_f32();
+            let ptr2 = writer.init_f32();
             unsafe { *ptr2 = 1.5; }
-            let arr3 = writer.allocate_array_f64(2);
+            let arr3 = writer.init_array_f64(2);
             arr3[0] = 1.1;
             arr3[1] = 2.2;
         }
@@ -1585,21 +1585,21 @@ mod tests {
     }
 
     #[test]
-    fn all_allocation_methods_combined() {
+    fn all_init_methods_combined() {
         let mut storage = [0u64; 32];
         {
             let mut writer = Writer::from(&mut storage);
-            let ptr0 = writer.allocate_u8();
+            let ptr0 = writer.init_u8();
             unsafe { *ptr0 = 42; }
-            let ptr1 = writer.allocate_u32();
+            let ptr1 = writer.init_u32();
             unsafe { *ptr1 = 0x12345678; }
-            let ptr2 = writer.allocate_f32();
+            let ptr2 = writer.init_f32();
             unsafe { *ptr2 = 1.23; }
-            let arr3 = writer.allocate_array_i32(3);
+            let arr3 = writer.init_array_i32(3);
             arr3[0] = -100;
             arr3[1] = 0;
             arr3[2] = 100;
-            let arr4 = writer.allocate_elements_f64(2);
+            let arr4 = writer.init_elements_f64(2);
             arr4[0] = 1.234;
             arr4[1] = 5.678;
         }

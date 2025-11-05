@@ -734,12 +734,12 @@ test "All possible primitive values" {
     try expectEqual(5e-324, reader.read(f64));
 }
 
-test "Simple Uint8 allocate" {
+test "Simple Uint8 init" {
     var storage = [_]u64{0} ** 32;
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
-    const ptr0 = writer.allocate(u8);
+    const ptr0 = writer.init(u8);
     ptr0.* = 42;
 
     const expected = [_]u8{ 42, 0, 0, 0, 0, 0, 0, 0 };
@@ -748,16 +748,16 @@ test "Simple Uint8 allocate" {
     try expectEqual(42, reader.read(u8));
 }
 
-test "Multiple Uint8 allocates" {
+test "Multiple Uint8 inits" {
     var storage = [_]u64{0} ** 32;
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
-    const ptr0 = writer.allocate(u8);
+    const ptr0 = writer.init(u8);
     ptr0.* = 10;
-    const ptr1 = writer.allocate(u8);
+    const ptr1 = writer.init(u8);
     ptr1.* = 20;
-    const ptr2 = writer.allocate(u8);
+    const ptr2 = writer.init(u8);
     ptr2.* = 30;
 
     const expected = [_]u8{ 10, 20, 30, 0, 0, 0, 0, 0 };
@@ -768,12 +768,12 @@ test "Multiple Uint8 allocates" {
     try expectEqual(30, reader.read(u8));
 }
 
-test "Uint32 allocate" {
+test "Uint32 init" {
     var storage = [_]u64{0} ** 32;
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
-    const ptr0 = writer.allocate(u32);
+    const ptr0 = writer.init(u32);
     ptr0.* = 305419896;
 
     const expected = [_]u8{ 120, 86, 52, 18, 0, 0, 0, 0 };
@@ -782,13 +782,13 @@ test "Uint32 allocate" {
     try expectEqual(305419896, reader.read(u32));
 }
 
-test "Uint32 allocate with alignment" {
+test "Uint32 init with alignment" {
     var storage = [_]u64{0} ** 32;
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
     writer.write(u8, 10);
-    const ptr1 = writer.allocate(u32);
+    const ptr1 = writer.init(u32);
     ptr1.* = 305419896;
 
     const expected = [_]u8{ 10, 0, 0, 0, 120, 86, 52, 18 };
@@ -798,12 +798,12 @@ test "Uint32 allocate with alignment" {
     try expectEqual(305419896, reader.read(u32));
 }
 
-test "Int32 allocate" {
+test "Int32 init" {
     var storage = [_]u64{0} ** 32;
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
-    const ptr0 = writer.allocate(i32);
+    const ptr0 = writer.init(i32);
     ptr0.* = -2147483648;
 
     const expected = [_]u8{ 0, 0, 0, 128, 0, 0, 0, 0 };
@@ -812,12 +812,12 @@ test "Int32 allocate" {
     try expectEqual(-2147483648, reader.read(i32));
 }
 
-test "Float32 allocate" {
+test "Float32 init" {
     var storage = [_]u64{0} ** 32;
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
-    const ptr0 = writer.allocate(f32);
+    const ptr0 = writer.init(f32);
     ptr0.* = 3.14159;
 
     const expected = [_]u8{ 208, 15, 73, 64, 0, 0, 0, 0 };
@@ -826,13 +826,13 @@ test "Float32 allocate" {
     try expectEqual(3.14159, reader.read(f32));
 }
 
-test "Float32 allocate with alignment" {
+test "Float32 init with alignment" {
     var storage = [_]u64{0} ** 32;
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
     writer.write(u8, 5);
-    const ptr1 = writer.allocate(f32);
+    const ptr1 = writer.init(f32);
     ptr1.* = 3.14159;
 
     const expected = [_]u8{ 5, 0, 0, 0, 208, 15, 73, 64 };
@@ -842,12 +842,12 @@ test "Float32 allocate with alignment" {
     try expectEqual(3.14159, reader.read(f32));
 }
 
-test "Float64 allocate" {
+test "Float64 init" {
     var storage = [_]u64{0} ** 32;
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
-    const ptr0 = writer.allocate(f64);
+    const ptr0 = writer.init(f64);
     ptr0.* = 3.14159;
 
     const expected = [_]u8{ 110, 134, 27, 240, 249, 33, 9, 64, 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -856,13 +856,13 @@ test "Float64 allocate" {
     try expectEqual(3.14159, reader.read(f64));
 }
 
-test "Float64 allocate with alignment" {
+test "Float64 init with alignment" {
     var storage = [_]u64{0} ** 32;
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
     writer.write(u8, 5);
-    const ptr1 = writer.allocate(f64);
+    const ptr1 = writer.init(f64);
     ptr1.* = 3.14159;
 
     const expected = [_]u8{ 5, 0, 0, 0, 0, 0, 0, 0, 110, 134, 27, 240, 249, 33, 9, 64 };
@@ -872,20 +872,20 @@ test "Float64 allocate with alignment" {
     try expectEqual(3.14159, reader.read(f64));
 }
 
-test "Mixed primitive allocates" {
+test "Mixed primitive inits" {
     var storage = [_]u64{0} ** 32;
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
-    const ptr0 = writer.allocate(u8);
+    const ptr0 = writer.init(u8);
     ptr0.* = 255;
-    const ptr1 = writer.allocate(u32);
+    const ptr1 = writer.init(u32);
     ptr1.* = @as(u32, 0xfedcba98);
-    const ptr2 = writer.allocate(i32);
+    const ptr2 = writer.init(i32);
     ptr2.* = -1;
-    const ptr3 = writer.allocate(f32);
+    const ptr3 = writer.init(f32);
     ptr3.* = 2.718;
-    const ptr4 = writer.allocate(f64);
+    const ptr4 = writer.init(f64);
     ptr4.* = -2.718;
 
     const expected = [_]u8{ 255, 0, 0, 0, 152, 186, 220, 254, 255, 255, 255, 255, 182, 243, 45, 64, 88, 57, 180, 200, 118, 190, 5, 192 };
@@ -898,12 +898,12 @@ test "Mixed primitive allocates" {
     try expectEqual(-2.718, reader.read(f64));
 }
 
-test "Empty Uint8 allocateArray" {
+test "Empty Uint8 initArray" {
     var storage = [_]u64{0} ** 32;
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
-    const arr0 = writer.allocateArray(u8, 0);
+    const arr0 = writer.initArray(u8, 0);
 
     const expected = [_]u8{ 0, 0, 0, 0, 0, 0, 0, 0 };
     try expectEqualSlices(u8, &expected, writer.channel.storage(u8)[0..8]);
@@ -911,12 +911,12 @@ test "Empty Uint8 allocateArray" {
     try expectEqualSlices(u8, arr0, reader.readArray(u8));
 }
 
-test "Uint8 allocateArray" {
+test "Uint8 initArray" {
     var storage = [_]u64{0} ** 32;
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
-    const arr0 = writer.allocateArray(u8, 5);
+    const arr0 = writer.initArray(u8, 5);
     arr0[0] = 1;
     arr0[1] = 2;
     arr0[2] = 3;
@@ -929,12 +929,12 @@ test "Uint8 allocateArray" {
     try expectEqualSlices(u8, arr0, reader.readArray(u8));
 }
 
-test "Uint32 allocateArray" {
+test "Uint32 initArray" {
     var storage = [_]u64{0} ** 32;
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
-    const arr0 = writer.allocateArray(u32, 2);
+    const arr0 = writer.initArray(u32, 2);
     arr0[0] = 305419896;
     arr0[1] = @as(u32, 0x87654321);
 
@@ -944,13 +944,13 @@ test "Uint32 allocateArray" {
     try expectEqualSlices(u32, arr0, reader.readArray(u32));
 }
 
-test "Uint32 allocateArray with alignment" {
+test "Uint32 initArray with alignment" {
     var storage = [_]u64{0} ** 32;
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
     writer.write(u8, 42);
-    const arr1 = writer.allocateArray(u32, 2);
+    const arr1 = writer.initArray(u32, 2);
     arr1[0] = 287454020;
     arr1[1] = 1432778632;
 
@@ -961,12 +961,12 @@ test "Uint32 allocateArray with alignment" {
     try expectEqualSlices(u32, arr1, reader.readArray(u32));
 }
 
-test "Int32 allocateArray" {
+test "Int32 initArray" {
     var storage = [_]u64{0} ** 32;
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
-    const arr0 = writer.allocateArray(i32, 3);
+    const arr0 = writer.initArray(i32, 3);
     arr0[0] = -2147483648;
     arr0[1] = 0;
     arr0[2] = 2147483647;
@@ -977,12 +977,12 @@ test "Int32 allocateArray" {
     try expectEqualSlices(i32, arr0, reader.readArray(i32));
 }
 
-test "Float32 allocateArray" {
+test "Float32 initArray" {
     var storage = [_]u64{0} ** 32;
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
-    const arr0 = writer.allocateArray(f32, 3);
+    const arr0 = writer.initArray(f32, 3);
     arr0[0] = 0.0;
     arr0[1] = 3.14159;
     arr0[2] = -2.718;
@@ -993,12 +993,12 @@ test "Float32 allocateArray" {
     try expectEqualSlices(f32, arr0, reader.readArray(f32));
 }
 
-test "Float64 allocateArray" {
+test "Float64 initArray" {
     var storage = [_]u64{0} ** 32;
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
-    const arr0 = writer.allocateArray(f64, 3);
+    const arr0 = writer.initArray(f64, 3);
     arr0[0] = 0.0;
     arr0[1] = 3.14159;
     arr0[2] = -2.718;
@@ -1009,12 +1009,12 @@ test "Float64 allocateArray" {
     try expectEqualSlices(f64, arr0, reader.readArray(f64));
 }
 
-test "Empty Uint8 allocateElements" {
+test "Empty Uint8 initElements" {
     var storage = [_]u64{0} ** 32;
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
-    const arr0 = writer.allocateElements(u8, 0);
+    const arr0 = writer.initElements(u8, 0);
 
     const expected = [_]u8{ 0, 0, 0, 0, 0, 0, 0, 0 };
     try expectEqualSlices(u8, &expected, writer.channel.storage(u8)[0..8]);
@@ -1022,12 +1022,12 @@ test "Empty Uint8 allocateElements" {
     try expectEqualSlices(u8, arr0, reader.readElements(u8, 0));
 }
 
-test "Uint8 allocateElements" {
+test "Uint8 initElements" {
     var storage = [_]u64{0} ** 32;
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
-    const arr0 = writer.allocateElements(u8, 5);
+    const arr0 = writer.initElements(u8, 5);
     arr0[0] = 10;
     arr0[1] = 20;
     arr0[2] = 30;
@@ -1040,12 +1040,12 @@ test "Uint8 allocateElements" {
     try expectEqualSlices(u8, arr0, reader.readElements(u8, 5));
 }
 
-test "Uint32 allocateElements" {
+test "Uint32 initElements" {
     var storage = [_]u64{0} ** 32;
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
-    const arr0 = writer.allocateElements(u32, 2);
+    const arr0 = writer.initElements(u32, 2);
     arr0[0] = 305419896;
     arr0[1] = @as(u32, 0x87654321);
 
@@ -1055,13 +1055,13 @@ test "Uint32 allocateElements" {
     try expectEqualSlices(u32, arr0, reader.readElements(u32, 2));
 }
 
-test "Uint32 allocateElements with alignment" {
+test "Uint32 initElements with alignment" {
     var storage = [_]u64{0} ** 32;
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
     writer.write(u8, 42);
-    const arr1 = writer.allocateElements(u32, 2);
+    const arr1 = writer.initElements(u32, 2);
     arr1[0] = 287454020;
     arr1[1] = 1432778632;
 
@@ -1072,12 +1072,12 @@ test "Uint32 allocateElements with alignment" {
     try expectEqualSlices(u32, arr1, reader.readElements(u32, 2));
 }
 
-test "Int32 allocateElements" {
+test "Int32 initElements" {
     var storage = [_]u64{0} ** 32;
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
-    const arr0 = writer.allocateElements(i32, 3);
+    const arr0 = writer.initElements(i32, 3);
     arr0[0] = -2147483648;
     arr0[1] = 0;
     arr0[2] = 2147483647;
@@ -1088,12 +1088,12 @@ test "Int32 allocateElements" {
     try expectEqualSlices(i32, arr0, reader.readElements(i32, 3));
 }
 
-test "Float32 allocateElements" {
+test "Float32 initElements" {
     var storage = [_]u64{0} ** 32;
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
-    const arr0 = writer.allocateElements(f32, 2);
+    const arr0 = writer.initElements(f32, 2);
     arr0[0] = 0.0;
     arr0[1] = 3.14159;
 
@@ -1103,12 +1103,12 @@ test "Float32 allocateElements" {
     try expectEqualSlices(f32, arr0, reader.readElements(f32, 2));
 }
 
-test "Float64 allocateElements" {
+test "Float64 initElements" {
     var storage = [_]u64{0} ** 32;
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
-    const arr0 = writer.allocateElements(f64, 2);
+    const arr0 = writer.initElements(f64, 2);
     arr0[0] = 0.0;
     arr0[1] = 3.14159;
 
@@ -1118,17 +1118,17 @@ test "Float64 allocateElements" {
     try expectEqualSlices(f64, arr0, reader.readElements(f64, 2));
 }
 
-test "Mixed allocate with other operations" {
+test "Mixed init with other operations" {
     var storage = [_]u64{0} ** 32;
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
-    const ptr0 = writer.allocate(u8);
+    const ptr0 = writer.init(u8);
     ptr0.* = 99;
     writer.write(u32, 42);
-    const ptr2 = writer.allocate(f32);
+    const ptr2 = writer.init(f32);
     ptr2.* = 1.5;
-    const arr3 = writer.allocateArray(f64, 2);
+    const arr3 = writer.initArray(f64, 2);
     arr3[0] = 1.1;
     arr3[1] = 2.2;
 
@@ -1141,22 +1141,22 @@ test "Mixed allocate with other operations" {
     try expectEqualSlices(f64, arr3, reader.readArray(f64));
 }
 
-test "All allocation methods combined" {
+test "All init methods combined" {
     var storage = [_]u64{0} ** 32;
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
-    const ptr0 = writer.allocate(u8);
+    const ptr0 = writer.init(u8);
     ptr0.* = 42;
-    const ptr1 = writer.allocate(u32);
+    const ptr1 = writer.init(u32);
     ptr1.* = 305419896;
-    const ptr2 = writer.allocate(f32);
+    const ptr2 = writer.init(f32);
     ptr2.* = 1.23;
-    const arr3 = writer.allocateArray(i32, 3);
+    const arr3 = writer.initArray(i32, 3);
     arr3[0] = -100;
     arr3[1] = 0;
     arr3[2] = 100;
-    const arr4 = writer.allocateElements(f64, 2);
+    const arr4 = writer.initElements(f64, 2);
     arr4[0] = 1.234;
     arr4[1] = 5.678;
 

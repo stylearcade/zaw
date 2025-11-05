@@ -150,23 +150,6 @@ const Channel = struct {
 /// const array = [_]i32{1, 2, 3, 4};
 /// writer.copyArray(i32, &array);
 /// ```
-/// A zero-allocation writer for the communication channel.
-///
-/// The Writer provides type-safe methods to write primitive values and arrays to a shared
-/// memory buffer. It maintains proper alignment for different data types and tracks
-/// the current offset position.
-///
-/// Example:
-/// ```zig
-/// var storage = [_]u64{0} ** 1024;
-/// var writer = Writer.from(&storage);
-///
-/// writer.write(u32, 42);
-/// writer.write(f64, 3.14159);
-///
-/// const array = [_]i32{1, 2, 3, 4};
-/// writer.copyArray(i32, &array);
-/// ```
 pub const Writer = struct {
     const Self = @This();
 
@@ -209,31 +192,31 @@ pub const Writer = struct {
         }
     }
 
-    /// Allocates space for a single value of type T in the channel.
+    /// Initializes space for a single value of type T in the channel.
     ///
-    /// Returns a mutable pointer to the allocated space.
+    /// Returns a mutable pointer to the initialized space.
     ///
     /// Args:
-    ///     T: The type of value to allocate space for
+    ///     T: The type of value to initialize space for
     ///
     /// Returns:
-    ///     A mutable pointer to the allocated value
-    pub fn allocate(self: *Self, comptime T: type) *T {
+    ///     A mutable pointer to the initialized value
+    pub fn init(self: *Self, comptime T: type) *T {
         const offset = self.channel.getOffset(T);
         const ptr = &self.channel.storage(T)[offset];
         self.channel.advance(T, 1);
         return ptr;
     }
 
-    /// Allocates space for array elements of type T without writing a length prefix.
+    /// Initializes space for array elements of type T without writing a length prefix.
     ///
     /// Args:
-    ///     T: The type of elements to allocate space for
-    ///     length: The number of elements to allocate
+    ///     T: The type of elements to initialize space for
+    ///     length: The number of elements to initialize
     ///
     /// Returns:
-    ///     A mutable slice of the allocated elements
-    pub fn allocateElements(self: *Self, comptime T: type, length: u32) []T {
+    ///     A mutable slice of the initialized elements
+    pub fn initElements(self: *Self, comptime T: type, length: u32) []T {
         const start = self.channel.getOffset(T);
 
         self.channel.advance(T, length);
@@ -241,20 +224,20 @@ pub const Writer = struct {
         return self.channel.storage(T)[start .. start + length];
     }
 
-    /// Allocates space for an array of type T with a length prefix.
+    /// Initializes space for an array of type T with a length prefix.
     ///
-    /// Writes the array length as u32 followed by allocating space for the elements.
+    /// Writes the array length as u32 followed by initializing space for the elements.
     ///
     /// Args:
-    ///     T: The type of elements to allocate space for
-    ///     length: The number of elements to allocate
+    ///     T: The type of elements to initialize space for
+    ///     length: The number of elements to initialize
     ///
     /// Returns:
-    ///     A mutable slice of the allocated elements
-    pub fn allocateArray(self: *Self, comptime T: type, length: u32) []T {
+    ///     A mutable slice of the initialized elements
+    pub fn initArray(self: *Self, comptime T: type, length: u32) []T {
         self.write(u32, length);
 
-        return self.allocateElements(T, length);
+        return self.initElements(T, length);
     }
 
     /// Copies array elements of type T to the channel without a length prefix.

@@ -41,8 +41,8 @@ function generateWriteOperation(op: Operation, index: number): string[] {
     case 'write':
       return [`writer.write(${dataType}, ${formatValue(op.value, dataType)});`]
 
-    case 'allocate':
-      return [`const ptr${index} = writer.allocate(${dataType});`, `ptr${index}.* = ${formatValue(op.value, dataType)};`]
+    case 'init':
+      return [`const ptr${index} = writer.init(${dataType});`, `ptr${index}.* = ${formatValue(op.value, dataType)};`]
 
     case 'copyArray':
     case 'copyElements':
@@ -51,8 +51,8 @@ function generateWriteOperation(op: Operation, index: number): string[] {
         `writer.${op.type}(${dataType}, &arr${index});`,
       ]
 
-    case 'allocateArray':
-    case 'allocateElements':
+    case 'initArray':
+    case 'initElements':
       return [
         `const arr${index} = writer.${op.type}(${dataType}, ${op.value.length});`,
         ...op.value.map((v, i) => `arr${index}[${i}] = ${formatValue(v, dataType)};`),
@@ -65,7 +65,7 @@ function generateReadOperation(op: Operation, index: number): string[] {
 
   switch (op.type) {
     case 'write':
-    case 'allocate':
+    case 'init':
       return [`try expectEqual(${formatValue(op.value, dataType)}, reader.read(${dataType}));`]
 
     case 'copyArray':
@@ -74,10 +74,10 @@ function generateReadOperation(op: Operation, index: number): string[] {
     case 'copyElements':
       return [`try expectEqualSlices(${dataType}, &arr${index}, reader.readElements(${dataType}, ${op.value.length}));`]
 
-    case 'allocateArray':
+    case 'initArray':
       return [`try expectEqualSlices(${dataType}, arr${index}, reader.readArray(${dataType}));`]
 
-    case 'allocateElements':
+    case 'initElements':
       return [`try expectEqualSlices(${dataType}, arr${index}, reader.readElements(${dataType}, ${op.value.length}));`]
   }
 }

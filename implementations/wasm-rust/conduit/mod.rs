@@ -13,7 +13,7 @@ fn get_storage_mut<T>(storage: &mut [u64]) -> &mut [T] {
 }
 
 /// Macro to generate write methods for Writer.
-/// 
+///
 /// Generates methods that write primitive values to the channel.
 /// Each generated method:
 /// - Takes a value of the specified type
@@ -41,16 +41,16 @@ macro_rules! impl_writer_methods {
     };
 }
 
-/// Macro to generate array operations and allocation methods for Writer.
-/// 
+/// Macro to generate array operations and init methods for Writer.
+///
 /// Generates methods for:
 /// - Copying arrays with length prefix
 /// - Copying array elements without length prefix
-/// - Allocating single values
-/// - Allocating arrays with length prefix
-/// - Allocating array elements without length prefix
+/// - Initializing single values
+/// - Initializing arrays with length prefix
+/// - Initializing array elements without length prefix
 macro_rules! impl_writer_array_methods {
-    ($($type:ty, $field:ident, $copy_array:ident, $copy_elements:ident, $alloc:ident, $alloc_array:ident, $alloc_elements:ident);*) => {
+    ($($type:ty, $field:ident, $copy_array:ident, $copy_elements:ident, $init:ident, $init_array:ident, $init_elements:ident);*) => {
         $(
             #[doc = concat!("Copies a `", stringify!($type), "` array to the channel with length prefix.")]
             #[doc = ""]
@@ -84,34 +84,34 @@ macro_rules! impl_writer_array_methods {
                 self.channel.advance::<$type>(arr.len() as u32);
             }
 
-            #[doc = concat!("Allocates space for a single `", stringify!($type), "` value in the channel.")]
+            #[doc = concat!("Initializes space for a single `", stringify!($type), "` value in the channel.")]
             #[doc = ""]
-            #[doc = "Returns a mutable pointer to the allocated space."]
+            #[doc = "Returns a mutable pointer to the initialized space."]
             #[doc = ""]
             #[doc = "# Returns"]
             #[doc = ""]
-            #[doc = concat!("A mutable pointer to the allocated `", stringify!($type), "` value.")]
+            #[doc = concat!("A mutable pointer to the initialized `", stringify!($type), "` value.")]
             #[doc = ""]
             #[doc = "# Safety"]
             #[doc = ""]
-            #[doc = "The returned pointer is valid until the channel is reset or reallocated."]
+            #[doc = "The returned pointer is valid until the channel is reset."]
             #[doc = ""]
             #[doc = "# Panics"]
             #[doc = ""]
             #[doc = "Panics if the channel buffer would overflow."]
-            pub fn $alloc(&mut self) -> *mut $type {
+            pub fn $init(&mut self) -> *mut $type {
                 let offset = self.channel.offset_for::<$type>();
                 self.channel.advance::<$type>(1);
                 unsafe { self.channel.$field.as_mut_ptr().add(offset as usize) }
             }
 
-            #[doc = concat!("Allocates space for a `", stringify!($type), "` array with length prefix.")]
+            #[doc = concat!("Initializes space for a `", stringify!($type), "` array with length prefix.")]
             #[doc = ""]
-            #[doc = "Writes the array length as u32 followed by allocating space for the elements."]
+            #[doc = "Writes the array length as u32 followed by initializing space for the elements."]
             #[doc = ""]
             #[doc = "# Arguments"]
             #[doc = ""]
-            #[doc = "* `length` - The number of elements to allocate"]
+            #[doc = "* `length` - The number of elements to initialize"]
             #[doc = ""]
             #[doc = "# Returns"]
             #[doc = ""]
@@ -120,16 +120,16 @@ macro_rules! impl_writer_array_methods {
             #[doc = "# Panics"]
             #[doc = ""]
             #[doc = "Panics if the channel buffer would overflow."]
-            pub fn $alloc_array(&mut self, length: u32) -> &mut [$type] {
+            pub fn $init_array(&mut self, length: u32) -> &mut [$type] {
                 self.write_u32(length);
-                self.$alloc_elements(length)
+                self.$init_elements(length)
             }
 
-            #[doc = concat!("Allocates space for `", stringify!($type), "` array elements without length prefix.")]
+            #[doc = concat!("Initializes space for `", stringify!($type), "` array elements without length prefix.")]
             #[doc = ""]
             #[doc = "# Arguments"]
             #[doc = ""]
-            #[doc = "* `length` - The number of elements to allocate"]
+            #[doc = "* `length` - The number of elements to initialize"]
             #[doc = ""]
             #[doc = "# Returns"]
             #[doc = ""]
@@ -138,7 +138,7 @@ macro_rules! impl_writer_array_methods {
             #[doc = "# Panics"]
             #[doc = ""]
             #[doc = "Panics if the channel buffer would overflow."]
-            pub fn $alloc_elements(&mut self, length: u32) -> &mut [$type] {
+            pub fn $init_elements(&mut self, length: u32) -> &mut [$type] {
                 let start = self.channel.offset_for::<$type>() as usize;
                 self.channel.advance::<$type>(length);
                 &mut self.channel.$field[start..start + length as usize]
@@ -148,7 +148,7 @@ macro_rules! impl_writer_array_methods {
 }
 
 /// Macro to generate read methods for Reader.
-/// 
+///
 /// Generates methods for:
 /// - Reading single primitive values
 /// - Reading arrays with length prefix
@@ -272,21 +272,21 @@ impl<'a> Channel<'a> {
 }
 
 /// A zero-allocation writer for the communication channel.
-/// 
+///
 /// The `Writer` provides methods to write primitive values and arrays to a shared
 /// memory buffer. It maintains proper alignment for different data types and tracks
 /// the current offset position.
-/// 
+///
 /// # Examples
-/// 
+///
 /// ```rust
 /// # use zaw::conduit::Writer;
 /// let mut storage = vec![0u64; 1024];
 /// let mut writer = Writer::from(&mut storage);
-/// 
+///
 /// writer.write_u32(42);
 /// writer.write_f64(3.14159);
-/// 
+///
 /// let array = vec![1, 2, 3, 4];
 /// writer.copy_array_i32(&array);
 /// ```
@@ -296,16 +296,16 @@ pub struct Writer<'a> {
 
 impl<'a> Writer<'a> {
     /// Creates a new `Writer` from a mutable slice of u64 storage.
-    /// 
+    ///
     /// The storage must be 8-byte aligned and will be reinterpreted as different
     /// primitive types as needed.
-    /// 
+    ///
     /// # Arguments
-    /// 
+    ///
     /// * `storage` - A mutable slice of u64 values to use as the backing buffer
-    /// 
+    ///
     /// # Returns
-    /// 
+    ///
     /// A new `Writer` instance ready to write data.
     pub fn from(storage: &'a mut [u64]) -> Self {
         Self {
@@ -314,20 +314,20 @@ impl<'a> Writer<'a> {
     }
 
     /// Resets the writer to the beginning of the buffer.
-    /// 
+    ///
     /// This allows reusing the same buffer for multiple write operations.
     pub fn reset(&mut self) {
         self.channel.reset();
     }
 
     /// Writes a `usize` value as a `u32` to the channel.
-    /// 
+    ///
     /// # Arguments
-    /// 
+    ///
     /// * `value` - The usize value to write (will be cast to u32)
-    /// 
+    ///
     /// # Panics
-    /// 
+    ///
     /// Panics if the channel buffer would overflow.
     pub fn write_usize(&mut self, value: usize) {
         self.write_u32(value as u32);
@@ -342,32 +342,32 @@ impl<'a> Writer<'a> {
         f64, storage_f64, write_f64
     }
 
-    // Generate array and allocation methods using macro
+    // Generate array and init methods using macro
     impl_writer_array_methods! {
-        u8, storage_u8, copy_array_u8, copy_elements_u8, allocate_u8, allocate_array_u8, allocate_elements_u8;
-        u32, storage_u32, copy_array_u32, copy_elements_u32, allocate_u32, allocate_array_u32, allocate_elements_u32;
-        i32, storage_i32, copy_array_i32, copy_elements_i32, allocate_i32, allocate_array_i32, allocate_elements_i32;
-        f32, storage_f32, copy_array_f32, copy_elements_f32, allocate_f32, allocate_array_f32, allocate_elements_f32;
-        f64, storage_f64, copy_array_f64, copy_elements_f64, allocate_f64, allocate_array_f64, allocate_elements_f64
+        u8, storage_u8, copy_array_u8, copy_elements_u8, init_u8, init_array_u8, init_elements_u8;
+        u32, storage_u32, copy_array_u32, copy_elements_u32, init_u32, init_array_u32, init_elements_u32;
+        i32, storage_i32, copy_array_i32, copy_elements_i32, init_i32, init_array_i32, init_elements_i32;
+        f32, storage_f32, copy_array_f32, copy_elements_f32, init_f32, init_array_f32, init_elements_f32;
+        f64, storage_f64, copy_array_f64, copy_elements_f64, init_f64, init_array_f64, init_elements_f64
     }
 }
 
 /// A zero-allocation reader for the communication channel.
-/// 
+///
 /// The `Reader` provides methods to read primitive values and arrays from a shared
 /// memory buffer. It maintains proper alignment for different data types and tracks
 /// the current offset position.
-/// 
+///
 /// # Examples
-/// 
+///
 /// ```rust
 /// # use zaw::conduit::Reader;
 /// let mut storage = vec![0u64; 1024];
 /// let mut reader = Reader::from(&mut storage);
-/// 
+///
 /// let value = reader.read_u32();
 /// let pi = reader.read_f64();
-/// 
+///
 /// let array = reader.read_array_i32();
 /// ```
 pub struct Reader<'a> {
@@ -376,16 +376,16 @@ pub struct Reader<'a> {
 
 impl<'a> Reader<'a> {
     /// Creates a new `Reader` from a mutable slice of u64 storage.
-    /// 
+    ///
     /// The storage must be 8-byte aligned and will be reinterpreted as different
     /// primitive types as needed.
-    /// 
+    ///
     /// # Arguments
-    /// 
+    ///
     /// * `storage` - A mutable slice of u64 values to use as the backing buffer
-    /// 
+    ///
     /// # Returns
-    /// 
+    ///
     /// A new `Reader` instance ready to read data.
     pub fn from(storage: &'a mut [u64]) -> Self {
         Self {
@@ -394,7 +394,7 @@ impl<'a> Reader<'a> {
     }
 
     /// Resets the reader to the beginning of the buffer.
-    /// 
+    ///
     /// This allows reusing the same buffer for multiple read operations.
     pub fn reset(&mut self) {
         self.channel.reset();
