@@ -1,6 +1,6 @@
 [package]
 name = "zaw"
-version = "0.0.2"
+version = "0.0.3"
 edition = "2021"
 description = "Zero-allocation WebAssembly communication protocol for Rust"
 license = "Apache-2.0"
