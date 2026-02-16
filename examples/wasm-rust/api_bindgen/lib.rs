@@ -1,8 +1,10 @@
 use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
-pub fn xor_array_i32(values: &[i32]) -> i32 {
-    shared::xor_array_i32(values)
+pub fn xor_array_i32(values: &[i32], scalar: i32) -> Vec<i32> {
+    let mut result = vec![0i32; values.len()];
+    shared::xor_array_i32(values, scalar, &mut result);
+    result
 }
 
 #[wasm_bindgen]

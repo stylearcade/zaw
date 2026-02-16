@@ -53,46 +53,14 @@ export fn xorInt32Array() i32 {
     var output = interop.getOutput();
 
     const values = input.readArray(i32);
-    const len = values.len;
-    const lanes = simd.getLanes(i32);
-    const batchSize = lanes * 4;
+    const scalar = input.read(i32);
 
-    var acc: [4]Vec(i32) = .{
-        simd.initVec(i32),
-        simd.initVec(i32),
-        simd.initVec(i32),
-        simd.initVec(i32),
-    };
+    var result = output.initArray(i32, @intCast(values.len));
 
-    var batches: usize = len / batchSize;
-    var i: usize = 0;
-
-    while (batches > 0) : (batches -= 1) {
-        const offset = values[i..];
-
-        acc[0] ^= simd.sliceToVec(i32, offset);
-        acc[1] ^= simd.sliceToVec(i32, offset[lanes..]);
-        acc[2] ^= simd.sliceToVec(i32, offset[lanes * 2 ..]);
-        acc[3] ^= simd.sliceToVec(i32, offset[lanes * 3 ..]);
-        i += batchSize;
+    // This auto-vectorizes
+    for (values, 0..) |value, i| {
+        result[i] = value ^ scalar;
     }
-
-    var remaining: usize = (len % batchSize) / lanes;
-
-    while (remaining > 0) : (remaining -= 1) {
-        acc[0] ^= simd.sliceToVec(i32, values[i..]);
-        i += lanes;
-    }
-
-    var total: i32 = 0;
-
-    for (0..lanes) |x| total ^= acc[0][x] ^ acc[1][x] ^ acc[2][x] ^ acc[3][x];
-
-    if (i < len) {
-        for (values[i..len]) |x| total ^= x;
-    }
-
-    output.write(i32, total);
 
     return OK;
 }

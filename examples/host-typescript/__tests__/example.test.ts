@@ -15,15 +15,19 @@ describe('Typescript example host', async () => {
   for (const size of [2, 10, 100, 1000, 10000]) {
     describe(`XOR Int32Array @ ${size} elements`, () => {
       const values = new Int32Array(size).map(() => (Math.random() * 0x100000000) | 0)
+      const scalar = (Math.random() * 0x100000000) | 0
 
-      const expectation = values.reduce((a, v) => a ^ v)
+      const expectation = values.map(v => v ^ scalar)
 
       for (const [name, impl] of Object.entries(implementations)) {
         describe(name, () => {
           it('should have correct result', () => {
-            const result = impl.xorInt32Array(values)
+            const result = impl.xorInt32Array(values, scalar)
 
-            expect(result).to.equal(expectation)
+            expect(result.length).to.equal(expectation.length)
+            for (let i = 0; i < result.length; i++) {
+              expect(result[i]).to.equal(expectation[i])
+            }
           })
         })
       }

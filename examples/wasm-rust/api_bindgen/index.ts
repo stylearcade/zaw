@@ -3,7 +3,7 @@ import path from 'path'
 import init, { xor_array_i32, sum_array_f64, multiply_4x4_f32 } from './pkg/wasm_api_bindgen'
 
 export type Module = {
-  xorInt32Array: (values: Int32Array) => number
+  xorInt32Array: (values: Int32Array, scalar: number) => Int32Array
   sumFloat64Array: (values: Float64Array) => number
   multiply4x4Float32: (left: Float32Array, right: Float32Array) => Float32Array
 }
