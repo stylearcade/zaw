@@ -63,19 +63,25 @@ export fn xorInt32Array() i32 {
         simd.initVec(i32),
         simd.initVec(i32),
     };
+
+    var batches: usize = len / batchSize;
     var i: usize = 0;
 
-    while (i + batchSize <= len) : (i += batchSize) {
+    while (batches > 0) : (batches -= 1) {
         const offset = values[i..];
 
         acc[0] ^= simd.sliceToVec(i32, offset);
         acc[1] ^= simd.sliceToVec(i32, offset[lanes..]);
         acc[2] ^= simd.sliceToVec(i32, offset[lanes * 2 ..]);
         acc[3] ^= simd.sliceToVec(i32, offset[lanes * 3 ..]);
+        i += batchSize;
     }
 
-    while (i + lanes <= len) : (i += lanes) {
+    var remaining: usize = (len % batchSize) / lanes;
+
+    while (remaining > 0) : (remaining -= 1) {
         acc[0] ^= simd.sliceToVec(i32, values[i..]);
+        i += lanes;
     }
 
     var total: i32 = 0;
@@ -106,19 +112,25 @@ export fn sumFloat64Array() i32 {
         simd.initVec(f64),
         simd.initVec(f64),
     };
+
+    var batches: usize = len / batchSize;
     var i: usize = 0;
 
-    while (i + batchSize <= len) : (i += batchSize) {
+    while (batches > 0) : (batches -= 1) {
         const offset = values[i..];
 
         acc[0] += simd.sliceToVec(f64, offset);
         acc[1] += simd.sliceToVec(f64, offset[lanes..]);
         acc[2] += simd.sliceToVec(f64, offset[lanes * 2 ..]);
         acc[3] += simd.sliceToVec(f64, offset[lanes * 3 ..]);
+        i += batchSize;
     }
 
-    while (i + lanes <= len) : (i += lanes) {
+    var remaining: usize = (len % batchSize) / lanes;
+
+    while (remaining > 0) : (remaining -= 1) {
         acc[0] += simd.sliceToVec(f64, values[i..]);
+        i += lanes;
     }
 
     var total: f64 = 0;
