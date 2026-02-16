@@ -13,7 +13,7 @@ export type ExampleAPI = {
   throwErrorWithStack: () => void
   usefulPanic: () => void
   echo: (msg: string) => string
-  xorInt32Array: (values: Int32Array) => number
+  xorInt32Array: (values: Int32Array, scalar: number) => Int32Array
   sumFloat64Array: (values: Float64Array) => number
   multiply4x4Float32: (left: Float32Array, right: Float32Array) => Float32Array
 }
@@ -49,8 +49,11 @@ export async function initExample(wasmBuffer: Buffer): Promise<ExampleAPI> {
     ),
     xorInt32Array: instance.bind(
       instance.exports.xorInt32Array,
-      (input, values) => input.copyInt32Array(values),
-      output => output.readInt32(),
+      (input, values, scalar) => {
+        input.copyInt32Array(values)
+        input.writeInt32(scalar)
+      },
+      output => output.readInt32Array(),
     ),
     sumFloat64Array: instance.bind(
       instance.exports.sumFloat64Array,

@@ -37,9 +37,10 @@ pub extern "C" fn xorInt32Array() -> i32 {
     let output = interop::get_output();
 
     let values = input.read_array_i32();
-    let result = shared::xor_array_i32(&values);
+    let scalar = input.read_i32();
+    let mut result = output.init_array_i32(values.len() as u32);
 
-    output.write_i32(result);
+    shared::xor_array_i32(&values, scalar, &mut result);
 
     OK
 }

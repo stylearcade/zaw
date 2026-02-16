@@ -9,11 +9,15 @@ describe('Typescript example host', async () => {
     describe(`XOR Int32Array @ ${size} elements`, () => {
       it('should have correct result', () => {
         const values = new Int32Array(size).map(() => (Math.random() * 0x100000000) | 0)
+        const scalar = (Math.random() * 0x100000000) | 0
 
-        const expectation = values.reduce((a, v) => a ^ v)
+        const expectation = values.map(v => v ^ scalar)
 
-        const result = wasm.xorInt32Array(values)
-        expect(result).to.equal(expectation)
+        const result = wasm.xorInt32Array(values, scalar)
+        expect(result.length).to.equal(expectation.length)
+        for (let i = 0; i < result.length; i++) {
+          expect(result[i]).to.equal(expectation[i])
+        }
       })
     })
   }

@@ -15,25 +15,25 @@ describe('Typescript example host', async () => {
   for (const size of [10, 100, 1_000, 10_000, 100_000]) {
     describe(`XOR Int32Array @ ${size} elements`, () => {
       const values = new Int32Array(size).map(() => (Math.random() * 0x100000000) | 0)
+      const scalar = (Math.random() * 0x100000000) | 0
 
       bench('js', () => {
-        let total = 0
-
+        const result = new Int32Array(values.length)
         for (let i = values.length; i-- > 0; ) {
-          total ^= values[i]
+          result[i] = values[i] ^ scalar
         }
       })
 
       bench('zig', () => {
-        zig.xorInt32Array(values)
+        zig.xorInt32Array(values, scalar)
       })
 
       bench('rust', () => {
-        rust.xorInt32Array(values)
+        rust.xorInt32Array(values, scalar)
       })
 
       bench('rust-bindgen', () => {
-        rustBindgen.xorInt32Array(values)
+        rustBindgen.xorInt32Array(values, scalar)
       })
     })
   }
