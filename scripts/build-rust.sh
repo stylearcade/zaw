@@ -11,4 +11,5 @@ cd $ROOT/examples/wasm-rust/api_zaw
 RUSTFLAGS="-C target-feature=+simd128 -C link-arg=--import-memory -C link-arg=--export-memory" cargo build --target wasm32-unknown-unknown --release
 
 cd $ROOT/examples/wasm-rust/target/wasm32-unknown-unknown/release
+npx wasm-opt -O4 --enable-simd api_zaw.wasm -o api_zaw.wasm
 wasm2wat api_zaw.wasm > api_zaw.wat || true
