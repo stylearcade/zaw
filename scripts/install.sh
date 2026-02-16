@@ -50,7 +50,12 @@ if ! command -v wat2wasm &> /dev/null; then
     echo "Installing wabt..."
     if uname | grep -q Darwin; then
         brew install wabt
-    else
+    elif command -v apt &> /dev/null; then
         sudo apt install -y wabt
+    elif command -v dnf &> /dev/null; then
+        sudo dnf install -y wabt
+    else
+        echo "❌ Please install wabt manually for your OS"
+        exit 1
     fi
 fi
