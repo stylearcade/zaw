@@ -1,11 +1,11 @@
 use crate::conduit::{Reader, Writer};
 
 pub mod error;
-pub mod log;
 pub mod externs;
+pub mod log;
 
-pub use log::{log};
 pub use error::{Error, OK};
+pub use log::log;
 
 static mut INPUT: Option<Reader<'static>> = None;
 static mut OUTPUT: Option<Writer<'static>> = None;
@@ -71,4 +71,3 @@ pub fn allocate_output_channel(size_in_bytes: i32) -> i32 {
         ptr as i32
     }
 }
-

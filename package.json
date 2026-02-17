@@ -10,7 +10,16 @@
     "test-browser": "vitest run --config vitest.browser.config.ts",
     "test-zig": "./scripts/test-zig.sh",
     "test-rust": "./scripts/test-rust.sh",
-    "generate-tests": "tsx ./test-gen/generate.ts"
+    "generate-tests": "tsx ./test-gen/generate.ts && npm run format-generated-tests",
+    "format-generated-tests": "prettier --write implementations/host-typescript/src/conduit.test.ts && cd implementations/wasm-zig && zig fmt src/conduit/conduit.test.zig && cd ../.. && cd implementations/wasm-rust && cargo fmt",
+    "lint": "npm run lint:prettier && npm run lint:zig && npm run lint:rust",
+    "lint:fix": "npm run lint:prettier:fix && npm run lint:zig:fix && npm run lint:rust:fix",
+    "lint:prettier": "prettier --check \"**/*.{js,jsx,ts,tsx,json,json5,md,yml,yaml,css,scss}\"",
+    "lint:prettier:fix": "prettier --write \"**/*.{js,jsx,ts,tsx,json,json5,md,yml,yaml,css,scss}\"",
+    "lint:zig": "cd implementations/wasm-zig && zig fmt --check src && cd ../.. && cd examples/wasm-zig && zig fmt --check .",
+    "lint:zig:fix": "cd implementations/wasm-zig && zig fmt src && cd ../.. && cd examples/wasm-zig && zig fmt .",
+    "lint:rust": "cd implementations/wasm-rust && cargo fmt --check",
+    "lint:rust:fix": "cd implementations/wasm-rust && cargo fmt"
   },
   "author": "tristanhoy",
   "license": "ISC",
@@ -22,8 +31,9 @@
     "@vitest/browser": "^4.0.18",
     "@vitest/browser-playwright": "^4.0.18",
     "playwright": "^1.49.1",
-    "tsx": "^4.21.0",
+    "prettier": "^3.8.1",
     "tsup": "^8.5.1",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "vitest": "^4.0.18",
     "wasm-opt": "^1.4.0"

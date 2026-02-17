@@ -41,7 +41,7 @@ pub fn write_error_to_storage(msg: &str) {
 
 pub fn handle<F>(func: F) -> i32
 where
-    F: FnOnce() -> Result<()>
+    F: FnOnce() -> Result<()>,
 {
     match func() {
         Ok(()) => OK,

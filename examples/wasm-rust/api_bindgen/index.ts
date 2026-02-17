@@ -1,11 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import init, {
-  xor_array_i32,
-  transfer_in_float64_array,
-  transfer_out_float64_array,
-  multiply_4x4_f32,
-} from './pkg/wasm_api_bindgen'
+import init, { xor_array_i32, transfer_in_float64_array, transfer_out_float64_array, multiply_4x4_f32 } from './pkg/wasm_api_bindgen'
 
 export type Module = {
   xorInt32Array: (values: Int32Array, scalar: number) => Int32Array

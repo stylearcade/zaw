@@ -1,5 +1,5 @@
-use std::mem;
 use std::cell::Cell;
+use std::mem;
 
 fn align_up(offset: u32, bytes: u8) -> u32 {
     let mask = (bytes - 1) as u32;
@@ -228,11 +228,26 @@ impl<'a> Channel<'a> {
 
             Self {
                 offset: Cell::new(0),
-                storage_u8: get_storage_mut(std::slice::from_raw_parts_mut(storage_ptr, storage_len)),
-                storage_u32: get_storage_mut(std::slice::from_raw_parts_mut(storage_ptr, storage_len)),
-                storage_i32: get_storage_mut(std::slice::from_raw_parts_mut(storage_ptr, storage_len)),
-                storage_f32: get_storage_mut(std::slice::from_raw_parts_mut(storage_ptr, storage_len)),
-                storage_f64: get_storage_mut(std::slice::from_raw_parts_mut(storage_ptr, storage_len)),
+                storage_u8: get_storage_mut(std::slice::from_raw_parts_mut(
+                    storage_ptr,
+                    storage_len,
+                )),
+                storage_u32: get_storage_mut(std::slice::from_raw_parts_mut(
+                    storage_ptr,
+                    storage_len,
+                )),
+                storage_i32: get_storage_mut(std::slice::from_raw_parts_mut(
+                    storage_ptr,
+                    storage_len,
+                )),
+                storage_f32: get_storage_mut(std::slice::from_raw_parts_mut(
+                    storage_ptr,
+                    storage_len,
+                )),
+                storage_f64: get_storage_mut(std::slice::from_raw_parts_mut(
+                    storage_ptr,
+                    storage_len,
+                )),
             }
         }
     }
@@ -249,7 +264,8 @@ impl<'a> Channel<'a> {
 
     fn align_to<T>(&self) {
         let current = self.offset.get();
-        self.offset.set(align_up(current, mem::size_of::<T>() as u8));
+        self.offset
+            .set(align_up(current, mem::size_of::<T>() as u8));
         self.check_offset();
     }
 
@@ -266,7 +282,8 @@ impl<'a> Channel<'a> {
 
     fn advance<T>(&self, count: u32) {
         let current = self.offset.get();
-        self.offset.set(current + count * mem::size_of::<T>() as u32);
+        self.offset
+            .set(current + count * mem::size_of::<T>() as u32);
         self.check_offset();
     }
 }

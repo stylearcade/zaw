@@ -188,7 +188,9 @@ mod tests {
             writer.write_f64(1.7976931348623157e+308);
         }
 
-        let expected = [255, 255, 255, 255, 255, 255, 239, 127, 0, 0, 0, 0, 0, 0, 0, 0u8];
+        let expected = [
+            255, 255, 255, 255, 255, 255, 239, 127, 0, 0, 0, 0, 0, 0, 0, 0u8,
+        ];
         let actual = unsafe { std::slice::from_raw_parts(storage.as_ptr() as *const u8, 16) };
         assert_eq!(&expected[..], actual);
 
@@ -230,7 +232,10 @@ mod tests {
             writer.write_f64(-2.718);
         }
 
-        let expected = [255, 0, 0, 0, 152, 186, 220, 254, 255, 255, 255, 255, 182, 243, 45, 64, 88, 57, 180, 200, 118, 190, 5, 192u8];
+        let expected = [
+            255, 0, 0, 0, 152, 186, 220, 254, 255, 255, 255, 255, 182, 243, 45, 64, 88, 57, 180,
+            200, 118, 190, 5, 192u8,
+        ];
         let actual = unsafe { std::slice::from_raw_parts(storage.as_ptr() as *const u8, 24) };
         assert_eq!(&expected[..], actual);
 
@@ -362,7 +367,9 @@ mod tests {
             writer.copy_array_i32(&[-1, 0, 1]);
         }
 
-        let expected = [255, 0, 0, 0, 3, 0, 0, 0, 255, 255, 255, 255, 0, 0, 0, 0, 1, 0, 0, 0u8];
+        let expected = [
+            255, 0, 0, 0, 3, 0, 0, 0, 255, 255, 255, 255, 0, 0, 0, 0, 1, 0, 0, 0u8,
+        ];
         let actual = unsafe { std::slice::from_raw_parts(storage.as_ptr() as *const u8, 20) };
         assert_eq!(&expected[..], actual);
 
@@ -427,7 +434,9 @@ mod tests {
             writer.copy_array_f32(&[2.718, -2.718]);
         }
 
-        let expected = [42, 0, 0, 0, 2, 0, 0, 0, 182, 243, 45, 64, 182, 243, 45, 192u8];
+        let expected = [
+            42, 0, 0, 0, 2, 0, 0, 0, 182, 243, 45, 64, 182, 243, 45, 192u8,
+        ];
         let actual = unsafe { std::slice::from_raw_parts(storage.as_ptr() as *const u8, 16) };
         assert_eq!(&expected[..], actual);
 
@@ -449,7 +458,10 @@ mod tests {
             writer.copy_array_f64(&[0.0, 3.14159, -2.718]);
         }
 
-        let expected = [3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 110, 134, 27, 240, 249, 33, 9, 64, 88, 57, 180, 200, 118, 190, 5, 192u8];
+        let expected = [
+            3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 110, 134, 27, 240, 249, 33, 9, 64, 88,
+            57, 180, 200, 118, 190, 5, 192u8,
+        ];
         let actual = unsafe { std::slice::from_raw_parts(storage.as_ptr() as *const u8, 32) };
         assert_eq!(&expected[..], actual);
 
@@ -472,7 +484,10 @@ mod tests {
             writer.copy_array_f64(&[1.0, -1.0]);
         }
 
-        let expected = [42, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 240, 63, 0, 0, 0, 0, 0, 0, 240, 191, 0, 0, 0, 0, 0, 0, 0, 0u8];
+        let expected = [
+            42, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 240, 63, 0, 0, 0, 0, 0, 0, 240, 191, 0, 0,
+            0, 0, 0, 0, 0, 0u8,
+        ];
         let actual = unsafe { std::slice::from_raw_parts(storage.as_ptr() as *const u8, 32) };
         assert_eq!(&expected[..], actual);
 
@@ -705,7 +720,9 @@ mod tests {
             writer.copy_elements_f64(&[1.0, -1.0]);
         }
 
-        let expected = [42, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 240, 63, 0, 0, 0, 0, 0, 0, 240, 191u8];
+        let expected = [
+            42, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 240, 63, 0, 0, 0, 0, 0, 0, 240, 191u8,
+        ];
         let actual = unsafe { std::slice::from_raw_parts(storage.as_ptr() as *const u8, 24) };
         assert_eq!(&expected[..], actual);
 
@@ -751,7 +768,11 @@ mod tests {
             writer.copy_elements_f64(&[9.876]);
         }
 
-        let expected = [255, 0, 0, 0, 1, 239, 205, 171, 3, 0, 0, 0, 156, 255, 255, 255, 0, 0, 0, 0, 100, 0, 0, 0, 182, 243, 157, 63, 45, 178, 181, 64, 141, 151, 110, 18, 131, 192, 35, 64, 0, 0, 0, 0, 0, 0, 0, 0u8];
+        let expected = [
+            255, 0, 0, 0, 1, 239, 205, 171, 3, 0, 0, 0, 156, 255, 255, 255, 0, 0, 0, 0, 100, 0, 0,
+            0, 182, 243, 157, 63, 45, 178, 181, 64, 141, 151, 110, 18, 131, 192, 35, 64, 0, 0, 0,
+            0, 0, 0, 0, 0u8,
+        ];
         let actual = unsafe { std::slice::from_raw_parts(storage.as_ptr() as *const u8, 48) };
         assert_eq!(&expected[..], actual);
 
@@ -794,7 +815,15 @@ mod tests {
             writer.copy_elements_f64(&[3.141592653589793, -3.141592653589793]);
         }
 
-        let expected = [42, 0, 0, 0, 120, 86, 52, 18, 214, 255, 255, 255, 208, 15, 73, 64, 144, 247, 170, 149, 9, 191, 5, 64, 3, 0, 0, 0, 1, 2, 3, 0, 2, 0, 0, 0, 221, 204, 187, 170, 17, 0, 255, 238, 3, 0, 0, 0, 255, 255, 255, 255, 0, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0, 0, 0, 128, 63, 0, 0, 128, 191, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 240, 63, 0, 0, 0, 0, 0, 0, 240, 191, 10, 20, 30, 0, 68, 51, 34, 17, 136, 119, 102, 85, 156, 255, 255, 255, 0, 0, 0, 0, 100, 0, 0, 0, 182, 243, 45, 64, 182, 243, 45, 192, 24, 45, 68, 84, 251, 33, 9, 64, 24, 45, 68, 84, 251, 33, 9, 192, 0, 0, 0, 0, 0, 0, 0, 0u8];
+        let expected = [
+            42, 0, 0, 0, 120, 86, 52, 18, 214, 255, 255, 255, 208, 15, 73, 64, 144, 247, 170, 149,
+            9, 191, 5, 64, 3, 0, 0, 0, 1, 2, 3, 0, 2, 0, 0, 0, 221, 204, 187, 170, 17, 0, 255, 238,
+            3, 0, 0, 0, 255, 255, 255, 255, 0, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0, 0, 0, 128, 63, 0,
+            0, 128, 191, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 240, 63, 0, 0, 0, 0, 0, 0, 240,
+            191, 10, 20, 30, 0, 68, 51, 34, 17, 136, 119, 102, 85, 156, 255, 255, 255, 0, 0, 0, 0,
+            100, 0, 0, 0, 182, 243, 45, 64, 182, 243, 45, 192, 24, 45, 68, 84, 251, 33, 9, 64, 24,
+            45, 68, 84, 251, 33, 9, 192, 0, 0, 0, 0, 0, 0, 0, 0u8,
+        ];
         let actual = unsafe { std::slice::from_raw_parts(storage.as_ptr() as *const u8, 152) };
         assert_eq!(&expected[..], actual);
 
@@ -858,7 +887,10 @@ mod tests {
             writer.copy_array_f64(&[1.1, 2.2]);
         }
 
-        let expected = [99, 0, 0, 0, 42, 0, 0, 0, 0, 0, 192, 63, 2, 0, 0, 0, 154, 153, 153, 153, 153, 153, 241, 63, 154, 153, 153, 153, 153, 153, 1, 64u8];
+        let expected = [
+            99, 0, 0, 0, 42, 0, 0, 0, 0, 0, 192, 63, 2, 0, 0, 0, 154, 153, 153, 153, 153, 153, 241,
+            63, 154, 153, 153, 153, 153, 153, 1, 64u8,
+        ];
         let actual = unsafe { std::slice::from_raw_parts(storage.as_ptr() as *const u8, 32) };
         assert_eq!(&expected[..], actual);
 
@@ -888,7 +920,10 @@ mod tests {
             writer.write_u8(7);
         }
 
-        let expected = [1, 0, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0, 0, 0, 128, 64, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 64, 7, 0, 0, 0, 0, 0, 0, 0u8];
+        let expected = [
+            1, 0, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0, 0, 0, 128, 64, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 24, 64, 7, 0, 0, 0, 0, 0, 0, 0u8,
+        ];
         let actual = unsafe { std::slice::from_raw_parts(storage.as_ptr() as *const u8, 40) };
         assert_eq!(&expected[..], actual);
 
@@ -946,7 +981,9 @@ mod tests {
             writer.write_u8(20);
         }
 
-        let expected = [10, 0, 0, 0, 120, 86, 52, 18, 164, 112, 157, 63, 20, 0, 0, 0u8];
+        let expected = [
+            10, 0, 0, 0, 120, 86, 52, 18, 164, 112, 157, 63, 20, 0, 0, 0u8,
+        ];
         let actual = unsafe { std::slice::from_raw_parts(storage.as_ptr() as *const u8, 16) };
         assert_eq!(&expected[..], actual);
 
@@ -982,7 +1019,12 @@ mod tests {
             writer.write_f64(5e-324);
         }
 
-        let expected = [0, 127, 255, 0, 0, 0, 0, 0, 255, 255, 255, 127, 255, 255, 255, 255, 0, 0, 0, 128, 0, 0, 0, 0, 255, 255, 255, 127, 0, 0, 0, 0, 253, 255, 127, 0, 255, 255, 127, 127, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 255, 255, 255, 255, 255, 255, 239, 127, 1, 0, 0, 0, 0, 0, 0, 0u8];
+        let expected = [
+            0, 127, 255, 0, 0, 0, 0, 0, 255, 255, 255, 127, 255, 255, 255, 255, 0, 0, 0, 128, 0, 0,
+            0, 0, 255, 255, 255, 127, 0, 0, 0, 0, 253, 255, 127, 0, 255, 255, 127, 127, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 255, 255, 255, 255, 255, 255, 239, 127, 1, 0, 0,
+            0, 0, 0, 0, 0u8,
+        ];
         let actual = unsafe { std::slice::from_raw_parts(storage.as_ptr() as *const u8, 72) };
         assert_eq!(&expected[..], actual);
 
@@ -1013,7 +1055,9 @@ mod tests {
         {
             let mut writer = Writer::from(&mut storage);
             let ptr0 = writer.init_u8();
-            unsafe { *ptr0 = 42; }
+            unsafe {
+                *ptr0 = 42;
+            }
         }
 
         let expected = [42, 0, 0, 0, 0, 0, 0, 0u8];
@@ -1032,11 +1076,17 @@ mod tests {
         {
             let mut writer = Writer::from(&mut storage);
             let ptr0 = writer.init_u8();
-            unsafe { *ptr0 = 10; }
+            unsafe {
+                *ptr0 = 10;
+            }
             let ptr1 = writer.init_u8();
-            unsafe { *ptr1 = 20; }
+            unsafe {
+                *ptr1 = 20;
+            }
             let ptr2 = writer.init_u8();
-            unsafe { *ptr2 = 30; }
+            unsafe {
+                *ptr2 = 30;
+            }
         }
 
         let expected = [10, 20, 30, 0, 0, 0, 0, 0u8];
@@ -1057,7 +1107,9 @@ mod tests {
         {
             let mut writer = Writer::from(&mut storage);
             let ptr0 = writer.init_u32();
-            unsafe { *ptr0 = 0x12345678; }
+            unsafe {
+                *ptr0 = 0x12345678;
+            }
         }
 
         let expected = [120, 86, 52, 18, 0, 0, 0, 0u8];
@@ -1077,7 +1129,9 @@ mod tests {
             let mut writer = Writer::from(&mut storage);
             writer.write_u8(10);
             let ptr1 = writer.init_u32();
-            unsafe { *ptr1 = 0x12345678; }
+            unsafe {
+                *ptr1 = 0x12345678;
+            }
         }
 
         let expected = [10, 0, 0, 0, 120, 86, 52, 18u8];
@@ -1097,7 +1151,9 @@ mod tests {
         {
             let mut writer = Writer::from(&mut storage);
             let ptr0 = writer.init_i32();
-            unsafe { *ptr0 = i32::MIN; }
+            unsafe {
+                *ptr0 = i32::MIN;
+            }
         }
 
         let expected = [0, 0, 0, 128, 0, 0, 0, 0u8];
@@ -1116,7 +1172,9 @@ mod tests {
         {
             let mut writer = Writer::from(&mut storage);
             let ptr0 = writer.init_f32();
-            unsafe { *ptr0 = 3.14159; }
+            unsafe {
+                *ptr0 = 3.14159;
+            }
         }
 
         let expected = [208, 15, 73, 64, 0, 0, 0, 0u8];
@@ -1136,7 +1194,9 @@ mod tests {
             let mut writer = Writer::from(&mut storage);
             writer.write_u8(5);
             let ptr1 = writer.init_f32();
-            unsafe { *ptr1 = 3.14159; }
+            unsafe {
+                *ptr1 = 3.14159;
+            }
         }
 
         let expected = [5, 0, 0, 0, 208, 15, 73, 64u8];
@@ -1156,7 +1216,9 @@ mod tests {
         {
             let mut writer = Writer::from(&mut storage);
             let ptr0 = writer.init_f64();
-            unsafe { *ptr0 = 3.14159; }
+            unsafe {
+                *ptr0 = 3.14159;
+            }
         }
 
         let expected = [110, 134, 27, 240, 249, 33, 9, 64, 0, 0, 0, 0, 0, 0, 0, 0u8];
@@ -1176,7 +1238,9 @@ mod tests {
             let mut writer = Writer::from(&mut storage);
             writer.write_u8(5);
             let ptr1 = writer.init_f64();
-            unsafe { *ptr1 = 3.14159; }
+            unsafe {
+                *ptr1 = 3.14159;
+            }
         }
 
         let expected = [5, 0, 0, 0, 0, 0, 0, 0, 110, 134, 27, 240, 249, 33, 9, 64u8];
@@ -1196,18 +1260,31 @@ mod tests {
         {
             let mut writer = Writer::from(&mut storage);
             let ptr0 = writer.init_u8();
-            unsafe { *ptr0 = 255; }
+            unsafe {
+                *ptr0 = 255;
+            }
             let ptr1 = writer.init_u32();
-            unsafe { *ptr1 = 0xfedcba98; }
+            unsafe {
+                *ptr1 = 0xfedcba98;
+            }
             let ptr2 = writer.init_i32();
-            unsafe { *ptr2 = -1; }
+            unsafe {
+                *ptr2 = -1;
+            }
             let ptr3 = writer.init_f32();
-            unsafe { *ptr3 = 2.718; }
+            unsafe {
+                *ptr3 = 2.718;
+            }
             let ptr4 = writer.init_f64();
-            unsafe { *ptr4 = -2.718; }
+            unsafe {
+                *ptr4 = -2.718;
+            }
         }
 
-        let expected = [255, 0, 0, 0, 152, 186, 220, 254, 255, 255, 255, 255, 182, 243, 45, 64, 88, 57, 180, 200, 118, 190, 5, 192u8];
+        let expected = [
+            255, 0, 0, 0, 152, 186, 220, 254, 255, 255, 255, 255, 182, 243, 45, 64, 88, 57, 180,
+            200, 118, 190, 5, 192u8,
+        ];
         let actual = unsafe { std::slice::from_raw_parts(storage.as_ptr() as *const u8, 24) };
         assert_eq!(&expected[..], actual);
 
@@ -1378,7 +1455,10 @@ mod tests {
             arr0[2] = -2.718;
         }
 
-        let expected = [3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 110, 134, 27, 240, 249, 33, 9, 64, 88, 57, 180, 200, 118, 190, 5, 192u8];
+        let expected = [
+            3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 110, 134, 27, 240, 249, 33, 9, 64, 88,
+            57, 180, 200, 118, 190, 5, 192u8,
+        ];
         let actual = unsafe { std::slice::from_raw_parts(storage.as_ptr() as *const u8, 32) };
         assert_eq!(&expected[..], actual);
 
@@ -1559,16 +1639,23 @@ mod tests {
         {
             let mut writer = Writer::from(&mut storage);
             let ptr0 = writer.init_u8();
-            unsafe { *ptr0 = 99; }
+            unsafe {
+                *ptr0 = 99;
+            }
             writer.write_u32(42);
             let ptr2 = writer.init_f32();
-            unsafe { *ptr2 = 1.5; }
+            unsafe {
+                *ptr2 = 1.5;
+            }
             let arr3 = writer.init_array_f64(2);
             arr3[0] = 1.1;
             arr3[1] = 2.2;
         }
 
-        let expected = [99, 0, 0, 0, 42, 0, 0, 0, 0, 0, 192, 63, 2, 0, 0, 0, 154, 153, 153, 153, 153, 153, 241, 63, 154, 153, 153, 153, 153, 153, 1, 64u8];
+        let expected = [
+            99, 0, 0, 0, 42, 0, 0, 0, 0, 0, 192, 63, 2, 0, 0, 0, 154, 153, 153, 153, 153, 153, 241,
+            63, 154, 153, 153, 153, 153, 153, 1, 64u8,
+        ];
         let actual = unsafe { std::slice::from_raw_parts(storage.as_ptr() as *const u8, 32) };
         assert_eq!(&expected[..], actual);
 
@@ -1590,11 +1677,17 @@ mod tests {
         {
             let mut writer = Writer::from(&mut storage);
             let ptr0 = writer.init_u8();
-            unsafe { *ptr0 = 42; }
+            unsafe {
+                *ptr0 = 42;
+            }
             let ptr1 = writer.init_u32();
-            unsafe { *ptr1 = 0x12345678; }
+            unsafe {
+                *ptr1 = 0x12345678;
+            }
             let ptr2 = writer.init_f32();
-            unsafe { *ptr2 = 1.23; }
+            unsafe {
+                *ptr2 = 1.23;
+            }
             let arr3 = writer.init_array_i32(3);
             arr3[0] = -100;
             arr3[1] = 0;
@@ -1604,7 +1697,11 @@ mod tests {
             arr4[1] = 5.678;
         }
 
-        let expected = [42, 0, 0, 0, 120, 86, 52, 18, 164, 112, 157, 63, 3, 0, 0, 0, 156, 255, 255, 255, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 88, 57, 180, 200, 118, 190, 243, 63, 131, 192, 202, 161, 69, 182, 22, 64, 0, 0, 0, 0u8];
+        let expected = [
+            42, 0, 0, 0, 120, 86, 52, 18, 164, 112, 157, 63, 3, 0, 0, 0, 156, 255, 255, 255, 0, 0,
+            0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 88, 57, 180, 200, 118, 190, 243, 63, 131, 192, 202,
+            161, 69, 182, 22, 64, 0, 0, 0, 0u8,
+        ];
         let actual = unsafe { std::slice::from_raw_parts(storage.as_ptr() as *const u8, 52) };
         assert_eq!(&expected[..], actual);
 
@@ -1645,5 +1742,4 @@ mod tests {
         assert_eq!(1.175494e-38, reader.read_f32());
         assert_eq!(-3.4028235e+38, reader.read_f32());
     }
-
 }

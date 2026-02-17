@@ -2,7 +2,7 @@ const std = @import("std");
 const builtin = @import("builtin");
 
 fn getStorage(comptime T: type, storage: []u64) []T {
-    const ptr: [*]T = @alignCast(@ptrCast(storage.ptr));
+    const ptr: [*]T = @ptrCast(@alignCast(storage.ptr));
 
     return ptr[0 .. storage.len * @sizeOf(u64) / @sizeOf(T)];
 }

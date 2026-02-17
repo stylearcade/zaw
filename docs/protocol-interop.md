@@ -56,21 +56,17 @@ Implementations **MUST**:
 ## 6. WASM Module Logging & Error Flows
 
 1. **On Success**:
-
    - Module writes 0 on the host-visible return.
 
    - Error Region is set to a single null byte ("\0").
 
 2. **On Error**:
-
    - Module writes 1 on return.
 
    - Module writes a null‑terminated error message into the Error Region.
 
 3. **On Panic**:
-
    - Module traps or returns a special panic code (e.g., 2), then writes message in Error Region.
 
 4. **Logging**:
-
    - Module may log messages at any time by writing into the Log Region and then invoking the imported `log()` hook.
