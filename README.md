@@ -15,15 +15,18 @@ With `zaw`, you'll be able to offload individual algorithms, rather than entire 
 
 ### Performance
 
-**Up to 10x faster than pure JavaScript and 2.5x faster than wasm-bindgen for XOR Int32Array Bench**
+**Up to 14x faster than pure JavaScript and 7x faster than wasm-bindgen for XOR Int32Array Bench**
 
-| Element Count | Winner | vs `zaw`    | vs `js`     | vs `wasm-bindgen` |
-| ------------- | ------ | ----------- | ----------- | ----------------- |
-| 10            | `js`   | 2.0x faster | -           | 4.0x faster       |
-| 100           | `zaw`  | -           | 1.2x faster | 2.0x faster       |
-| 1,000         | `zaw`  | -           | 5.5x faster | 2.6x faster       |
-| 10,000        | `zaw`  | -           | 9.9x faster | 2.6x faster       |
-| 100,000       | `zaw`  | -           | 9.7x faster | 2.5x faster       |
+| Element Count | Winner | vs `zaw`    | vs `js`      | vs `wasm-bindgen` |
+| ------------- | ------ | ----------- | ------------ | ----------------- |
+| 10            | `js`   | 1.6x faster | -            | 2.4x faster       |
+| 100           | `zaw`  | -           | 6.0x faster  | 6.2x faster       |
+| 1,000         | `zaw`  | -           | 11.4x faster | 6.9x faster       |
+| 10,000        | `zaw`  | -           | 12.8x faster | 3.3x faster       |
+| 100,000       | `zaw`  | -           | 13.8x faster | 4.3x faster       |
+
+In this benchmark, we transfer in an Int32Array plus a scalar, XOR the scalar with the array and return the result.
+Above 10,000 elements we're likely no longer in L1 Cache so the advantage reduces but is still huge (3-4x).
 
 **Why XOR Int32Array _isn't_ a ridiculous benchmark**
 
@@ -31,7 +34,7 @@ It seems counterintuitive, but this is the best possible test for a WebAssembly 
 
 - It leverages SIMD and instruction pipelining not available in Javascript
 - It uses the smallest native WASM type
-- It aligns to real-world buffer and matrix use cases that require data transfer
+- It aligns to real-world buffer and matrix use cases that require data transfer OUT (data ingress is cheap with wasm-bindgen, it's egress that's the issue)
 - It doesn't hide slow interop in the way fibonacci, digits of pi, prime factorisation or other toy examples do
 - It shows an improvement over javascript even with a small element count (100)
 
@@ -61,7 +64,7 @@ In this repository you will find:
     - [Rust](implementations/wasm-rust/)
 - [**Benchmarks**](docs/benchmarks.md)
   - XOR Int32Array
-  - Sum Float64Array
+  - Transfer In/Out Float64Array
   - 4x4 Float32 Matrix multiplication
 
 ## Motivation

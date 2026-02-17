@@ -6,23 +6,26 @@ The purpose of `zaw` is to make it easier to achieve the original promise of Web
 
 **High-performance, low-overhead acceleration for targeted code - without rewriting your entire application.**
 
-### 🎯 The upshot
+### The upshot
 
 With `zaw`, you'll be able to offload individual algorithms, rather than entire modules, and keep your WebAssembly code lean and simple - truly unlocking the original vision of the WebAssembly founding team.
 
-### 🚀 Performance
+### Performance
 
-**Up to 7x faster than pure JavaScript and 2.5x faster than wasm-bindgen for XOR Int32Array Bench**
+**Up to 14x faster than pure JavaScript and 7x faster than wasm-bindgen for XOR Int32Array Bench**
 
-| Element Count | Winner | vs `zaw`    | vs `js`     | vs `wasm-bindgen` |
-| ------------- | ------ | ----------- | ----------- | ----------------- |
-| 10            | `js`   | 2.0x faster | -           | 4.0x faster       |
-| 100           | `zaw`  | -           | 1.2x faster | 2.0x faster       |
-| 1,000         | `zaw`  | -           | 5.5x faster | 2.6x faster       |
-| 10,000        | `zaw`  | -           | 9.9x faster | 2.6x faster       |
-| 100,000       | `zaw`  | -           | 9.7x faster | 2.5x faster       |
+| Element Count | Winner | vs `zaw`    | vs `js`      | vs `wasm-bindgen` |
+| ------------- | ------ | ----------- | ------------ | ----------------- |
+| 10            | `js`   | 1.6x faster | -            | 2.4x faster       |
+| 100           | `zaw`  | -           | 6.0x faster  | 6.2x faster       |
+| 1,000         | `zaw`  | -           | 11.4x faster | 6.9x faster       |
+| 10,000        | `zaw`  | -           | 12.8x faster | 3.3x faster       |
+| 100,000       | `zaw`  | -           | 13.8x faster | 4.3x faster       |
 
-### 📦 Installation
+In this benchmark, we transfer in an Int32Array plus a scalar, XOR the scalar with the array and return the result.
+Above 10,000 elements we're likely no longer in L1 Cache so the advantage reduces but is still huge (3-4x).
+
+### Installation
 
 ```bash
 # Typescript
@@ -34,7 +37,7 @@ cargo add zaw
 
 Or you can just fork [zaw-starter-rust](https://github.com/stylearcade/zaw-starter-rust).
 
-### 🔥 Quick Start
+### Quick Start
 
 Here's how to sum an array of Float64s using `zaw`.
 
