@@ -7,7 +7,6 @@ const conduit = @import("conduit.zig");
 const Writer = conduit.Writer;
 const Reader = conduit.Reader;
 
-
 test "Simple Uint8 write" {
     var storage = [_]u64{0} ** 32;
     var writer = Writer.from(&storage);
@@ -207,7 +206,7 @@ test "Uint8 array" {
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
-    var arr0 = [_]u8{1, 2, 3, 4, 5};
+    var arr0 = [_]u8{ 1, 2, 3, 4, 5 };
     writer.copyArray(u8, &arr0);
 
     const expected = [_]u8{ 5, 0, 0, 0, 1, 2, 3, 4, 5, 0, 0, 0 };
@@ -221,7 +220,7 @@ test "Uint32 array" {
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
-    var arr0 = [_]u32{305419896, @as(u32, 0x87654321)};
+    var arr0 = [_]u32{ 305419896, @as(u32, 0x87654321) };
     writer.copyArray(u32, &arr0);
 
     const expected = [_]u8{ 2, 0, 0, 0, 120, 86, 52, 18, 33, 67, 101, 135 };
@@ -236,7 +235,7 @@ test "Uint32 array with alignment" {
     var reader = Reader.from(&storage);
 
     writer.write(u8, 42);
-    var arr1 = [_]u32{287454020, 1432778632};
+    var arr1 = [_]u32{ 287454020, 1432778632 };
     writer.copyArray(u32, &arr1);
 
     const expected = [_]u8{ 42, 0, 0, 0, 2, 0, 0, 0, 68, 51, 34, 17, 136, 119, 102, 85 };
@@ -251,7 +250,7 @@ test "Int32 array" {
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
-    var arr0 = [_]i32{-2147483648, 0, 2147483647};
+    var arr0 = [_]i32{ -2147483648, 0, 2147483647 };
     writer.copyArray(i32, &arr0);
 
     const expected = [_]u8{ 3, 0, 0, 0, 0, 0, 0, 128, 0, 0, 0, 0, 255, 255, 255, 127 };
@@ -266,7 +265,7 @@ test "Int32 array with alignment" {
     var reader = Reader.from(&storage);
 
     writer.write(u8, 255);
-    var arr1 = [_]i32{-1, 0, 1};
+    var arr1 = [_]i32{ -1, 0, 1 };
     writer.copyArray(i32, &arr1);
 
     const expected = [_]u8{ 255, 0, 0, 0, 3, 0, 0, 0, 255, 255, 255, 255, 0, 0, 0, 0, 1, 0, 0, 0 };
@@ -295,7 +294,7 @@ test "Float32 array" {
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
-    var arr0 = [_]f32{1.0, -1.0, 3.14159};
+    var arr0 = [_]f32{ 1.0, -1.0, 3.14159 };
     writer.copyArray(f32, &arr0);
 
     const expected = [_]u8{ 3, 0, 0, 0, 0, 0, 128, 63, 0, 0, 128, 191, 208, 15, 73, 64 };
@@ -310,7 +309,7 @@ test "Float32 array with alignment" {
     var reader = Reader.from(&storage);
 
     writer.write(u8, 42);
-    var arr1 = [_]f32{2.718, -2.718};
+    var arr1 = [_]f32{ 2.718, -2.718 };
     writer.copyArray(f32, &arr1);
 
     const expected = [_]u8{ 42, 0, 0, 0, 2, 0, 0, 0, 182, 243, 45, 64, 182, 243, 45, 192 };
@@ -325,7 +324,7 @@ test "Float64 array" {
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
-    var arr0 = [_]f64{0.0, 3.14159, -2.718};
+    var arr0 = [_]f64{ 0.0, 3.14159, -2.718 };
     writer.copyArray(f64, &arr0);
 
     const expected = [_]u8{ 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 110, 134, 27, 240, 249, 33, 9, 64, 88, 57, 180, 200, 118, 190, 5, 192 };
@@ -340,7 +339,7 @@ test "Float64 array with alignment" {
     var reader = Reader.from(&storage);
 
     writer.write(u8, 42);
-    var arr1 = [_]f64{1.0, -1.0};
+    var arr1 = [_]f64{ 1.0, -1.0 };
     writer.copyArray(f64, &arr1);
 
     const expected = [_]u8{ 42, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 240, 63, 0, 0, 0, 0, 0, 0, 240, 191, 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -369,7 +368,7 @@ test "Uint8 elements" {
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
-    var arr0 = [_]u8{10, 20, 30, 40, 50};
+    var arr0 = [_]u8{ 10, 20, 30, 40, 50 };
     writer.copyElements(u8, &arr0);
 
     const expected = [_]u8{ 10, 20, 30, 40, 50, 0, 0, 0 };
@@ -383,7 +382,7 @@ test "Uint32 elements" {
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
-    var arr0 = [_]u32{305419896, @as(u32, 0x87654321)};
+    var arr0 = [_]u32{ 305419896, @as(u32, 0x87654321) };
     writer.copyElements(u32, &arr0);
 
     const expected = [_]u8{ 120, 86, 52, 18, 33, 67, 101, 135 };
@@ -398,7 +397,7 @@ test "Uint32 elements with alignment" {
     var reader = Reader.from(&storage);
 
     writer.write(u8, 42);
-    var arr1 = [_]u32{287454020, 1432778632};
+    var arr1 = [_]u32{ 287454020, 1432778632 };
     writer.copyElements(u32, &arr1);
 
     const expected = [_]u8{ 42, 0, 0, 0, 68, 51, 34, 17, 136, 119, 102, 85 };
@@ -413,7 +412,7 @@ test "Int32 elements" {
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
-    var arr0 = [_]i32{-2147483648, 0, 2147483647};
+    var arr0 = [_]i32{ -2147483648, 0, 2147483647 };
     writer.copyElements(i32, &arr0);
 
     const expected = [_]u8{ 0, 0, 0, 128, 0, 0, 0, 0, 255, 255, 255, 127 };
@@ -428,7 +427,7 @@ test "Int32 elements with alignment" {
     var reader = Reader.from(&storage);
 
     writer.write(u8, 255);
-    var arr1 = [_]i32{-1, 0, 1};
+    var arr1 = [_]i32{ -1, 0, 1 };
     writer.copyElements(i32, &arr1);
 
     const expected = [_]u8{ 255, 0, 0, 0, 255, 255, 255, 255, 0, 0, 0, 0, 1, 0, 0, 0 };
@@ -457,7 +456,7 @@ test "Float32 elements" {
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
-    var arr0 = [_]f32{0.0, 1.0, -1.0};
+    var arr0 = [_]f32{ 0.0, 1.0, -1.0 };
     writer.copyElements(f32, &arr0);
 
     const expected = [_]u8{ 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 128, 191 };
@@ -472,7 +471,7 @@ test "Float32 elements with alignment" {
     var reader = Reader.from(&storage);
 
     writer.write(u8, 42);
-    var arr1 = [_]f32{3.14159, 2.718};
+    var arr1 = [_]f32{ 3.14159, 2.718 };
     writer.copyElements(f32, &arr1);
 
     const expected = [_]u8{ 42, 0, 0, 0, 208, 15, 73, 64, 182, 243, 45, 64 };
@@ -487,7 +486,7 @@ test "Float64 elements" {
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
-    var arr0 = [_]f64{0.0, 3.14159};
+    var arr0 = [_]f64{ 0.0, 3.14159 };
     writer.copyElements(f64, &arr0);
 
     const expected = [_]u8{ 0, 0, 0, 0, 0, 0, 0, 0, 110, 134, 27, 240, 249, 33, 9, 64 };
@@ -502,7 +501,7 @@ test "Float64 elements with alignment" {
     var reader = Reader.from(&storage);
 
     writer.write(u8, 42);
-    var arr1 = [_]f64{1.0, -1.0};
+    var arr1 = [_]f64{ 1.0, -1.0 };
     writer.copyElements(f64, &arr1);
 
     const expected = [_]u8{ 42, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 240, 63, 0, 0, 0, 0, 0, 0, 240, 191 };
@@ -517,7 +516,7 @@ test "Tuple of Uint32" {
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
-    var arr0 = [_]u32{10, 20, 30};
+    var arr0 = [_]u32{ 10, 20, 30 };
     writer.copyElements(u32, &arr0);
 
     const expected = [_]u8{ 10, 0, 0, 0, 20, 0, 0, 0, 30, 0, 0, 0 };
@@ -533,9 +532,9 @@ test "Complex mixed types with arrays and elementss" {
 
     writer.write(u8, 255);
     writer.write(u32, @as(u32, 0xabcdef01));
-    var arr2 = [_]i32{-100, 0, 100};
+    var arr2 = [_]i32{ -100, 0, 100 };
     writer.copyArray(i32, &arr2);
-    var arr3 = [_]f32{1.234, 5.678};
+    var arr3 = [_]f32{ 1.234, 5.678 };
     writer.copyElements(f32, &arr3);
     var arr4 = [_]f64{9.876};
     writer.copyElements(f64, &arr4);
@@ -560,25 +559,25 @@ test "Write sequence with all types" {
     writer.write(i32, -42);
     writer.write(f32, 3.14159);
     writer.write(f64, 2.71828);
-    var arr5 = [_]u8{1, 2, 3};
+    var arr5 = [_]u8{ 1, 2, 3 };
     writer.copyArray(u8, &arr5);
-    var arr6 = [_]u32{@as(u32, 0xaabbccdd), @as(u32, 0xeeff0011)};
+    var arr6 = [_]u32{ @as(u32, 0xaabbccdd), @as(u32, 0xeeff0011) };
     writer.copyArray(u32, &arr6);
-    var arr7 = [_]i32{-1, 0, 1};
+    var arr7 = [_]i32{ -1, 0, 1 };
     writer.copyArray(i32, &arr7);
-    var arr8 = [_]f32{1.0, -1.0};
+    var arr8 = [_]f32{ 1.0, -1.0 };
     writer.copyArray(f32, &arr8);
-    var arr9 = [_]f64{1.0, -1.0};
+    var arr9 = [_]f64{ 1.0, -1.0 };
     writer.copyArray(f64, &arr9);
-    var arr10 = [_]u8{10, 20, 30};
+    var arr10 = [_]u8{ 10, 20, 30 };
     writer.copyElements(u8, &arr10);
-    var arr11 = [_]u32{287454020, 1432778632};
+    var arr11 = [_]u32{ 287454020, 1432778632 };
     writer.copyElements(u32, &arr11);
-    var arr12 = [_]i32{-100, 0, 100};
+    var arr12 = [_]i32{ -100, 0, 100 };
     writer.copyElements(i32, &arr12);
-    var arr13 = [_]f32{2.718, -2.718};
+    var arr13 = [_]f32{ 2.718, -2.718 };
     writer.copyElements(f32, &arr13);
-    var arr14 = [_]f64{3.141592653589793, -3.141592653589793};
+    var arr14 = [_]f64{ 3.141592653589793, -3.141592653589793 };
     writer.copyElements(f64, &arr14);
 
     const expected = [_]u8{ 42, 0, 0, 0, 120, 86, 52, 18, 214, 255, 255, 255, 208, 15, 73, 64, 144, 247, 170, 149, 9, 191, 5, 64, 3, 0, 0, 0, 1, 2, 3, 0, 2, 0, 0, 0, 221, 204, 187, 170, 17, 0, 255, 238, 3, 0, 0, 0, 255, 255, 255, 255, 0, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0, 0, 0, 128, 63, 0, 0, 128, 191, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 240, 63, 0, 0, 0, 0, 0, 0, 240, 191, 10, 20, 30, 0, 68, 51, 34, 17, 136, 119, 102, 85, 156, 255, 255, 255, 0, 0, 0, 0, 100, 0, 0, 0, 182, 243, 45, 64, 182, 243, 45, 192, 24, 45, 68, 84, 251, 33, 9, 64, 24, 45, 68, 84, 251, 33, 9, 192, 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -609,7 +608,7 @@ test "Complex mixed types" {
     writer.write(u8, 99);
     writer.write(u32, 42);
     writer.write(f32, 1.5);
-    var arr3 = [_]f64{1.1, 2.2};
+    var arr3 = [_]f64{ 1.1, 2.2 };
     writer.copyArray(f64, &arr3);
 
     const expected = [_]u8{ 99, 0, 0, 0, 42, 0, 0, 0, 0, 0, 192, 63, 2, 0, 0, 0, 154, 153, 153, 153, 153, 153, 241, 63, 154, 153, 153, 153, 153, 153, 1, 64 };

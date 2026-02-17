@@ -1,4 +1,4 @@
-name: Build Rust
+name: Lint
 
 on:
   push:
@@ -8,21 +8,33 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  lint:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: npm ci
+
+      - name: Install Node dependencies
+        run: npm ci
+
+      - name: Lint Prettier
+        run: npm run lint:prettier
+
+      - uses: mlugg/setup-zig@v2
+        with:
+          version: 0.15.2
+
+      - name: Lint Zig
+        run: npm run lint:zig
+
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
-          target: wasm32-unknown-unknown
           override: true
-      - run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
-      - run: sudo apt install -y wabt
-      - run: ./scripts/build-rust.sh
-      - run: ./scripts/test-rust.sh
+
+      - name: Lint Rust
+        run: npm run lint:rust
