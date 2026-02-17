@@ -18,9 +18,16 @@
   },
   "devDependencies": {
     "@types/node": "22.15.30",
-    "tsx": "4.19.4",
-    "typescript": "^5.0.0",
-    "vitest": "3.1.3",
+    "tsx": "^4.21.0",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18",
     "wasm-opt": "^1.4.0"
+  },
+  "overrides": {
+    "wasm-opt": {
+      "node-fetch": "^3.3.2",
+      "tar": "^7.5.9"
+    }
   }
 }
