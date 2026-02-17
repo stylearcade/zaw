@@ -46,14 +46,27 @@ pub extern "C" fn xorInt32Array() -> i32 {
 }
 
 #[no_mangle]
-pub extern "C" fn sumFloat64Array() -> i32 {
+pub extern "C" fn transferInFloat64Array() -> i32 {
     let input = interop::get_input();
     let output = interop::get_output();
 
     let values = input.read_array_f64();
-    let result = shared::sum_array_f64(&values);
 
-    output.write_f64(result);
+    output.write_u32(values.len() as u32);
+
+    OK
+}
+
+#[no_mangle]
+pub extern "C" fn transferOutFloat64Array() -> i32 {
+    let input = interop::get_input();
+    let output = interop::get_output();
+
+    let value = input.read_f64();
+    let count = input.read_u32();
+
+    let result = output.init_array_f64(count);
+    result.fill(value);
 
     OK
 }
