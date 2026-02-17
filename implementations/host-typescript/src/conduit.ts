@@ -1,5 +1,3 @@
-import assert from 'assert'
-
 function alignUp(x: number, bytes: 4 | 8): number {
   const mask = bytes - 1
 
