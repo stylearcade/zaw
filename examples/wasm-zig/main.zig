@@ -65,51 +65,26 @@ export fn xorInt32Array() i32 {
     return OK;
 }
 
-export fn sumFloat64Array() i32 {
+export fn transferInFloat64Array() i32 {
     var input = interop.getInput();
     var output = interop.getOutput();
 
     const values = input.readArray(f64);
-    const len = values.len;
-    const lanes = simd.getLanes(f64);
-    const batchSize = lanes * 4;
 
-    var acc: [4]Vec(f64) = .{
-        simd.initVec(f64),
-        simd.initVec(f64),
-        simd.initVec(f64),
-        simd.initVec(f64),
-    };
+    output.write(u32, @intCast(values.len));
 
-    var batches: usize = len / batchSize;
-    var i: usize = 0;
+    return OK;
+}
 
-    while (batches > 0) : (batches -= 1) {
-        const offset = values[i..];
+export fn transferOutFloat64Array() i32 {
+    var input = interop.getInput();
+    var output = interop.getOutput();
 
-        acc[0] += simd.sliceToVec(f64, offset);
-        acc[1] += simd.sliceToVec(f64, offset[lanes..]);
-        acc[2] += simd.sliceToVec(f64, offset[lanes * 2 ..]);
-        acc[3] += simd.sliceToVec(f64, offset[lanes * 3 ..]);
-        i += batchSize;
-    }
+    const value = input.read(f64);
+    const count = input.read(u32);
 
-    var remaining: usize = (len % batchSize) / lanes;
-
-    while (remaining > 0) : (remaining -= 1) {
-        acc[0] += simd.sliceToVec(f64, values[i..]);
-        i += lanes;
-    }
-
-    var total: f64 = 0;
-
-    for (0..lanes) |x| total += acc[0][x] + acc[1][x] + acc[2][x] + acc[3][x];
-
-    if (i < len) {
-        for (values[i..len]) |x| total += x;
-    }
-
-    output.write(f64, total);
+    const result = output.initArray(f64, count);
+    @memset(result, value);
 
     return OK;
 }

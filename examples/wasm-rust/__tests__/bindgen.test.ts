@@ -23,14 +23,20 @@ describe('Typescript example host', async () => {
   }
 
   for (const size of [2, 10, 100, 1000, 10000]) {
-    describe(`Sum Float64Array @ ${size} elements`, () => {
-      it('should have correct result', () => {
+    describe(`Transfer Float64Array @ ${size} elements`, () => {
+      it('should transfer in correctly', () => {
         const values = new Float64Array(size).map(() => Math.random())
+        const result = wasm.transferInFloat64Array(values)
+        expect(result).to.equal(size)
+      })
 
-        const expectation = values.reduce((a, v) => a + v)
-
-        const result = wasm.sumFloat64Array(values)
-        expect(result).to.be.closeTo(expectation, 1e-9)
+      it('should transfer out correctly', () => {
+        const testValue = 3.14159
+        const result = wasm.transferOutFloat64Array(testValue, size)
+        expect(result.length).to.equal(size)
+        for (let i = 0; i < size; i++) {
+          expect(result[i]).to.equal(testValue)
+        }
       })
     })
   }

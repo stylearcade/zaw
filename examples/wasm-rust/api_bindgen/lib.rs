@@ -8,8 +8,13 @@ pub fn xor_array_i32(values: &[i32], scalar: i32) -> Vec<i32> {
 }
 
 #[wasm_bindgen]
-pub fn sum_array_f64(values: &[f64]) -> f64 {
-    shared::sum_array_f64(values)
+pub fn transfer_in_float64_array(values: &[f64]) -> u32 {
+    values.len() as u32
+}
+
+#[wasm_bindgen]
+pub fn transfer_out_float64_array(value: f64, count: u32) -> Vec<f64> {
+    vec![value; count as usize]
 }
 
 #[wasm_bindgen]

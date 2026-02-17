@@ -5,7 +5,8 @@ type ExampleExports = {
   usefulPanic: () => ZawReturn
   echo: () => ZawReturn
   xorInt32Array: () => ZawReturn
-  sumFloat64Array: () => ZawReturn
+  transferInFloat64Array: () => ZawReturn
+  transferOutFloat64Array: () => ZawReturn
   multiply4x4Float32: () => ZawReturn
 }
 
@@ -14,7 +15,8 @@ export type ExampleAPI = {
   usefulPanic: () => void
   echo: (msg: string) => string
   xorInt32Array: (values: Int32Array, scalar: number) => Int32Array
-  sumFloat64Array: (values: Float64Array) => number
+  transferInFloat64Array: (values: Float64Array) => number
+  transferOutFloat64Array: (value: number, count: number) => Float64Array
   multiply4x4Float32: (left: Float32Array, right: Float32Array) => Float32Array
 }
 
@@ -55,10 +57,18 @@ export async function initExample(wasmBuffer: Buffer): Promise<ExampleAPI> {
       },
       output => output.readInt32Array(),
     ),
-    sumFloat64Array: instance.bind(
-      instance.exports.sumFloat64Array,
+    transferInFloat64Array: instance.bind(
+      instance.exports.transferInFloat64Array,
       (input, values) => input.copyFloat64Array(values),
-      output => output.readFloat64(),
+      output => output.readUint32(),
+    ),
+    transferOutFloat64Array: instance.bind(
+      instance.exports.transferOutFloat64Array,
+      (input, value, count) => {
+        input.writeFloat64(value)
+        input.writeUint32(count)
+      },
+      output => output.readFloat64Array(),
     ),
     multiply4x4Float32: instance.bind(
       instance.exports.multiply4x4Float32,

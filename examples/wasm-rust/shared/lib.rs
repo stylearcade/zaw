@@ -1,6 +1,3 @@
-#[cfg(target_arch = "wasm32")]
-use std::arch::wasm32::*;
-
 pub fn xor_array_i32(values: &[i32], scalar: i32, result: &mut [i32]) {
     // This auto-vectorizes
     for (i, &value) in values.iter().enumerate() {
@@ -8,59 +5,6 @@ pub fn xor_array_i32(values: &[i32], scalar: i32, result: &mut [i32]) {
     }
 }
 
-pub fn sum_array_f64(values: &[f64]) -> f64 {
-    let mut total = 0.0;
-
-    unsafe {
-        let len = values.len();
-
-        const LANES: usize = 2; // f64x2 has 2 lanes
-        const BATCH_SIZE: usize = LANES * 4; // Process 4 SIMD vectors per iteration
-
-        // Multiple accumulators for instruction-level parallelism
-        let mut acc = [f64x2_splat(0.0); 4];
-        let mut i = 0;
-
-        // Process batches of 4 SIMD vectors
-        while i + BATCH_SIZE <= len {
-            // Load directly into SIMD registers from memory
-            let ptr = values.as_ptr().add(i);
-            let v0 = v128_load(ptr as *const v128);
-            let v1 = v128_load(ptr.add(LANES) as *const v128);
-            let v2 = v128_load(ptr.add(LANES * 2) as *const v128);
-            let v3 = v128_load(ptr.add(LANES * 3) as *const v128);
-
-            // Add to independent accumulators (enables pipelining)
-            acc[0] = f64x2_add(acc[0], v0);
-            acc[1] = f64x2_add(acc[1], v1);
-            acc[2] = f64x2_add(acc[2], v2);
-            acc[3] = f64x2_add(acc[3], v3);
-            i += BATCH_SIZE;
-        }
-
-        // Handle remaining SIMD-sized chunks
-        while i + LANES <= len {
-                let ptr = values.as_ptr().add(i);
-                let v = v128_load(ptr as *const v128);
-                acc[0] = f64x2_add(acc[0], v);
-            i += LANES;
-        }
-
-        // Sum all accumulators
-
-        for j in 0..4 {
-            total += f64x2_extract_lane::<0>(acc[j]) + f64x2_extract_lane::<1>(acc[j]);
-        }
-
-        // Handle remaining scalar elements
-        while i < len {
-            total += *values.get_unchecked(i);
-            i += 1;
-        }
-    }
-
-    total
-}
 
 fn multiply_4x4_f32_single(a: &[f32], b: &[f32], result: &mut [f32]) {
     result[0]  = a[0]*b[0]  + a[1]*b[4]  + a[2]*b[8]   + a[3]*b[12];

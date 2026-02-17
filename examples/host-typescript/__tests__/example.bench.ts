@@ -39,27 +39,37 @@ describe('Typescript example host', async () => {
   }
 
   for (const size of [10, 100, 1_000, 10_000, 100_000]) {
-    describe(`Sum Float64Array @ ${size} elements`, () => {
+    describe(`Transfer In Float64Array @ ${size} elements`, () => {
       const values = new Float64Array(size).map(() => Math.random())
 
-      bench('js', () => {
-        let total = 0
-
-        for (let i = values.length; i-- > 0; ) {
-          total += values[i]
-        }
-      })
-
       bench('zig', () => {
-        zig.sumFloat64Array(values)
+        zig.transferInFloat64Array(values)
       })
 
       bench('rust', () => {
-        rust.sumFloat64Array(values)
+        rust.transferInFloat64Array(values)
       })
 
       bench('rust-bindgen', () => {
-        rustBindgen.sumFloat64Array(values)
+        rustBindgen.transferInFloat64Array(values)
+      })
+    })
+  }
+
+  for (const size of [10, 100, 1_000, 10_000, 100_000]) {
+    describe(`Transfer Out Float64Array @ ${size} elements`, () => {
+      const testValue = 3.14159
+
+      bench('zig', () => {
+        zig.transferOutFloat64Array(testValue, size)
+      })
+
+      bench('rust', () => {
+        rust.transferOutFloat64Array(testValue, size)
+      })
+
+      bench('rust-bindgen', () => {
+        rustBindgen.transferOutFloat64Array(testValue, size)
       })
     })
   }
