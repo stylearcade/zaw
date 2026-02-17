@@ -7,6 +7,7 @@
     "bench-ts": "vitest bench --run",
     "install": "./scripts/install.sh",
     "test-ts": "vitest run --mode=test",
+    "test-browser": "vitest run --config vitest.browser.config.ts",
     "test-zig": "./scripts/test-zig.sh",
     "test-rust": "./scripts/test-rust.sh",
     "generate-tests": "tsx ./test-gen/generate.ts"
@@ -18,6 +19,9 @@
   },
   "devDependencies": {
     "@types/node": "22.15.30",
+    "@vitest/browser": "^4.0.18",
+    "@vitest/browser-playwright": "^4.0.18",
+    "playwright": "^1.49.1",
     "tsx": "^4.21.0",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3",

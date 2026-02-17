@@ -36,11 +36,12 @@ export type Instance<T extends Record<string, unknown>> = {
 }
 
 export async function createInstance<T extends Record<string, unknown>>(
-  wasmBuffer: Buffer,
+  wasmBuffer: BufferSource | ArrayBuffer,
   options: InstanceOptions,
 ): Promise<Instance<T>> {
   const { inputChannelSize, outputChannelSize, initialMemoryPages = DEFAULT_INITIAL_PAGES, log = console.log.bind(console) } = options
   const memory = new WebAssembly.Memory({ initial: initialMemoryPages })
+  const textDecoder = new TextDecoder('utf-8')
 
   const imports = {
     env: {
@@ -83,7 +84,7 @@ export async function createInstance<T extends Record<string, unknown>>(
   const hostLog = (): void => {
     const data = getLogData()
     const length = data.indexOf(0)
-    const message = Buffer.from(data.subarray(0, length)).toString('utf8')
+    const message = textDecoder.decode(data.subarray(0, length))
 
     log(message)
   }
@@ -93,7 +94,7 @@ export async function createInstance<T extends Record<string, unknown>>(
     const length = data.indexOf(0)
 
     if (length > 0) {
-      const message = Buffer.from(data.subarray(0, length)).toString('utf8')
+      const message = textDecoder.decode(data.subarray(0, length))
 
       throw Error(message)
     } else if (e !== undefined) {
