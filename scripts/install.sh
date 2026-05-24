@@ -24,10 +24,10 @@ if command -v zig &> /dev/null; then
         echo "Found anyzig"
     else
         zig_version=$(echo "$zig_output" | cut -d. -f1-2)
-        if [ "$zig_version" == "0.15" ]; then
-            echo "Found zig 0.15"
+        if [ "$zig_version" == "0.16" ]; then
+            echo "Found zig 0.16"
         else
-            echo "❌ Detected zig version $zig_version (required: 0.15)"
+            echo "❌ Detected zig version $zig_version (required: 0.16)"
             echo "Please uninstall your current zig version before proceeding."
             echo "Once uninstalled, re-run this script and it will install anyzig in its place."
             exit 1
