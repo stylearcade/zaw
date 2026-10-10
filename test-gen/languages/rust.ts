@@ -114,7 +114,7 @@ function generateTestCase(testCase: TestCase): string {
 
   let code = `    #[test]\n    fn ${testCase.name.toLowerCase().replace(/[^a-z0-9]/g, '_')}() {\n`
 
-  code += indent(['let mut storage = [0u64; 32];'])
+  code += indent([`let mut storage = [0u64; ${(testCase.bufferSize ?? 256) / 8}];`])
 
   code += indent(['{', '    let mut writer = Writer::from(&mut storage);'])
 

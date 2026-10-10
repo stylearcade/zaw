@@ -17,6 +17,8 @@ export type TestCase = {
   name: string
   operations: Operation[]
   expectation: number[]
+  // Channel size in bytes (a multiple of 8). Omit for a buffer larger than the test needs.
+  bufferSize?: number
 }
 
 export type TestGenerator = {

@@ -1185,3 +1185,143 @@ test "Float32 extreme values" {
     try expectEqual(1.175494e-38, reader.read(f32));
     try expectEqual(-3.4028235e+38, reader.read(f32));
 }
+
+test "Fill channel exactly with Uint8 writes" {
+    var storage = [_]u64{0} ** 1;
+    var writer = Writer.from(&storage);
+    var reader = Reader.from(&storage);
+
+    writer.write(u8, 1);
+    writer.write(u8, 2);
+    writer.write(u8, 3);
+    writer.write(u8, 4);
+    writer.write(u8, 5);
+    writer.write(u8, 6);
+    writer.write(u8, 7);
+    writer.write(u8, 8);
+
+    const expected = [_]u8{ 1, 2, 3, 4, 5, 6, 7, 8 };
+    try expectEqualSlices(u8, &expected, writer.channel.storage(u8)[0..8]);
+
+    try expectEqual(1, reader.read(u8));
+    try expectEqual(2, reader.read(u8));
+    try expectEqual(3, reader.read(u8));
+    try expectEqual(4, reader.read(u8));
+    try expectEqual(5, reader.read(u8));
+    try expectEqual(6, reader.read(u8));
+    try expectEqual(7, reader.read(u8));
+    try expectEqual(8, reader.read(u8));
+}
+
+test "Fill channel exactly with Float64 write" {
+    var storage = [_]u64{0} ** 1;
+    var writer = Writer.from(&storage);
+    var reader = Reader.from(&storage);
+
+    writer.write(f64, 1.0);
+
+    const expected = [_]u8{ 0, 0, 0, 0, 0, 0, 240, 63 };
+    try expectEqualSlices(u8, &expected, writer.channel.storage(u8)[0..8]);
+
+    try expectEqual(1.0, reader.read(f64));
+}
+
+test "Fill channel exactly with Float32 inits" {
+    var storage = [_]u64{0} ** 1;
+    var writer = Writer.from(&storage);
+    var reader = Reader.from(&storage);
+
+    const ptr0 = writer.init(f32);
+    ptr0.* = 1.0;
+    const ptr1 = writer.init(f32);
+    ptr1.* = -1.0;
+
+    const expected = [_]u8{ 0, 0, 128, 63, 0, 0, 128, 191 };
+    try expectEqualSlices(u8, &expected, writer.channel.storage(u8)[0..8]);
+
+    try expectEqual(1.0, reader.read(f32));
+    try expectEqual(-1.0, reader.read(f32));
+}
+
+test "Fill channel exactly with Uint32 array" {
+    var storage = [_]u64{0} ** 1;
+    var writer = Writer.from(&storage);
+    var reader = Reader.from(&storage);
+
+    var arr0 = [_]u32{7};
+    writer.copyArray(u32, &arr0);
+
+    const expected = [_]u8{ 1, 0, 0, 0, 7, 0, 0, 0 };
+    try expectEqualSlices(u8, &expected, writer.channel.storage(u8)[0..8]);
+
+    try expectEqualSlices(u32, &arr0, reader.readArray(u32));
+}
+
+test "Fill channel exactly with Int32 initArray" {
+    var storage = [_]u64{0} ** 2;
+    var writer = Writer.from(&storage);
+    var reader = Reader.from(&storage);
+
+    const arr0 = writer.initArray(i32, 3);
+    arr0[0] = 1;
+    arr0[1] = 2;
+    arr0[2] = 3;
+
+    const expected = [_]u8{ 3, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0 };
+    try expectEqualSlices(u8, &expected, writer.channel.storage(u8)[0..16]);
+
+    try expectEqualSlices(i32, arr0, reader.readArray(i32));
+}
+
+test "Fill channel exactly with aligned Float64 elements" {
+    var storage = [_]u64{0} ** 2;
+    var writer = Writer.from(&storage);
+    var reader = Reader.from(&storage);
+
+    writer.write(u8, 9);
+    var arr1 = [_]f64{1.0};
+    writer.copyElements(f64, &arr1);
+
+    const expected = [_]u8{ 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 240, 63 };
+    try expectEqualSlices(u8, &expected, writer.channel.storage(u8)[0..16]);
+
+    try expectEqual(9, reader.read(u8));
+    try expectEqualSlices(f64, &arr1, reader.readElements(f64, 1));
+}
+
+test "Fill channel exactly with Uint8 initElements" {
+    var storage = [_]u64{0} ** 1;
+    var writer = Writer.from(&storage);
+    var reader = Reader.from(&storage);
+
+    const arr0 = writer.initElements(u8, 8);
+    arr0[0] = 8;
+    arr0[1] = 7;
+    arr0[2] = 6;
+    arr0[3] = 5;
+    arr0[4] = 4;
+    arr0[5] = 3;
+    arr0[6] = 2;
+    arr0[7] = 1;
+
+    const expected = [_]u8{ 8, 7, 6, 5, 4, 3, 2, 1 };
+    try expectEqualSlices(u8, &expected, writer.channel.storage(u8)[0..8]);
+
+    try expectEqualSlices(u8, arr0, reader.readElements(u8, 8));
+}
+
+test "Empty elements at the end of a full channel" {
+    var storage = [_]u64{0} ** 1;
+    var writer = Writer.from(&storage);
+    var reader = Reader.from(&storage);
+
+    writer.write(f64, 2.0);
+    var arr1 = [_]f64{};
+    writer.copyElements(f64, &arr1);
+
+    const expected = [_]u8{ 0, 0, 0, 0, 0, 0, 0, 64 };
+    try expectEqualSlices(u8, &expected, writer.channel.storage(u8)[0..8]);
+
+    try expectEqual(2.0, reader.read(f64));
+    try expectEqualSlices(f64, &arr1, reader.readElements(f64, 0));
+}

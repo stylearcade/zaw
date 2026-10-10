@@ -97,7 +97,7 @@ function generateTestCase(testCase: TestCase): string {
 
   code += indent([
     '// Create a new buffer for testing',
-    'const buffer = new ArrayBuffer(1024);',
+    `const buffer = new ArrayBuffer(${testCase.bufferSize ?? 1024});`,
     'const writer = new Writer(buffer);',
     'const reader = new Reader(buffer);',
     'writer.reset();',

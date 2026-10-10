@@ -48,9 +48,10 @@ const Channel = struct {
 
     /// Checks if the current offset is within bounds.
     ///
-    /// Panics if the offset has exceeded the buffer capacity.
+    /// Panics if the offset has exceeded the buffer capacity. An offset equal to the
+    /// capacity is valid: the channel is exactly full.
     fn checkOffset(self: *Self) void {
-        if (self._offset >= self._storageUint8.len) {
+        if (self._offset > self._storageUint8.len) {
             @branchHint(.cold);
             @panic("Channel out of bounds");
         }
@@ -187,8 +188,9 @@ pub const Writer = struct {
         if (T == usize) {
             self.write(u32, @intCast(value));
         } else {
-            self.channel.storage(T)[self.channel.getOffset(T)] = value;
-            self.channel.advance(T, 1);
+            const offset = self.channel.getOffset(T);
+            self.channel.advance(T, 1); // bounds check before the access
+            self.channel.storage(T)[offset] = value;
         }
     }
 
@@ -248,9 +250,9 @@ pub const Writer = struct {
     pub fn copyElements(self: *Self, comptime T: type, arr: []T) void {
         const start = self.channel.getOffset(T);
 
-        @memcpy(self.channel.storage(T)[start .. start + arr.len], arr);
+        self.channel.advance(T, @intCast(arr.len)); // bounds check before the access
 
-        self.channel.advance(T, @intCast(arr.len));
+        @memcpy(self.channel.storage(T)[start .. start + arr.len], arr);
     }
 
     /// Copies an array of type T to the channel with a length prefix.
@@ -329,11 +331,11 @@ pub const Reader = struct {
     /// Returns:
     ///     The value read from the channel
     pub fn read(self: *Self, comptime T: type) T {
-        const result = self.channel.storage(T)[self.channel.getOffset(T)];
+        const offset = self.channel.getOffset(T);
 
-        self.channel.advance(T, 1);
+        self.channel.advance(T, 1); // bounds check before the access
 
-        return result;
+        return self.channel.storage(T)[offset];
     }
 
     /// Reads array elements of type T from the channel without a length prefix.

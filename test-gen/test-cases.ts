@@ -1251,4 +1251,111 @@ export const testCases: TestCase[] = [
     ],
     expectation: [0xff, 0xff, 0x7f, 0x7f, 0xfd, 0xff, 0x7f, 0x00, 0xff, 0xff, 0x7f, 0xff],
   },
+
+  // Filling the channel exactly: the last byte written is the last byte of the buffer
+  {
+    name: 'Fill channel exactly with Uint8 writes',
+    bufferSize: 8,
+    operations: [1, 2, 3, 4, 5, 6, 7, 8].map(value => ({ type: 'write' as const, dataType: 'Uint8' as const, value })),
+    expectation: [1, 2, 3, 4, 5, 6, 7, 8],
+  },
+  {
+    name: 'Fill channel exactly with Float64 write',
+    bufferSize: 8,
+    operations: [
+      {
+        type: 'write',
+        dataType: 'Float64',
+        value: 1.0,
+      },
+    ],
+    expectation: [0, 0, 0, 0, 0, 0, 0xf0, 0x3f],
+  },
+  {
+    name: 'Fill channel exactly with Float32 inits',
+    bufferSize: 8,
+    operations: [
+      {
+        type: 'init',
+        dataType: 'Float32',
+        value: 1.0,
+      },
+      {
+        type: 'init',
+        dataType: 'Float32',
+        value: -1.0,
+      },
+    ],
+    expectation: [0, 0, 0x80, 0x3f, 0, 0, 0x80, 0xbf],
+  },
+  {
+    name: 'Fill channel exactly with Uint32 array',
+    bufferSize: 8,
+    operations: [
+      {
+        type: 'copyArray',
+        dataType: 'Uint32',
+        value: [7],
+      },
+    ],
+    expectation: [1, 0, 0, 0, 7, 0, 0, 0],
+  },
+  {
+    name: 'Fill channel exactly with Int32 initArray',
+    bufferSize: 16,
+    operations: [
+      {
+        type: 'initArray',
+        dataType: 'Int32',
+        value: [1, 2, 3],
+      },
+    ],
+    expectation: [3, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0],
+  },
+  {
+    name: 'Fill channel exactly with aligned Float64 elements',
+    bufferSize: 16,
+    operations: [
+      {
+        type: 'write',
+        dataType: 'Uint8',
+        value: 9,
+      },
+      {
+        type: 'copyElements',
+        dataType: 'Float64',
+        value: [1.0],
+      },
+    ],
+    expectation: [9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xf0, 0x3f],
+  },
+  {
+    name: 'Fill channel exactly with Uint8 initElements',
+    bufferSize: 8,
+    operations: [
+      {
+        type: 'initElements',
+        dataType: 'Uint8',
+        value: [8, 7, 6, 5, 4, 3, 2, 1],
+      },
+    ],
+    expectation: [8, 7, 6, 5, 4, 3, 2, 1],
+  },
+  {
+    name: 'Empty elements at the end of a full channel',
+    bufferSize: 8,
+    operations: [
+      {
+        type: 'write',
+        dataType: 'Float64',
+        value: 2.0,
+      },
+      {
+        type: 'copyElements',
+        dataType: 'Float64',
+        value: [],
+      },
+    ],
+    expectation: [0, 0, 0, 0, 0, 0, 0, 0x40],
+  },
 ]

@@ -1810,4 +1810,212 @@ describe('Channel Protocol Tests', () => {
     expect(reader.readFloat32()).toEqual(1.1754939304327482e-38)
     expect(reader.readFloat32()).toEqual(-3.4028234663852886e38)
   })
+
+  test('Fill channel exactly with Uint8 writes', () => {
+    // Create a new buffer for testing
+    const buffer = new ArrayBuffer(8)
+    const writer = new Writer(buffer)
+    const reader = new Reader(buffer)
+    writer.reset()
+
+    writer.writeUint8(1)
+    writer.writeUint8(2)
+    writer.writeUint8(3)
+    writer.writeUint8(4)
+    writer.writeUint8(5)
+    writer.writeUint8(6)
+    writer.writeUint8(7)
+    writer.writeUint8(8)
+
+    // Verify buffer contents
+    const expected = new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8])
+    const actual = new Uint8Array(buffer, 0, 8)
+    expect(Array.from(actual)).toEqual(Array.from(expected))
+
+    // Read back values
+    reader.reset()
+
+    expect(reader.readUint8()).toEqual(1)
+    expect(reader.readUint8()).toEqual(2)
+    expect(reader.readUint8()).toEqual(3)
+    expect(reader.readUint8()).toEqual(4)
+    expect(reader.readUint8()).toEqual(5)
+    expect(reader.readUint8()).toEqual(6)
+    expect(reader.readUint8()).toEqual(7)
+    expect(reader.readUint8()).toEqual(8)
+  })
+
+  test('Fill channel exactly with Float64 write', () => {
+    // Create a new buffer for testing
+    const buffer = new ArrayBuffer(8)
+    const writer = new Writer(buffer)
+    const reader = new Reader(buffer)
+    writer.reset()
+
+    writer.writeFloat64(1)
+
+    // Verify buffer contents
+    const expected = new Uint8Array([0, 0, 0, 0, 0, 0, 240, 63])
+    const actual = new Uint8Array(buffer, 0, 8)
+    expect(Array.from(actual)).toEqual(Array.from(expected))
+
+    // Read back values
+    reader.reset()
+
+    expect(reader.readFloat64()).toEqual(1)
+  })
+
+  test('Fill channel exactly with Float32 inits', () => {
+    // Create a new buffer for testing
+    const buffer = new ArrayBuffer(8)
+    const writer = new Writer(buffer)
+    const reader = new Reader(buffer)
+    writer.reset()
+
+    const ptr0 = writer.initFloat32()
+    ptr0(1)
+    const ptr1 = writer.initFloat32()
+    ptr1(-1)
+
+    // Verify buffer contents
+    const expected = new Uint8Array([0, 0, 128, 63, 0, 0, 128, 191])
+    const actual = new Uint8Array(buffer, 0, 8)
+    expect(Array.from(actual)).toEqual(Array.from(expected))
+
+    // Read back values
+    reader.reset()
+
+    expect(reader.readFloat32()).toEqual(1)
+    expect(reader.readFloat32()).toEqual(-1)
+  })
+
+  test('Fill channel exactly with Uint32 array', () => {
+    // Create a new buffer for testing
+    const buffer = new ArrayBuffer(8)
+    const writer = new Writer(buffer)
+    const reader = new Reader(buffer)
+    writer.reset()
+
+    writer.copyUint32Array([7])
+
+    // Verify buffer contents
+    const expected = new Uint8Array([1, 0, 0, 0, 7, 0, 0, 0])
+    const actual = new Uint8Array(buffer, 0, 8)
+    expect(Array.from(actual)).toEqual(Array.from(expected))
+
+    // Read back values
+    reader.reset()
+
+    const readArr0 = reader.readUint32Array()
+    expect(readArr0.length).toEqual(1)
+    expect(readArr0[0]).toEqual(7)
+  })
+
+  test('Fill channel exactly with Int32 initArray', () => {
+    // Create a new buffer for testing
+    const buffer = new ArrayBuffer(16)
+    const writer = new Writer(buffer)
+    const reader = new Reader(buffer)
+    writer.reset()
+
+    const arr0 = writer.initInt32Array(3)
+    arr0[0] = 1
+    arr0[1] = 2
+    arr0[2] = 3
+
+    // Verify buffer contents
+    const expected = new Uint8Array([3, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0])
+    const actual = new Uint8Array(buffer, 0, 16)
+    expect(Array.from(actual)).toEqual(Array.from(expected))
+
+    // Read back values
+    reader.reset()
+
+    const readArr0 = reader.readInt32Array()
+    expect(readArr0.length).toEqual(3)
+    expect(readArr0[0]).toEqual(1)
+    expect(readArr0[1]).toEqual(2)
+    expect(readArr0[2]).toEqual(3)
+  })
+
+  test('Fill channel exactly with aligned Float64 elements', () => {
+    // Create a new buffer for testing
+    const buffer = new ArrayBuffer(16)
+    const writer = new Writer(buffer)
+    const reader = new Reader(buffer)
+    writer.reset()
+
+    writer.writeUint8(9)
+    writer.copyFloat64Elements([1])
+
+    // Verify buffer contents
+    const expected = new Uint8Array([9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 240, 63])
+    const actual = new Uint8Array(buffer, 0, 16)
+    expect(Array.from(actual)).toEqual(Array.from(expected))
+
+    // Read back values
+    reader.reset()
+
+    expect(reader.readUint8()).toEqual(9)
+    const readElems1 = reader.readFloat64Elements(1)
+    expect(readElems1[0]).toEqual(1)
+  })
+
+  test('Fill channel exactly with Uint8 initElements', () => {
+    // Create a new buffer for testing
+    const buffer = new ArrayBuffer(8)
+    const writer = new Writer(buffer)
+    const reader = new Reader(buffer)
+    writer.reset()
+
+    const arr0 = writer.initUint8Elements(8)
+    arr0[0] = 8
+    arr0[1] = 7
+    arr0[2] = 6
+    arr0[3] = 5
+    arr0[4] = 4
+    arr0[5] = 3
+    arr0[6] = 2
+    arr0[7] = 1
+
+    // Verify buffer contents
+    const expected = new Uint8Array([8, 7, 6, 5, 4, 3, 2, 1])
+    const actual = new Uint8Array(buffer, 0, 8)
+    expect(Array.from(actual)).toEqual(Array.from(expected))
+
+    // Read back values
+    reader.reset()
+
+    const readElems0 = reader.readUint8Elements(8)
+    expect(readElems0[0]).toEqual(8)
+    expect(readElems0[1]).toEqual(7)
+    expect(readElems0[2]).toEqual(6)
+    expect(readElems0[3]).toEqual(5)
+    expect(readElems0[4]).toEqual(4)
+    expect(readElems0[5]).toEqual(3)
+    expect(readElems0[6]).toEqual(2)
+    expect(readElems0[7]).toEqual(1)
+  })
+
+  test('Empty elements at the end of a full channel', () => {
+    // Create a new buffer for testing
+    const buffer = new ArrayBuffer(8)
+    const writer = new Writer(buffer)
+    const reader = new Reader(buffer)
+    writer.reset()
+
+    writer.writeFloat64(2)
+    writer.copyFloat64Elements([])
+
+    // Verify buffer contents
+    const expected = new Uint8Array([0, 0, 0, 0, 0, 0, 0, 64])
+    const actual = new Uint8Array(buffer, 0, 8)
+    expect(Array.from(actual)).toEqual(Array.from(expected))
+
+    // Read back values
+    reader.reset()
+
+    expect(reader.readFloat64()).toEqual(2)
+    const readElems1 = reader.readFloat64Elements(0)
+  })
 })

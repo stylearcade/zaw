@@ -1742,4 +1742,201 @@ mod tests {
         assert_eq!(1.175494e-38, reader.read_f32());
         assert_eq!(-3.4028235e+38, reader.read_f32());
     }
+
+    #[test]
+    fn fill_channel_exactly_with_uint8_writes() {
+        let mut storage = [0u64; 1];
+        {
+            let mut writer = Writer::from(&mut storage);
+            writer.write_u8(1);
+            writer.write_u8(2);
+            writer.write_u8(3);
+            writer.write_u8(4);
+            writer.write_u8(5);
+            writer.write_u8(6);
+            writer.write_u8(7);
+            writer.write_u8(8);
+        }
+
+        let expected = [1, 2, 3, 4, 5, 6, 7, 8u8];
+        let actual = unsafe { std::slice::from_raw_parts(storage.as_ptr() as *const u8, 8) };
+        assert_eq!(&expected[..], actual);
+
+        let mut reader = Reader::from(&mut storage);
+        reader.reset();
+
+        assert_eq!(1, reader.read_u8());
+        assert_eq!(2, reader.read_u8());
+        assert_eq!(3, reader.read_u8());
+        assert_eq!(4, reader.read_u8());
+        assert_eq!(5, reader.read_u8());
+        assert_eq!(6, reader.read_u8());
+        assert_eq!(7, reader.read_u8());
+        assert_eq!(8, reader.read_u8());
+    }
+
+    #[test]
+    fn fill_channel_exactly_with_float64_write() {
+        let mut storage = [0u64; 1];
+        {
+            let mut writer = Writer::from(&mut storage);
+            writer.write_f64(1.0);
+        }
+
+        let expected = [0, 0, 0, 0, 0, 0, 240, 63u8];
+        let actual = unsafe { std::slice::from_raw_parts(storage.as_ptr() as *const u8, 8) };
+        assert_eq!(&expected[..], actual);
+
+        let mut reader = Reader::from(&mut storage);
+        reader.reset();
+
+        assert_eq!(1.0, reader.read_f64());
+    }
+
+    #[test]
+    fn fill_channel_exactly_with_float32_inits() {
+        let mut storage = [0u64; 1];
+        {
+            let mut writer = Writer::from(&mut storage);
+            let ptr0 = writer.init_f32();
+            unsafe {
+                *ptr0 = 1.0;
+            }
+            let ptr1 = writer.init_f32();
+            unsafe {
+                *ptr1 = -1.0;
+            }
+        }
+
+        let expected = [0, 0, 128, 63, 0, 0, 128, 191u8];
+        let actual = unsafe { std::slice::from_raw_parts(storage.as_ptr() as *const u8, 8) };
+        assert_eq!(&expected[..], actual);
+
+        let mut reader = Reader::from(&mut storage);
+        reader.reset();
+
+        assert_eq!(1.0, reader.read_f32());
+        assert_eq!(-1.0, reader.read_f32());
+    }
+
+    #[test]
+    fn fill_channel_exactly_with_uint32_array() {
+        let mut storage = [0u64; 1];
+        {
+            let mut writer = Writer::from(&mut storage);
+            writer.copy_array_u32(&[7]);
+        }
+
+        let expected = [1, 0, 0, 0, 7, 0, 0, 0u8];
+        let actual = unsafe { std::slice::from_raw_parts(storage.as_ptr() as *const u8, 8) };
+        assert_eq!(&expected[..], actual);
+
+        let mut reader = Reader::from(&mut storage);
+        reader.reset();
+
+        let read_arr0 = reader.read_array_u32();
+        assert_eq!(1, read_arr0.len());
+        assert_eq!(7, read_arr0[0]);
+    }
+
+    #[test]
+    fn fill_channel_exactly_with_int32_initarray() {
+        let mut storage = [0u64; 2];
+        {
+            let mut writer = Writer::from(&mut storage);
+            let arr0 = writer.init_array_i32(3);
+            arr0[0] = 1;
+            arr0[1] = 2;
+            arr0[2] = 3;
+        }
+
+        let expected = [3, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0u8];
+        let actual = unsafe { std::slice::from_raw_parts(storage.as_ptr() as *const u8, 16) };
+        assert_eq!(&expected[..], actual);
+
+        let mut reader = Reader::from(&mut storage);
+        reader.reset();
+
+        let read_arr0 = reader.read_array_i32();
+        assert_eq!(3, read_arr0.len());
+        assert_eq!(1, read_arr0[0]);
+        assert_eq!(2, read_arr0[1]);
+        assert_eq!(3, read_arr0[2]);
+    }
+
+    #[test]
+    fn fill_channel_exactly_with_aligned_float64_elements() {
+        let mut storage = [0u64; 2];
+        {
+            let mut writer = Writer::from(&mut storage);
+            writer.write_u8(9);
+            writer.copy_elements_f64(&[1.0]);
+        }
+
+        let expected = [9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 240, 63u8];
+        let actual = unsafe { std::slice::from_raw_parts(storage.as_ptr() as *const u8, 16) };
+        assert_eq!(&expected[..], actual);
+
+        let mut reader = Reader::from(&mut storage);
+        reader.reset();
+
+        assert_eq!(9, reader.read_u8());
+        let read_elems1 = reader.read_elements_f64(1);
+        assert_eq!(1.0, read_elems1[0]);
+    }
+
+    #[test]
+    fn fill_channel_exactly_with_uint8_initelements() {
+        let mut storage = [0u64; 1];
+        {
+            let mut writer = Writer::from(&mut storage);
+            let arr0 = writer.init_elements_u8(8);
+            arr0[0] = 8;
+            arr0[1] = 7;
+            arr0[2] = 6;
+            arr0[3] = 5;
+            arr0[4] = 4;
+            arr0[5] = 3;
+            arr0[6] = 2;
+            arr0[7] = 1;
+        }
+
+        let expected = [8, 7, 6, 5, 4, 3, 2, 1u8];
+        let actual = unsafe { std::slice::from_raw_parts(storage.as_ptr() as *const u8, 8) };
+        assert_eq!(&expected[..], actual);
+
+        let mut reader = Reader::from(&mut storage);
+        reader.reset();
+
+        let read_elems0 = reader.read_elements_u8(8);
+        assert_eq!(8, read_elems0[0]);
+        assert_eq!(7, read_elems0[1]);
+        assert_eq!(6, read_elems0[2]);
+        assert_eq!(5, read_elems0[3]);
+        assert_eq!(4, read_elems0[4]);
+        assert_eq!(3, read_elems0[5]);
+        assert_eq!(2, read_elems0[6]);
+        assert_eq!(1, read_elems0[7]);
+    }
+
+    #[test]
+    fn empty_elements_at_the_end_of_a_full_channel() {
+        let mut storage = [0u64; 1];
+        {
+            let mut writer = Writer::from(&mut storage);
+            writer.write_f64(2.0);
+            writer.copy_elements_f64(&[]);
+        }
+
+        let expected = [0, 0, 0, 0, 0, 0, 0, 64u8];
+        let actual = unsafe { std::slice::from_raw_parts(storage.as_ptr() as *const u8, 8) };
+        assert_eq!(&expected[..], actual);
+
+        let mut reader = Reader::from(&mut storage);
+        reader.reset();
+
+        assert_eq!(2.0, reader.read_f64());
+        let _read_elems1 = reader.read_elements_f64(0);
+        assert_eq!(0, _read_elems1.len());
+    }
 }

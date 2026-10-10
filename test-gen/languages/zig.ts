@@ -90,7 +90,11 @@ function generateTestCase(testCase: TestCase): string {
 
   let code = `test "${testCase.name}" {\n`
 
-  code += indent(['var storage = [_]u64{0} ** 32;', 'var writer = Writer.from(&storage);', 'var reader = Reader.from(&storage);'])
+  code += indent([
+    `var storage = [_]u64{0} ** ${(testCase.bufferSize ?? 256) / 8};`,
+    'var writer = Writer.from(&storage);',
+    'var reader = Reader.from(&storage);',
+  ])
 
   code += '\n'
 
