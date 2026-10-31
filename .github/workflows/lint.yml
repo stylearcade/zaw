@@ -31,10 +31,8 @@ jobs:
       - name: Lint Zig
         run: npm run lint:zig
 
-      - uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          override: true
+      - name: Install Rust (version from rust-toolchain.toml)
+        run: rustup toolchain install
 
       - name: Lint Rust
         run: npm run lint:rust

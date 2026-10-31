@@ -1,135 +1,54 @@
 const std = @import("std");
 const builtin = @import("builtin");
 
-fn getStorage(comptime T: type, storage: []u64) []T {
-    const ptr: [*]T = @ptrCast(@alignCast(storage.ptr));
-
-    return ptr[0 .. storage.len * @sizeOf(u64) / @sizeOf(T)];
-}
-
 fn alignUp(offset: u32, comptime bytes: u8) u32 {
     const mask = bytes - 1;
 
     return (offset + mask) & ~@as(u32, mask);
 }
 
-/// Internal channel for managing typed storage arrays and offset tracking.
-///
-/// The Channel maintains separate typed views of the same underlying memory buffer,
-/// allowing efficient access to different primitive types while ensuring proper alignment.
+/// The channel's memory: one byte buffer (8-byte aligned) and the offset
+/// of the next value. Reshaped for verification (safe-zig, 2026-10-31):
+/// no whole-buffer views of other types. Each value or array is a region
+/// carved at the offset (aligned to its type) and seen as that one type
+/// only; the offset only grows, so what was handed out is exactly the
+/// bytes below it. The bytes in memory are the same as before.
 const Channel = struct {
     const Self = @This();
 
     _offset: u32 = 0,
-    _storageUint8: []u8,
-    _storageUint32: []u32,
-    _storageInt32: []i32,
-    _storageFloat32: []f32,
-    _storageFloat64: []f64,
+    _bytes: []align(8) u8,
 
-    /// Creates a new Channel from 8-byte aligned storage.
-    ///
-    /// Reinterprets the u64 storage as different primitive type arrays.
-    ///
-    /// Args:
-    ///     storage8byteAligned: A slice of u64 values providing the backing memory
-    ///
-    /// Returns:
-    ///     A new Channel instance with typed storage views
     pub fn from(storage8byteAligned: []u64) Self {
-        return Self{
-            ._storageUint8 = getStorage(u8, storage8byteAligned),
-            ._storageUint32 = getStorage(u32, storage8byteAligned),
-            ._storageInt32 = getStorage(i32, storage8byteAligned),
-            ._storageFloat32 = getStorage(f32, storage8byteAligned),
-            ._storageFloat64 = getStorage(f64, storage8byteAligned),
-        };
+        return .{ ._bytes = std.mem.sliceAsBytes(storage8byteAligned) };
     }
 
-    /// Checks if the current offset is within bounds.
-    ///
-    /// Panics if the offset has exceeded the buffer capacity.
-    fn checkOffset(self: *Self) void {
-        if (self._offset >= self._storageUint8.len) {
-            @branchHint(.cold);
-            @panic("Channel out of bounds");
-        }
-    }
-
-    /// Resets the channel offset to the beginning of the buffer.
-    ///
-    /// This allows reusing the same buffer for multiple operations.
     pub fn reset(self: *Self) void {
         self._offset = 0;
     }
 
-    /// Returns the typed storage array for the given type.
-    ///
-    /// Args:
-    ///     T: The primitive type (u8, u32, i32, f32, or f64)
-    ///
-    /// Returns:
-    ///     A slice of the appropriate type viewing the underlying storage
+    /// The whole buffer as bytes (tests).
     pub inline fn storage(self: *const Self, comptime T: type) []T {
-        switch (T) {
-            u8 => return self._storageUint8,
-            u32 => return self._storageUint32,
-            i32 => return self._storageInt32,
-            f32 => return self._storageFloat32,
-            f64 => return self._storageFloat64,
-            else => @compileError("Invalid type, expected u8, i32, u32, f32 or f64"),
-        }
+        if (T != u8) @compileError("the channel is read as bytes only; values through `region`");
+        return self._bytes;
     }
 
-    /// Aligns the current offset to the requirements of type T.
-    ///
-    /// Args:
-    ///     T: The type to align for
-    pub inline fn alignTo(self: *Self, comptime T: type) void {
-        self._offset = alignUp(self._offset, @sizeOf(T));
-        self.checkOffset();
-    }
-
-    /// Gets the properly aligned offset for type T as an array index.
-    ///
-    /// Args:
-    ///     T: The type to get the offset for
-    ///
-    /// Returns:
-    ///     The array index for the current position in the typed storage
-    pub inline fn getOffset(self: *Self, comptime T: type) u32 {
+    /// `count` values of `T` at the offset (aligned up to `T`'s size),
+    /// the offset moved past them; past the buffer's end, a panic.
+    pub inline fn region(self: *Self, comptime T: type, count: u32) []T {
         switch (T) {
-            u8 => {
-                return self._offset;
-            },
-            u32, i32, f32 => {
-                self.alignTo(T);
-
-                return self._offset >> 2;
-            },
-            f64 => {
-                self.alignTo(T);
-
-                return self._offset >> 3;
-            },
+            u8, u32, i32, f32, f64 => {},
             else => @compileError("Invalid type, expected u8, i32, u32, f32 or f64"),
         }
-    }
-
-    /// Advances the channel offset by the specified number of elements of type T.
-    ///
-    /// Args:
-    ///     T: The type of elements being advanced over
-    ///     count: The number of elements to advance by
-    pub inline fn advance(self: *Self, comptime T: type, count: u32) void {
-        switch (T) {
-            u8 => self._offset += count,
-            u32, i32, f32 => self._offset += count * 4,
-            f64 => self._offset += count * 8,
-            else => @compileError("Invalid type, expected u8, i32, u32, f32 or f64"),
+        const start = alignUp(self._offset, @sizeOf(T));
+        const end = @as(u64, start) + @as(u64, count) * @sizeOf(T);
+        if (end > self._bytes.len) {
+            @branchHint(.cold);
+            @panic("Channel out of bounds");
         }
-
-        self.checkOffset();
+        self._offset = @intCast(end);
+        const bytes: []align(@alignOf(T)) u8 = @alignCast(self._bytes[start..@intCast(end)]);
+        return std.mem.bytesAsSlice(T, bytes);
     }
 };
 
@@ -187,8 +106,7 @@ pub const Writer = struct {
         if (T == usize) {
             self.write(u32, @intCast(value));
         } else {
-            self.channel.storage(T)[self.channel.getOffset(T)] = value;
-            self.channel.advance(T, 1);
+            self.channel.region(T, 1)[0] = value;
         }
     }
 
@@ -202,10 +120,7 @@ pub const Writer = struct {
     /// Returns:
     ///     A mutable pointer to the initialized value
     pub fn init(self: *Self, comptime T: type) *T {
-        const offset = self.channel.getOffset(T);
-        const ptr = &self.channel.storage(T)[offset];
-        self.channel.advance(T, 1);
-        return ptr;
+        return &self.channel.region(T, 1)[0];
     }
 
     /// Initializes space for array elements of type T without writing a length prefix.
@@ -217,11 +132,7 @@ pub const Writer = struct {
     /// Returns:
     ///     A mutable slice of the initialized elements
     pub fn initElements(self: *Self, comptime T: type, length: u32) []T {
-        const start = self.channel.getOffset(T);
-
-        self.channel.advance(T, length);
-
-        return self.channel.storage(T)[start .. start + length];
+        return self.channel.region(T, length);
     }
 
     /// Initializes space for an array of type T with a length prefix.
@@ -246,11 +157,7 @@ pub const Writer = struct {
     ///     T: The type of elements to copy
     ///     arr: The slice of elements to copy
     pub fn copyElements(self: *Self, comptime T: type, arr: []T) void {
-        const start = self.channel.getOffset(T);
-
-        @memcpy(self.channel.storage(T)[start .. start + arr.len], arr);
-
-        self.channel.advance(T, @intCast(arr.len));
+        @memcpy(self.channel.region(T, @intCast(arr.len)), arr);
     }
 
     /// Copies an array of type T to the channel with a length prefix.
@@ -270,10 +177,7 @@ pub const Writer = struct {
     /// Returns:
     ///     An error if the channel would overflow
     pub fn check(self: *Self) !void {
-        const storage = self.channel.storage(u8);
-        const offset = self.channel.getOffset(u8);
-
-        if (offset > storage.len) {
+        if (self.channel._offset > self.channel._bytes.len) {
             return error.ChannelPointerOverflow;
         }
     }
@@ -329,11 +233,7 @@ pub const Reader = struct {
     /// Returns:
     ///     The value read from the channel
     pub fn read(self: *Self, comptime T: type) T {
-        const result = self.channel.storage(T)[self.channel.getOffset(T)];
-
-        self.channel.advance(T, 1);
-
-        return result;
+        return self.channel.region(T, 1)[0];
     }
 
     /// Reads array elements of type T from the channel without a length prefix.
@@ -345,11 +245,7 @@ pub const Reader = struct {
     /// Returns:
     ///     A slice of the elements read from the channel
     pub fn readElements(self: *Self, comptime T: type, length: u32) []T {
-        const start = self.channel.getOffset(T);
-
-        self.channel.advance(T, length);
-
-        return self.channel.storage(T)[start .. start + length];
+        return self.channel.region(T, length);
     }
 
     /// Reads an array of type T from the channel with a length prefix.
