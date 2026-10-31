@@ -1,0 +1,7 @@
+# The one Rust version for local builds and CI (rustup reads this file from
+# any directory below it). Bump deliberately: e.g. 1.96 changed wasm linking.
+[toolchain]
+channel = "1.99.1"
+components = ["rustfmt", "clippy"]
+targets = ["wasm32-unknown-unknown"]
+profile = "minimal"

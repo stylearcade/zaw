@@ -1,3 +1,6 @@
+// Values like 3.14159 are test data, not approximations of the constants.
+#![allow(clippy::approx_constant)]
+
 use super::{Reader, Writer};
 
 #[cfg(test)]

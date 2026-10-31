@@ -11,8 +11,10 @@ const logModule = @import("./interop/log.zig");
 pub const log = logModule.log;
 pub const logf = logModule.logf;
 
-var input: conduit.Reader = undefined;
-var output: conduit.Writer = undefined;
+// (null until the host allocates each channel: an export reading one
+// before then stops with a panic, never reads memory never written)
+var input: ?conduit.Reader = null;
+var output: ?conduit.Writer = null;
 
 pub fn getErrorPtr() callconv(.c) i32 {
     return Error.getErrorPtr();
@@ -43,13 +45,15 @@ pub fn allocateOutputChannel(sizeInBytes: i32) callconv(.c) i32 {
 }
 
 pub fn getInput() conduit.Reader {
-    input.reset();
+    const in = &(input orelse @panic("input channel not allocated"));
+    in.reset();
 
-    return input;
+    return in.*;
 }
 
 pub fn getOutput() conduit.Writer {
-    output.reset();
+    const out = &(output orelse @panic("output channel not allocated"));
+    out.reset();
 
-    return output;
+    return out.*;
 }

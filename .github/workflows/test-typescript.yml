@@ -30,11 +30,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          target: wasm32-unknown-unknown
-          override: true
+      - name: Install Rust (version from rust-toolchain.toml)
+        run: rustup toolchain install
       - uses: actions/setup-node@v4
         with:
           node-version: '22'

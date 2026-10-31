@@ -156,7 +156,10 @@ function generateTestCase(testCase: TestCase): string {
 // Generate all Rust tests
 function generateTestFile(testCases: TestCase[]): string {
   const parts: string[] = [
-    `use super::{Reader, Writer};
+    `// Values like 3.14159 are test data, not approximations of the constants.
+#![allow(clippy::approx_constant)]
+
+use super::{Reader, Writer};
 
 #[cfg(test)]
 mod tests {

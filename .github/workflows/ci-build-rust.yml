@@ -17,12 +17,16 @@ jobs:
         with:
           node-version: '22'
       - run: npm ci
-      - uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          target: wasm32-unknown-unknown
-          override: true
+      - name: Install Rust (version from rust-toolchain.toml)
+        run: rustup toolchain install
       - run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
       - run: sudo apt install -y wabt
       - run: ./scripts/build-rust.sh
       - run: ./scripts/test-rust.sh
+
+  miri:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - run: ./scripts/test-rust-miri.sh
