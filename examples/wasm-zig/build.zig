@@ -21,8 +21,6 @@ pub fn build(b: *Builder) void {
 
     exe.root_module.addImport("zaw", b.addModule("zaw", .{ .root_source_file = b.path("../../implementations/wasm-zig/src/zaw.zig") }));
 
-    // <https://github.com/ziglang/zig/issues/8633>
-    exe.global_base = 6560;
     exe.entry = .disabled;
     exe.rdynamic = true;
     exe.import_memory = true;

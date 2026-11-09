@@ -2,7 +2,7 @@ const std = @import("std");
 const builtin = @import("builtin");
 const Stack = @import("./stack.zig");
 
-var errStorage = [_]u8{0} ** 256;
+var errStorage: [256]u8 = @splat(0);
 
 pub const OK: i32 = 0;
 pub const ERROR: i32 = 1;
@@ -124,7 +124,7 @@ pub fn panic(src: std.builtin.SourceLocation, comptime msg: []const u8) void {
 
 pub fn assert(src: std.builtin.SourceLocation, value: bool, comptime fmt: []const u8, args: anytype) void {
     if (!value) {
-        if (builtin.mode == .Debug) {
+        if (builtin.mode == .debug) {
             panicFormat(src, fmt, args);
         } else {
             @trap();

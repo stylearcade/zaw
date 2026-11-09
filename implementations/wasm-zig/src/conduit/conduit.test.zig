@@ -8,7 +8,7 @@ const Writer = conduit.Writer;
 const Reader = conduit.Reader;
 
 test "Simple Uint8 write" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -21,7 +21,7 @@ test "Simple Uint8 write" {
 }
 
 test "Multiple Uint8 writes" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -38,7 +38,7 @@ test "Multiple Uint8 writes" {
 }
 
 test "Uint32 write" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -51,7 +51,7 @@ test "Uint32 write" {
 }
 
 test "Uint32 with alignment" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -66,7 +66,7 @@ test "Uint32 with alignment" {
 }
 
 test "Int32 write" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -79,7 +79,7 @@ test "Int32 write" {
 }
 
 test "Int32 with alignment" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -94,7 +94,7 @@ test "Int32 with alignment" {
 }
 
 test "Float32 write" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -107,7 +107,7 @@ test "Float32 write" {
 }
 
 test "Float32 with alignment" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -122,7 +122,7 @@ test "Float32 with alignment" {
 }
 
 test "Float32 special values" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -139,7 +139,7 @@ test "Float32 special values" {
 }
 
 test "Float64 write" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -152,7 +152,7 @@ test "Float64 write" {
 }
 
 test "Float64 with alignment" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -167,7 +167,7 @@ test "Float64 with alignment" {
 }
 
 test "Multiple mixed primitives" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -188,7 +188,7 @@ test "Multiple mixed primitives" {
 }
 
 test "Empty Uint8 array" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -202,7 +202,7 @@ test "Empty Uint8 array" {
 }
 
 test "Uint8 array" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -216,7 +216,7 @@ test "Uint8 array" {
 }
 
 test "Uint32 array" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -230,7 +230,7 @@ test "Uint32 array" {
 }
 
 test "Uint32 array with alignment" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -246,7 +246,7 @@ test "Uint32 array with alignment" {
 }
 
 test "Int32 array" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -260,7 +260,7 @@ test "Int32 array" {
 }
 
 test "Int32 array with alignment" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -276,7 +276,7 @@ test "Int32 array with alignment" {
 }
 
 test "Empty Float32 array" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -290,7 +290,7 @@ test "Empty Float32 array" {
 }
 
 test "Float32 array" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -304,7 +304,7 @@ test "Float32 array" {
 }
 
 test "Float32 array with alignment" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -320,7 +320,7 @@ test "Float32 array with alignment" {
 }
 
 test "Float64 array" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -334,7 +334,7 @@ test "Float64 array" {
 }
 
 test "Float64 array with alignment" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -350,7 +350,7 @@ test "Float64 array with alignment" {
 }
 
 test "Empty Uint8 elements" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -364,7 +364,7 @@ test "Empty Uint8 elements" {
 }
 
 test "Uint8 elements" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -378,7 +378,7 @@ test "Uint8 elements" {
 }
 
 test "Uint32 elements" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -392,7 +392,7 @@ test "Uint32 elements" {
 }
 
 test "Uint32 elements with alignment" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -408,7 +408,7 @@ test "Uint32 elements with alignment" {
 }
 
 test "Int32 elements" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -422,7 +422,7 @@ test "Int32 elements" {
 }
 
 test "Int32 elements with alignment" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -438,7 +438,7 @@ test "Int32 elements with alignment" {
 }
 
 test "Empty Float32 elements" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -452,7 +452,7 @@ test "Empty Float32 elements" {
 }
 
 test "Float32 elements" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -466,7 +466,7 @@ test "Float32 elements" {
 }
 
 test "Float32 elements with alignment" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -482,7 +482,7 @@ test "Float32 elements with alignment" {
 }
 
 test "Float64 elements" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -496,7 +496,7 @@ test "Float64 elements" {
 }
 
 test "Float64 elements with alignment" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -512,7 +512,7 @@ test "Float64 elements with alignment" {
 }
 
 test "Tuple of Uint32" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -526,7 +526,7 @@ test "Tuple of Uint32" {
 }
 
 test "Complex mixed types with arrays and elementss" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -550,7 +550,7 @@ test "Complex mixed types with arrays and elementss" {
 }
 
 test "Write sequence with all types" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -601,7 +601,7 @@ test "Write sequence with all types" {
 }
 
 test "Complex mixed types" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -621,7 +621,7 @@ test "Complex mixed types" {
 }
 
 test "Back-to-back alignment requirements" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -646,7 +646,7 @@ test "Back-to-back alignment requirements" {
 }
 
 test "Empty arrays of different types" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -672,7 +672,7 @@ test "Empty arrays of different types" {
 }
 
 test "Mixed operations with reset" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -691,7 +691,7 @@ test "Mixed operations with reset" {
 }
 
 test "All possible primitive values" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -734,7 +734,7 @@ test "All possible primitive values" {
 }
 
 test "Simple Uint8 init" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -748,7 +748,7 @@ test "Simple Uint8 init" {
 }
 
 test "Multiple Uint8 inits" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -768,7 +768,7 @@ test "Multiple Uint8 inits" {
 }
 
 test "Uint32 init" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -782,7 +782,7 @@ test "Uint32 init" {
 }
 
 test "Uint32 init with alignment" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -798,7 +798,7 @@ test "Uint32 init with alignment" {
 }
 
 test "Int32 init" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -812,7 +812,7 @@ test "Int32 init" {
 }
 
 test "Float32 init" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -826,7 +826,7 @@ test "Float32 init" {
 }
 
 test "Float32 init with alignment" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -842,7 +842,7 @@ test "Float32 init with alignment" {
 }
 
 test "Float64 init" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -856,7 +856,7 @@ test "Float64 init" {
 }
 
 test "Float64 init with alignment" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -872,7 +872,7 @@ test "Float64 init with alignment" {
 }
 
 test "Mixed primitive inits" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -898,7 +898,7 @@ test "Mixed primitive inits" {
 }
 
 test "Empty Uint8 initArray" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -911,7 +911,7 @@ test "Empty Uint8 initArray" {
 }
 
 test "Uint8 initArray" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -929,7 +929,7 @@ test "Uint8 initArray" {
 }
 
 test "Uint32 initArray" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -944,7 +944,7 @@ test "Uint32 initArray" {
 }
 
 test "Uint32 initArray with alignment" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -961,7 +961,7 @@ test "Uint32 initArray with alignment" {
 }
 
 test "Int32 initArray" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -977,7 +977,7 @@ test "Int32 initArray" {
 }
 
 test "Float32 initArray" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -993,7 +993,7 @@ test "Float32 initArray" {
 }
 
 test "Float64 initArray" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -1009,7 +1009,7 @@ test "Float64 initArray" {
 }
 
 test "Empty Uint8 initElements" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -1022,7 +1022,7 @@ test "Empty Uint8 initElements" {
 }
 
 test "Uint8 initElements" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -1040,7 +1040,7 @@ test "Uint8 initElements" {
 }
 
 test "Uint32 initElements" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -1055,7 +1055,7 @@ test "Uint32 initElements" {
 }
 
 test "Uint32 initElements with alignment" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -1072,7 +1072,7 @@ test "Uint32 initElements with alignment" {
 }
 
 test "Int32 initElements" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -1088,7 +1088,7 @@ test "Int32 initElements" {
 }
 
 test "Float32 initElements" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -1103,7 +1103,7 @@ test "Float32 initElements" {
 }
 
 test "Float64 initElements" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -1118,7 +1118,7 @@ test "Float64 initElements" {
 }
 
 test "Mixed init with other operations" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -1141,7 +1141,7 @@ test "Mixed init with other operations" {
 }
 
 test "All init methods combined" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 
@@ -1170,7 +1170,7 @@ test "All init methods combined" {
 }
 
 test "Float32 extreme values" {
-    var storage = [_]u64{0} ** 32;
+    var storage: [32]u64 = @splat(0);
     var writer = Writer.from(&storage);
     var reader = Reader.from(&storage);
 

@@ -9,7 +9,7 @@ pub fn get() []std.builtin.SourceLocation {
 }
 
 pub fn push(src: std.builtin.SourceLocation) void {
-    if (builtin.mode == .Debug) {
+    if (builtin.mode == .debug) {
         if (stackPos > 0) {
             stackPos -= 1;
             stack[stackPos] = src;
@@ -18,13 +18,13 @@ pub fn push(src: std.builtin.SourceLocation) void {
 }
 
 pub fn pop() void {
-    if (builtin.mode == .Debug) {
+    if (builtin.mode == .debug) {
         stackPos += 1;
     }
 }
 
 pub fn entry(src: std.builtin.SourceLocation) void {
-    if (builtin.mode == .Debug) {
+    if (builtin.mode == .debug) {
         stackPos = stack.len - 1;
         stack[stackPos] = src;
     }
