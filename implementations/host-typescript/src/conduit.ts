@@ -255,7 +255,7 @@ export class Writer extends Channel {
   writeAsciiString(value: string): void {
     const data = this.initUint8Array(value.length)
 
-    for (let i = value.length; i-- > 0; ) {
+    for (let i = value.length; i-- > 0;) {
       data[i] = value.charCodeAt(i)
     }
   }

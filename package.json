@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "build": "./scripts/build-all.sh",
-    "bench-ts": "vitest bench --run",
+    "bench-ts": "vitest bench --run --reporter=verbose",
     "install": "./scripts/install.sh",
     "test-ts": "vitest run --mode=test",
     "test-browser": "vitest run --config vitest.browser.config.ts",
@@ -25,24 +25,18 @@
   "author": "tristanhoy",
   "license": "ISC",
   "dependencies": {
-    "zaw": "^0.0.3"
+    "zaw": "^0.0.5"
   },
   "devDependencies": {
-    "@types/node": "22.15.30",
-    "@vitest/browser": "^4.0.18",
-    "@vitest/browser-playwright": "^4.0.18",
-    "playwright": "^1.49.1",
-    "prettier": "^3.8.1",
-    "tsup": "^8.5.1",
-    "tsx": "^4.21.0",
-    "typescript": "^5.9.3",
-    "vitest": "^4.0.18",
-    "wasm-opt": "^1.4.0"
-  },
-  "overrides": {
-    "wasm-opt": {
-      "node-fetch": "^2.7.0",
-      "tar": "^7.5.9"
-    }
+    "@types/node": "^26.6.6",
+    "@vitest/browser": "^5.1.0",
+    "@vitest/browser-playwright": "^5.1.0",
+    "playwright": "^1.65.0",
+    "prettier": "^3.9.10",
+    "tsup": "^9.0.0",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vitest": "^5.1.0",
+    "wasm-opt": "^2.0.1"
   }
 }

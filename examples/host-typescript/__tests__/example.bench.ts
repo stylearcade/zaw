@@ -1,5 +1,5 @@
 import os from 'os'
-import { bench, describe } from 'vitest'
+import { describe, test } from 'vitest'
 import { builds } from './builds'
 import { initExample } from '../host'
 import { initRustBindgen } from '../../wasm-rust/api_bindgen'
@@ -13,90 +13,88 @@ describe('Typescript example host', async () => {
   const rustBindgen = await initRustBindgen()
 
   for (const size of [10, 100, 1_000, 10_000, 100_000]) {
-    describe(`XOR Int32Array @ ${size} elements`, () => {
+    test(`XOR Int32Array @ ${size} elements`, async ({ bench }) => {
       const values = new Int32Array(size).map(() => (Math.random() * 0x100000000) | 0)
       const scalar = (Math.random() * 0x100000000) | 0
 
-      bench('js', () => {
-        const result = new Int32Array(values.length)
-        for (let i = values.length; i-- > 0; ) {
-          result[i] = values[i] ^ scalar
-        }
-      })
-
-      bench('zig', () => {
-        zig.xorInt32Array(values, scalar)
-      })
-
-      bench('rust', () => {
-        rust.xorInt32Array(values, scalar)
-      })
-
-      bench('rust-bindgen', () => {
-        rustBindgen.xorInt32Array(values, scalar)
-      })
+      await bench.compare(
+        bench('js', () => {
+          const result = new Int32Array(values.length)
+          for (let i = values.length; i-- > 0;) {
+            result[i] = values[i] ^ scalar
+          }
+        }),
+        bench('zig', () => {
+          zig.xorInt32Array(values, scalar)
+        }),
+        bench('rust', () => {
+          rust.xorInt32Array(values, scalar)
+        }),
+        bench('rust-bindgen', () => {
+          rustBindgen.xorInt32Array(values, scalar)
+        }),
+      )
     })
   }
 
   for (const size of [10, 100, 1_000, 10_000, 100_000]) {
-    describe(`Transfer In Float64Array @ ${size} elements`, () => {
+    test(`Transfer In Float64Array @ ${size} elements`, async ({ bench }) => {
       const values = new Float64Array(size).map(() => Math.random())
 
-      bench('zig', () => {
-        zig.transferInFloat64Array(values)
-      })
-
-      bench('rust', () => {
-        rust.transferInFloat64Array(values)
-      })
-
-      bench('rust-bindgen', () => {
-        rustBindgen.transferInFloat64Array(values)
-      })
+      await bench.compare(
+        bench('zig', () => {
+          zig.transferInFloat64Array(values)
+        }),
+        bench('rust', () => {
+          rust.transferInFloat64Array(values)
+        }),
+        bench('rust-bindgen', () => {
+          rustBindgen.transferInFloat64Array(values)
+        }),
+      )
     })
   }
 
   for (const size of [10, 100, 1_000, 10_000, 100_000]) {
-    describe(`Transfer Out Float64Array @ ${size} elements`, () => {
+    test(`Transfer Out Float64Array @ ${size} elements`, async ({ bench }) => {
       const testValue = 3.14159
 
-      bench('zig', () => {
-        zig.transferOutFloat64Array(testValue, size)
-      })
-
-      bench('rust', () => {
-        rust.transferOutFloat64Array(testValue, size)
-      })
-
-      bench('rust-bindgen', () => {
-        rustBindgen.transferOutFloat64Array(testValue, size)
-      })
+      await bench.compare(
+        bench('zig', () => {
+          zig.transferOutFloat64Array(testValue, size)
+        }),
+        bench('rust', () => {
+          rust.transferOutFloat64Array(testValue, size)
+        }),
+        bench('rust-bindgen', () => {
+          rustBindgen.transferOutFloat64Array(testValue, size)
+        }),
+      )
     })
   }
 
   for (const batchSize of [1, 10, 100, 1000]) {
-    describe(`4x4 Float32 Matrix Multiplication, batch size ${batchSize}`, () => {
+    test(`4x4 Float32 Matrix Multiplication, batch size ${batchSize}`, async ({ bench }) => {
       const width = 16 * batchSize
       const left = new Float32Array(width).map(() => Math.random())
       const right = new Float32Array(width).map(() => Math.random())
 
-      bench('js', () => {
-        for (let i = 0; i < width; i += 16) {
-          multiply4x4Float32(left.slice(i, i + 16), right.slice(i, i + 16))
-        }
-      })
-
-      bench('zig', () => {
-        zig.multiply4x4Float32(left, right)
-      })
-
-      bench('rust', () => {
-        rust.multiply4x4Float32(left, right)
-      })
-
-      bench('rust-bindgen', () => {
-        rustBindgen.multiply4x4Float32(left, right)
-      })
+      await bench.compare(
+        bench('js', () => {
+          for (let i = 0; i < width; i += 16) {
+            multiply4x4Float32(left.slice(i, i + 16), right.slice(i, i + 16))
+          }
+        }),
+        bench('zig', () => {
+          zig.multiply4x4Float32(left, right)
+        }),
+        bench('rust', () => {
+          rust.multiply4x4Float32(left, right)
+        }),
+        bench('rust-bindgen', () => {
+          rustBindgen.multiply4x4Float32(left, right)
+        }),
+      )
     })
   }
 })
