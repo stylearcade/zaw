@@ -16,7 +16,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc && tsup",
+    "build": "tsc && tsup && tsc -p tsconfig.build.json",
     "dev": "tsup --watch",
     "test": "vitest",
     "prepublishOnly": "npm run build"
