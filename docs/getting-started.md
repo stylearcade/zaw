@@ -5,7 +5,7 @@
 npm install zaw
 
 # Zig
-zig fetch https://github.com/stylearcade/zaw/releases/download/zig-v0.0.1/zaw-wasm.tar.gz
+zig fetch https://github.com/stylearcade/zaw/releases/download/zig-v0.0.5/zaw-wasm.tar.gz
 
 ## build.zig
 exe.root_module.addImport("zaw", b.dependency("zaw", .{
