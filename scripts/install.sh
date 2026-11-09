@@ -16,7 +16,7 @@ if ! command -v wasm-pack &> /dev/null; then
     curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 fi
 
-# Install Zig 0.15
+# Install Zig 0.17
 if command -v zig &> /dev/null; then
     zig_output=$(zig version 2>&1 || true)
 
@@ -24,10 +24,10 @@ if command -v zig &> /dev/null; then
         echo "Found anyzig"
     else
         zig_version=$(echo "$zig_output" | cut -d. -f1-2)
-        if [ "$zig_version" == "0.16" ]; then
-            echo "Found zig 0.16"
+        if [ "$zig_version" == "0.17" ]; then
+            echo "Found zig 0.17"
         else
-            echo "❌ Detected zig version $zig_version (required: 0.16)"
+            echo "❌ Detected zig version $zig_version (required: 0.17)"
             echo "Please uninstall your current zig version before proceeding."
             echo "Once uninstalled, re-run this script and it will install anyzig in its place."
             exit 1

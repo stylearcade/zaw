@@ -60,7 +60,7 @@ const Channel = struct {
 ///
 /// Example:
 /// ```zig
-/// var storage = [_]u64{0} ** 1024;
+/// var storage: [1024]u64 = @splat(0);
 /// var writer = Writer.from(&storage);
 ///
 /// writer.write(u32, 42);
@@ -191,7 +191,7 @@ pub const Writer = struct {
 ///
 /// Example:
 /// ```zig
-/// var storage = [_]u64{0} ** 1024;
+/// var storage: [1024]u64 = @splat(0);
 /// var reader = Reader.from(&storage);
 ///
 /// const value = reader.read(u32);

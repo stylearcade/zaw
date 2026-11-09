@@ -1,7 +1,7 @@
 const std = @import("std");
 const externs = @import("externs.zig");
 
-var logStorage = [_]u8{0} ** 2048;
+var logStorage: [2048]u8 = @splat(0);
 
 pub fn getLogPtr() i32 {
     return @intCast(@intFromPtr(&logStorage));
